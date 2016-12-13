@@ -15,6 +15,8 @@
 using namespace std;
 #include "cubex.h"
 
+#define VERBOSE false
+
 // shared variables...
 const char* guiver = "1.30";
 const int N = Cubex::N;
@@ -59,16 +61,21 @@ void SendSolution() {
       cm += *thecube.face(0,-1,0)+48;
     }
   }
-  printf("200 cube solved ok.\n");
-  printf("101 version %s%s by %s\n", guiver, Cubex::ver, Cubex::author);
-  printf("202 %i moves %i groups", mov[0], mv);
+  if (VERBOSE)
+  {
+    printf("200 cube solved ok.\n");
+    printf("101 version %s%s by %s\n", guiver, Cubex::ver, Cubex::author);
+    printf("202 %i moves %i groups", mov[0], mv);
+  }
   for (int i = 1; i <= mv; i++)
-    printf(" %i", mov[i]);
-  printf("\n");
-  printf("220 starting diagram:\n");
+    if (VERBOSE) printf(" %i", mov[i]);
+  if (VERBOSE) printf("\n");
+  if (VERBOSE)
+    printf("220 starting diagram:\n");
   thecube.RenderScreen();
-  printf("221 diagram end.\n");
-  printf("210 sending solution:\n");
+  if (VERBOSE){
+    printf("221 diagram end.\n");
+    printf("210 sending solution:\n");}
   for (int i = 1; i <= mv; i++) {
     for (int j = 1; j <= mov[i]; j++) {
       m++;
@@ -100,13 +107,16 @@ void SendSolution() {
       printf("%s, ", a.c_str());
     }
   }
+  if (VERBOSE)
   printf("\n");
-  printf("211 completed solution.\n");
+  if (VERBOSE)
+    printf("211 completed solution.\n");
 //  printf("220 ending diagram:\n");
 //  thecube.RenderScreen();
 //  printf("221 diagram end.\n");
-  if (randm)
+  if (randm && VERBOSE)
     printf("203 cmd: %s %s\n", app.c_str(), cm.c_str());
+  if(VERBOSE)
   printf("201 terminating successfully.\n");
 }
 // take the command-line parameter and make a cube out of it
