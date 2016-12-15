@@ -62,3 +62,9 @@ class Cube:
 		else:
 			print "FACES NOT VALID"
 			return False
+
+	def stringify(self):
+		cubeStr=""
+		for f in self.faceList:
+			cubeStr+=f.stringify();
+		return cubeStr

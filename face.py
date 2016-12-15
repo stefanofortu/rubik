@@ -64,3 +64,5 @@ class Face:
 	def CharToNum(self):
 		self.face=[ dict_allowed_input[self.face[i]] for i in range(0,9)]
 		
+	def stringify(self):
+		return ''.join( [str(x) for x in self.face ] )

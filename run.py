@@ -1,58 +1,35 @@
 import subprocess
 from cube import Cube
 from face import Face
+from solver import Solver
 
-def executeSolver(arg):
+
+def executeSolver():
 	try:
-		p = subprocess.Popen(['./solver/cubex', arg], stdout=subprocess.PIPE)
+		p = subprocess.Popen(['/home/stefano/Desktop/rubik/solver/cubex', "random"], stdout=subprocess.PIPE)
 		(output, err) = p.communicate()
 	except:
 		print "binary not present"
+		exit();
 	return output
 
-def parseAnswer(movesList):
-	pass
 
-def getInputFace():
-	faceNum=1;
-	valid=False;
-	while (valid == False ):
-		print "Insert face # " + str(faceNum) + " : ",
-		inputStr=raw_input();
-		print inputStr;
-		if len(inputStr) != 9:
-			print "Insert correct number of elements"
-			continue;
-		numCorrectChars=0;
-		for i in range(0,9):
-			if inputStr[i] in allowed_char:
-				numCorrectChars +=1;
-		if numCorrectChars!=9:
-			print "Insert valid letters"
-			valid=False
-			continue;
-		else:
-			valid=True;
-	return str
+s=Solver()
+movesList=executeSolver();
+###
+#  -> deconmmenta questo.
+#s.getUserInput()
+###
+s.solve(movesList)
 
-#f=Face("yyyyyyyyy")
-#f.printFace()
-#f.CharToNum()
-#f.printFace()
+#strCube=c.stringify()
+#print strCube
 
-result=executeSolver("random")
-c=Cube()
-#c.getCubeFromUser()
-c.printCube()
-print ""
-c.CharToNum()
-print ""
-c.printCube()
-c.verifyFaces()
-#getInputFace()
-#exit()
-#print result
+# print ""
+# c.CharToNum()
+# print ""
+# c.printCube()
+# c.verifyFaces()
+# getInputFace()
+# exit()
 
-
-
-#parseAnswer("random")
