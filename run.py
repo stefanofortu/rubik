@@ -1,35 +1,24 @@
-import subprocess
 from cube import Cube
 from face import Face
-from solver import Solver
+from solver import CubeSolver
 
 
-def executeSolver():
-	try:
-		p = subprocess.Popen(['/home/stefano/Desktop/rubik/solver/cubex', "random"], stdout=subprocess.PIPE)
-		(output, err) = p.communicate()
-	except:
-		print "binary not present"
-		exit();
-	return output
+print("MISSING : evaluation INPUTS")
+print("MISSING : testing sul cubo")
 
+s=CubeSolver()
 
-s=Solver()
-movesList=executeSolver();
 ###
 #  -> deconmmenta questo.
+#
+
+s.cube.printCube()
+
+
 #s.getUserInput()
+
+
 ###
-s.solve(movesList)
+s.solve()
 
-#strCube=c.stringify()
-#print strCube
-
-# print ""
-# c.CharToNum()
-# print ""
-# c.printCube()
-# c.verifyFaces()
-# getInputFace()
-# exit()
 

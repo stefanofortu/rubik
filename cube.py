@@ -1,21 +1,26 @@
 from face import Face
+
+indexFaces={ 	0 : 'top',
+				1 :	'left',
+				2 :	'front',
+				3 :	'right',
+				4 :	'back',
+				5 :	'bottom'}
+
 class Cube:
-	def __init__(self,string="bwryog"):
+	def __init__(self,debug=False):
 		self.faceList = [0] *6;
 		self.faceListPrint = [0] *12;
-		if string == "":
+		if debug:
 			for i in range(0,6):
 				self.faceList[i] = Face(i);
 		else:
+			string="bwryog"
 			for i in range(0,6):
 				self.faceList[i] = Face(string[i]);
 
-
-	def printCube(self):
-		for row in range(0,3):
-			self.printFourFaces(row)
-
-	def prepareForPrint(self):
+	######### PRINTING ##########################
+	def prepareForPrint(self):			     
 		self.faceListPrint[0] = Face(" ")
 		self.faceListPrint[1] = self.faceList[0]
 		self.faceListPrint[2] = Face(" ")
@@ -39,16 +44,11 @@ class Cube:
 			print self.faceListPrint[i+4*row].face[j],
 			if ((i+1)%4 == 0 ) and ((j+1)%3 == 0 ):
 				print ""
+	def printCube(self):
+		for row in range(0,3):
+			self.printFourFaces(row)
 
-	def getCubeFromUser(self):
-		for i in range(0,6):
-			self.faceList[i] = Face(" ")
-			self.faceList[i].getFaceFromUser(i);
-
-	def CharToNum(self):
-		for i in range(0,6):
-			self.faceList[i].CharToNum();
-
+	######### INPUT ##########################
 	def verifyFaces(self):
 		numRipetition = [0] *6;
 		for i in range(0,6):
@@ -63,7 +63,21 @@ class Cube:
 			print "FACES NOT VALID"
 			return False
 
+	def getCubeFromUser(self):
+		for i in range(0,6):
+			self.faceList[i] = Face(" ")
+			print("============> Insert %s face " %(indexFaces[i]))
+			self.faceList[i].getFaceFromUser(i);
+		#self.verifyFaces()
+		self.printCube()
+
+	######### STRINGIFY ##########################
+	def CharToNum(self):
+		for i in range(0,6):
+			self.faceList[i].CharToNum();
+
 	def stringify(self):
+		self.CharToNum()
 		cubeStr=""
 		for f in self.faceList:
 			cubeStr+=f.stringify();
