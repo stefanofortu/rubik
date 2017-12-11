@@ -1,16 +1,16 @@
 
-dict_allowed_input={'b': 0,
-					'B': 0,
-					'w': 1,
-					'W': 1,
-					'r': 2,
-					'R': 2,
-					'y': 3,
-					'Y': 3,
-					'o': 4,
+dict_allowed_input={'b': 1,
+					'B': 1,
+					'w': 2,
+					'W': 2,
+					'r': 3,
+					'R': 3,
+					'y': 4,
+					'Y': 4,
+					'o': 5,
 					'O': 5,
-					'g': 5,
-					'G': 5}
+					'g': 6,
+					'G': 6}
 
 allowed_char=dict_allowed_input.keys()
 

@@ -1,4 +1,6 @@
 from face import Face
+from face import dict_allowed_input
+from termcolor import colored,cprint
 
 indexFaces={ 	0 : 'top',
 				1 :	'left',
@@ -7,6 +9,12 @@ indexFaces={ 	0 : 'top',
 				4 :	'back',
 				5 :	'bottom'}
 
+colorFace={		'b': 'blue',
+				'w': 'white',
+				'r': 'red',
+				'y': 'yellow',
+				'o': 'magenta',
+				'g': 'green'}
 class Cube:
 	def __init__(self,debug=False):
 		self.faceList = [0] *6;
@@ -18,6 +26,7 @@ class Cube:
 			string="bwryog"
 			for i in range(0,6):
 				self.faceList[i] = Face(string[i]);
+		self.verifyFaces()
 
 	######### PRINTING ##########################
 	def prepareForPrint(self):			     
@@ -41,7 +50,11 @@ class Cube:
 			j=k%3 + 3*(k/12) 
 			if (j%3==0 ):
 				print "",
-			print self.faceListPrint[i+4*row].face[j],
+			charToPrint=self.faceListPrint[i+4*row].face[j]
+			if charToPrint==" ":
+				print charToPrint,
+			else:
+				print colored(charToPrint,colorFace[charToPrint.lower()]),
 			if ((i+1)%4 == 0 ) and ((j+1)%3 == 0 ):
 				print ""
 	def printCube(self):
@@ -50,14 +63,15 @@ class Cube:
 
 	######### INPUT ##########################
 	def verifyFaces(self):
+		colorList=list(set([x.lower() for x in dict_allowed_input.keys()]))
 		numRipetition = [0] *6;
 		for i in range(0,6):
 			for j in range(0,9):
-				numRipetition[ self.faceList[i].face[j] ] +=1;
+				numRipetition[ colorList.index(self.faceList[i].face[j].lower()) ] +=1;
 		numRipetition = filter(lambda x: x == 9,numRipetition)
 		print numRipetition
 		if len(numRipetition) == 6:
-			print "Inser face were valid"
+			print "Face inserted were valid"
 			return True
 		else:
 			print "FACES NOT VALID"
@@ -68,7 +82,7 @@ class Cube:
 			self.faceList[i] = Face(" ")
 			print("============> Insert %s face " %(indexFaces[i]))
 			self.faceList[i].getFaceFromUser(i);
-		#self.verifyFaces()
+		
 		self.printCube()
 
 	######### STRINGIFY ##########################

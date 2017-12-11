@@ -5,19 +5,16 @@ from solver import CubeSolver
 
 print("MISSING : evaluation INPUTS")
 print("MISSING : testing sul cubo")
+import pickle
 
-s=CubeSolver()
 
-###
-#  -> deconmmenta questo.
-#
-
+s=CubeSolver(solverPath="/home/stefano/Desktop/rubik/solver/cubex")
 s.cube.printCube()
+s.getUserInput()
 
+pickle.dump(s, open("solver.p",'wb'))
 
-#s.getUserInput()
-
-
+s=pickle.load(open("solver.p",'r'))
 ###
 s.solve()
 

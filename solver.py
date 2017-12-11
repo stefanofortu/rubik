@@ -9,10 +9,11 @@ direction_dict={'L':"Left", 'R':"Right", 'U':"Up", 'D':"Down", 'C':"Clockwise", 
 
 
 class CubeSolver:
-	def __init__(self):
+	def __init__(self,solverPath):
 		#self.args="random"
 		self.movesString="random"
 		self.cube=Cube()
+		self.solverPath=solverPath
 
 	def getUserInput(self):
 		self.cube.getCubeFromUser()
@@ -36,18 +37,20 @@ class CubeSolver:
 
 	def solve(self):
 		self.movesString=self.cube.stringify()
+
 		if self.isAlreadySolved():
 			print("*"*80)
 			print("Cube already solved")
 			print("*"*80)
 			return
+		print(self.movesString)
+		self.movesString="212212212333333333626626626555555555141141141464464464"
 		try:
-			p = subprocess.Popen(['/home/stefano/rubik/solver/cubex', self.movesString], stdout=subprocess.PIPE)
+			p = subprocess.Popen([self.solverPath, self.movesString], stdout=subprocess.PIPE)
 			(output, err) = p.communicate()
 		except:
 			print("Unexpected Error", sys.exc_info()[0])
-
-		print output
+		print (output)
 		moves=output.split(", ")
 		numMoves=len(moves);
 		moves_ok = filter(lambda x: len(x) == 2,moves)
