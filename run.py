@@ -22,4 +22,7 @@ else:
 		pickle.dump(s, open("solver.p",'wb'))
 		print("Configuration saved")
 
-s.solve()
+moveList = s.solve()
+print (moveList)
+from moves import executeMove
+executeMove(s.cube, moveList[0])
