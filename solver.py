@@ -18,6 +18,7 @@ class CubeSolver:
 	def getUserInput(self):
 		self.cube.getCubeFromUser()
 
+		
 	def isAlreadySolved(self):
 		if (len(self.movesString)!=6*9):
 			print("Error : inputSolverString")

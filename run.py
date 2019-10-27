@@ -13,9 +13,11 @@ in1 = str(raw_input("Want to load a cube configuration? [Y/N]"))
 if in1 == "Y" or in1 == "y":
 	s=pickle.load(open("solver.p",'r'))
 	print("Configuration loaded")
+	s.cube.verifyFaces()
 	s.cube.printCube()
 else:
 	s.getUserInput()
+	s.cube.verifyFaces()
 	s.cube.printCube()
 	in1 = str(raw_input("Want to save this cube configuration? [Y/N]"))
 	if in1 == "Y" or in1 == "y":
