@@ -16,10 +16,10 @@ if in1 == "Y" or in1 == "y":
 	s.cube.printCube()
 else:
 	s.getUserInput()
+	s.cube.printCube()
 	in1 = str(raw_input("Want to save this cube configuration? [Y/N]"))
 	if in1 == "Y" or in1 == "y":
 		pickle.dump(s, open("solver.p",'wb'))
 		print("Configuration saved")
 
-###
 s.solve()

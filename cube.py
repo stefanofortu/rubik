@@ -1,13 +1,13 @@
 from face import Face
 from face import dict_allowed_input
 from termcolor import colored,cprint
-
-indexFaces={ 	0 : 'top',
-				1 :	'left',
-				2 :	'front',
-				3 :	'right',
-				4 :	'back',
-				5 :	'rear'}	
+	
+indexFaces={ 	'top'   : 0,
+				'left'  : 1,
+				'front' : 2,
+				'right' : 3,
+				'rear'  : 4,
+				'bottom'  : 5}	
 
 colorFace={		'b': ['blue'],
 				'w': ['white'],
@@ -16,30 +16,26 @@ colorFace={		'b': ['blue'],
 				'o': ['yellow', "on_red"],
 				'g': ['green']}
 class Cube:
-	def __init__(self,debug=False):
-		self.faceList = [0] *6;
+	def __init__(self):
+		self.faceList = {}
 		self.faceListPrint = [0] *12;
-		if debug:
-			for i in range(0,6):
-				self.faceList[i] = Face(i);
-		else:
-			string="bwryog"
-			for i in range(0,6):
-				self.faceList[i] = Face(string[i]);
+		string="bwryog"
+		for name in indexFaces: #range(0,6):
+			self.faceList[name] = Face(string[indexFaces[name]]);
 		self.verifyFaces()
 
 	######### PRINTING ##########################
-	def prepareForPrint(self):			     
+	def prepareForPrint(self):		     
 		self.faceListPrint[0] = Face(" ")
-		self.faceListPrint[1] = self.faceList[0]
+		self.faceListPrint[1] = self.faceList['top']
 		self.faceListPrint[2] = Face(" ")
 		self.faceListPrint[3] = Face(" ")
-		self.faceListPrint[4] = self.faceList[1]
-		self.faceListPrint[5] = self.faceList[2]
-		self.faceListPrint[6] = self.faceList[3]
-		self.faceListPrint[7] = self.faceList[4]
+		self.faceListPrint[4] = self.faceList['left']
+		self.faceListPrint[5] = self.faceList['front']
+		self.faceListPrint[6] = self.faceList['right']
+		self.faceListPrint[7] = self.faceList['rear']
 		self.faceListPrint[8] = Face(" ")
-		self.faceListPrint[9] = self.faceList[5]
+		self.faceListPrint[9] = self.faceList['bottom']
 		self.faceListPrint[10] = Face(" ")
 		self.faceListPrint[11] = Face(" ")
 
@@ -66,11 +62,13 @@ class Cube:
 
 	######### INPUT ##########################
 	def verifyFaces(self):
+		print("VERIFICATION FAILED")
+		return
 		colorList=list(set([x.lower() for x in dict_allowed_input.keys()]))
 		numRipetition = [0] *6;
-		for i in range(0,6):
+		for nameFace in indexFaces:
 			for j in range(0,9):
-				numRipetition[ colorList.index(self.faceList[i].face[j].lower()) ] +=1;
+				numRipetition[ colorList.index(self.faceList[nameFace].face[j].lower()) ] +=1;
 		numRipetition = filter(lambda x: x == 9,numRipetition)
 		print numRipetition
 		if len(numRipetition) == 6:
@@ -82,22 +80,23 @@ class Cube:
 
 	def getCubeFromUser(self):
 		for i in range(0,6):
-			self.faceList[i] = Face(" ")
 			print("     top")
 			print("left-front-right-rear")
 			print("     bottom")
-			print("============> Insert %s face " %(indexFaces[i]))
-			self.faceList[i].getFaceFromUser(i);
-		self.printCube()
+			for nameFace in indexFaces: 
+				if indexFaces[nameFace] == i :
+						self.faceList[nameFace].getFaceFromUser(nameFace);
 
 	######### STRINGIFY ##########################
 	def CharToNum(self):
-		for i in range(0,6):
-			self.faceList[i].CharToNum();
+		for nameFace in indexFaces:
+			self.faceList[nameFace].CharToNum();
 
 	def stringify(self):
 		self.CharToNum()
 		cubeStr=""
-		for f in self.faceList:
-			cubeStr+=f.stringify();
+		for i in range(0,6):
+			for nameFace in indexFaces: 
+				if indexFaces[nameFace] == i :
+					cubeStr+=self.faceList[nameFace].stringify();
 		return cubeStr

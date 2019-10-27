@@ -41,10 +41,10 @@ class Face:
 			if ((i+1)%3 == 0):
 				print ""
 
-	def getFaceFromUser(self,faceIndex):
+	def getFaceFromUser(self,nameFace):
 		valid=False;
 		while (valid == False ):
-			print "Insert face # " + str(faceIndex) + " : ",
+			print "============> Insert " + nameFace + " face : ",
 			inputStr=raw_input();
 			if len(inputStr) != 9:
 				print "Insert correct number of elements"
