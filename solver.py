@@ -58,4 +58,5 @@ class CubeSolver:
 			exit();
 		for num, m in enumerate(moves_ok):
 			print str(num) +" : move " + side_dict[m[0]] + " " +  direction_dict[m[1]]
+		return moves_ok
 
