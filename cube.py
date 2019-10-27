@@ -7,14 +7,14 @@ indexFaces={ 	0 : 'top',
 				2 :	'front',
 				3 :	'right',
 				4 :	'back',
-				5 :	'bottom'}
+				5 :	'rear'}	
 
-colorFace={		'b': 'blue',
-				'w': 'white',
-				'r': 'red',
-				'y': 'yellow',
-				'o': 'magenta',
-				'g': 'green'}
+colorFace={		'b': ['blue'],
+				'w': ['white'],
+				'r': ['red'],
+				'y': ['yellow'],
+				'o': ['yellow', "on_red"],
+				'g': ['green']}
 class Cube:
 	def __init__(self,debug=False):
 		self.faceList = [0] *6;
@@ -54,7 +54,10 @@ class Cube:
 			if charToPrint==" ":
 				print charToPrint,
 			else:
-				print colored(charToPrint,colorFace[charToPrint.lower()]),
+				if len(colorFace[charToPrint.lower()])==1:
+					print colored(charToPrint,colorFace[charToPrint.lower()][0], attrs=['bold']),
+				else:
+					print colored(charToPrint,colorFace[charToPrint.lower()][0],colorFace[charToPrint.lower()][1], attrs=['bold']),
 			if ((i+1)%4 == 0 ) and ((j+1)%3 == 0 ):
 				print ""
 	def printCube(self):
@@ -80,9 +83,11 @@ class Cube:
 	def getCubeFromUser(self):
 		for i in range(0,6):
 			self.faceList[i] = Face(" ")
+			print("     top")
+			print("left-front-right-rear")
+			print("     bottom")
 			print("============> Insert %s face " %(indexFaces[i]))
 			self.faceList[i].getFaceFromUser(i);
-		
 		self.printCube()
 
 	######### STRINGIFY ##########################

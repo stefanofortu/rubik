@@ -17,7 +17,7 @@ class CubeSolver:
 
 	def getUserInput(self):
 		self.cube.getCubeFromUser()
-		self.cube.printCube()
+		#self.cube.printCube()
 
 	def isAlreadySolved(self):
 		if (len(self.movesString)!=6*9):
@@ -44,7 +44,6 @@ class CubeSolver:
 			print("*"*80)
 			return
 		print(self.movesString)
-		self.movesString="212212212333333333626626626555555555141141141464464464"
 		try:
 			p = subprocess.Popen([self.solverPath, self.movesString], stdout=subprocess.PIPE)
 			(output, err) = p.communicate()

@@ -7,15 +7,19 @@ print("MISSING : evaluation INPUTS")
 print("MISSING : testing sul cubo")
 import pickle
 
+s=CubeSolver(solverPath="/home/pi/rubik/solver/cubex")
 
-s=CubeSolver(solverPath="/home/stefano/Desktop/rubik/solver/cubex")
-s.cube.printCube()
-s.getUserInput()
+in1 = str(raw_input("Want to load a cube configuration? [Y/N]"))
+if in1 == "Y" or in1 == "y":
+	s=pickle.load(open("solver.p",'r'))
+	print("Configuration loaded")
+	s.cube.printCube()
+else:
+	s.getUserInput()
+	in1 = str(raw_input("Want to save this cube configuration? [Y/N]"))
+	if in1 == "Y" or in1 == "y":
+		pickle.dump(s, open("solver.p",'wb'))
+		print("Configuration saved")
 
-pickle.dump(s, open("solver.p",'wb'))
-
-s=pickle.load(open("solver.p",'r'))
 ###
 s.solve()
-
-
