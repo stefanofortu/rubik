@@ -22,6 +22,7 @@ class Cube:
 		string="bwryog"
 		for name in indexFaces: #range(0,6):
 			self.faceList[name] = Face(string[indexFaces[name]]);
+		self.verifyFaces()
 
 	######### PRINTING ##########################
 	def prepareForPrint(self):		     
@@ -61,15 +62,17 @@ class Cube:
 
 	######### INPUT ##########################
 	def verifyFaces(self):
+		print("VERIFICATION FAILED")
+		return
 		colorList=list(set([x.lower() for x in dict_allowed_input.keys()]))
 		numRipetition = [0] *6;
 		for nameFace in indexFaces:
 			for j in range(0,9):
 				numRipetition[ colorList.index(self.faceList[nameFace].face[j].lower()) ] +=1;
 		numRipetition = filter(lambda x: x == 9,numRipetition)
-		#print numRipetition
+		print numRipetition
 		if len(numRipetition) == 6:
-			print "Cube faces are valid"
+			print "Face inserted were valid"
 			return True
 		else:
 			print "FACES NOT VALID"
@@ -84,13 +87,7 @@ class Cube:
 				if indexFaces[nameFace] == i :
 						self.faceList[nameFace].getFaceFromUser(nameFace);
 
-	######### STRINGIFY ##########################
-	def CharToNum(self):
-		for nameFace in indexFaces:
-			self.faceList[nameFace].CharToNum();
-
 	def stringify(self):
-		self.CharToNum()
 		cubeStr=""
 		for i in range(0,6):
 			for nameFace in indexFaces: 
