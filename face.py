@@ -64,3 +64,35 @@ class Face:
 	def stringify(self):
 		faceNum=[ dict_allowed_input[self.face[i]] for i in range(0,9)]
 		return ''.join( [str(x) for x in faceNum ] )
+
+	def rotateFaceClockWise(self):
+		# 0 | 1 | 2			# 6 | 3 | 0 
+		# 3 | 4 | 5   -->   # 7 | 4 | 1
+		# 6 | 7 | 8 		# 8 | 5 | 2
+		faceNew=[ " " for i in range(0,9)]	
+		faceNew[0]=self.face[6]
+		faceNew[1]=self.face[3]
+		faceNew[2]=self.face[0]
+		faceNew[3]=self.face[7]
+		faceNew[4]=self.face[4]
+		faceNew[5]=self.face[1]
+		faceNew[6]=self.face[8]
+		faceNew[7]=self.face[5]
+		faceNew[8]=self.face[2]
+		self.face=faceNew
+
+	def rotateFaceCounterClockWise(self):
+		# 0 | 1 | 2			# 2 | 5 | 8 
+		# 3 | 4 | 5   -->   # 1 | 4 | 7
+		# 6 | 7 | 8 		# 0 | 3 | 6
+		faceNew=[ " " for i in range(0,9)]	
+		faceNew[0]=self.face[2]
+		faceNew[1]=self.face[5]
+		faceNew[2]=self.face[8]
+		faceNew[3]=self.face[1]
+		faceNew[4]=self.face[4]
+		faceNew[5]=self.face[7]
+		faceNew[6]=self.face[0]
+		faceNew[7]=self.face[3]
+		faceNew[8]=self.face[6]
+		self.face=faceNew

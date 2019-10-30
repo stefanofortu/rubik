@@ -11,22 +11,21 @@ direction_dict={'L':"Left", 'R':"Right", 'U':"Up", 'D':"Down", 'C':"Clockwise", 
 class CubeSolver:
 	def __init__(self,solverPath):
 		#self.args="random"
-		self.movesString="random"
+		self.cubeString="random"
 		self.cube=Cube()
 		self.solverPath=solverPath
 
 	def getUserInput(self):
 		self.cube.getCubeFromUser()
 
-		
 	def isAlreadySolved(self):
-		if (len(self.movesString)!=6*9):
+		if (len(self.cubeString)!=6*9):
 			print("Error : inputSolverString")
 			exit()
 		else:
 			equalsSubString=0
 			for i in range(6):
-				partialString=self.movesString[i*9:i*9+6]
+				partialString=self.cubeString[i*9:i*9+6]
 				firstC=partialString[0]
 				if partialString== firstC*6:
 					equalsSubString+=1;
@@ -36,16 +35,16 @@ class CubeSolver:
 				return False
 
 	def solve(self):
-		self.movesString=self.cube.stringify()
+		self.cubeString=self.cube.stringify()
 
 		if self.isAlreadySolved():
 			print("*"*80)
 			print("Cube already solved")
 			print("*"*80)
 			return
-		print(self.movesString)
+		print(self.cubeString)
 		try:
-			p = subprocess.Popen([self.solverPath, self.movesString], stdout=subprocess.PIPE)
+			p = subprocess.Popen([self.solverPath, self.cubeString], stdout=subprocess.PIPE)
 			(output, err) = p.communicate()
 		except:
 			print("Unexpected Error", sys.exc_info()[0])
