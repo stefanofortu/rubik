@@ -27,4 +27,6 @@ else:
 moveList = s.solve()
 print (moveList)
 from moves import executeMove
-executeMove(s.cube, moveList[0])
+s.cube.executeMove("FrontCounterClockWise")
+
+s.cube.printCube()
