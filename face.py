@@ -96,3 +96,40 @@ class Face:
 		faceNew[7]=self.face[3]
 		faceNew[8]=self.face[6]
 		self.face=faceNew
+
+	def getTopTriplet(self):
+		return self.face[0:3]
+
+	def getBottomTriplet(self):
+		return self.face[6:9]
+
+	def getLeftTriplet(self):
+		triplet = [ ' ' , ' ' , ' ']
+		triplet[0] = self.face[0]
+		triplet[1] = self.face[3]
+		triplet[2] = self.face[6]
+		return triplet
+
+	def getRightTriplet(self):
+		triplet = [ ' ' , ' ' , ' ']
+		triplet[0] = self.face[2]
+		triplet[1] = self.face[5]
+		triplet[2] = self.face[8]
+		return triplet
+
+
+	def setTopTriplet(self,triplet):
+		self.face[0:3] = triplet
+
+	def setBottomTriplet(self,triplet):
+		self.face[6:9] = triplet
+
+	def setLeftTriplet(self, triplet):
+		self.face[0] = triplet[0]
+		self.face[3] = triplet[1]
+		self.face[6] = triplet[2]
+
+	def setRightTriplet(self,triplet):
+		self.face[2] = triplet[0]
+		self.face[5] = triplet[1]
+		self.face[8] = triplet[2]
