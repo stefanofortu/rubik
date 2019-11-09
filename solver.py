@@ -3,7 +3,7 @@ import sys
 import subprocess
 
 
-side_dict={'U':"Top", 'D':"Bottom", 'L':"Left", 'R':"Right", 'F':"Front", 'B':"Back"}
+side_dict={'U':"Top", 'D':"Bottom", 'L':"Left", 'R':"Right", 'F':"Front", 'B':"Rear"}
 direction_dict={'L':"Left", 'R':"Right", 'U':"Up", 'D':"Down", 'C':"Clockwise", 'A':"Counterclockwise"}
 
 
@@ -42,20 +42,21 @@ class CubeSolver:
 			print("Cube already solved")
 			print("*"*80)
 			return
-		print(self.cubeString)
+		#print(self.cubeString)
 		try:
 			p = subprocess.Popen([self.solverPath, self.cubeString], stdout=subprocess.PIPE)
 			(output, err) = p.communicate()
 		except:
 			print("Unexpected Error", sys.exc_info()[0])
-		print (output)
+		#print (output)
 		moves=output.split(", ")
 		numMoves=len(moves);
 		moves_ok = filter(lambda x: len(x) == 2,moves)
 		if ( numMoves != len(moves_ok)  +1 ):
 			print "Not 2 chars moves"
 			exit();
-		for num, m in enumerate(moves_ok):
-			print str(num) +" : move " + side_dict[m[0]] + " " +  direction_dict[m[1]]
-		return moves_ok
+		movesVerbose = []
+		for m in moves_ok:
+			movesVerbose.append(side_dict[m[0]] + "_" +  direction_dict[m[1]])
+		return movesVerbose
 

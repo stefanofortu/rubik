@@ -25,11 +25,9 @@ else:
 		print("Configuration saved")
 
 moveList = s.solve()
-print (moveList)
 
 #from moves import executeMove
-for move in moveList:
-	print ("move " + move)
-	s.cube.executeMove(move)	
+for n,move in enumerate(moveList):
+	print (str(n) + " : move " + move)
+	s.cube.executeMove(move)
 	s.cube.printCube()
-	print
