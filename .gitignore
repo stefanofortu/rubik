@@ -3,3 +3,4 @@
 *.o
 solver/cubex
 solver.p
+*.py.save
