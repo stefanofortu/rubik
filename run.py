@@ -26,7 +26,10 @@ else:
 
 moveList = s.solve()
 print (moveList)
-from moves import executeMove
-s.cube.executeMove("FrontCounterClockWise")
 
-s.cube.printCube()
+#from moves import executeMove
+for move in moveList:
+	print ("move " + move)
+	s.cube.executeMove(move)	
+	s.cube.printCube()
+	print

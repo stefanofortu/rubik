@@ -121,11 +121,68 @@ class Cube:
 		return triplet1, triplet2, triplet3, triplet4
 
 	def executeMove(self,move):
-		if move=="FrontClockWise":	
+		if move=="UL" :#TopLeft":
+			print(" no moves so far")
+			t1 = self.faceList['rear'].getTopTriplet()
+			t2 = self.faceList['right'].getTopTriplet()
+			t3 = self.faceList['front'].getTopTriplet()
+			t4 = self.faceList['left'].getTopTriplet()
+			[ t1,t2,t3,t4 ]	 = self.rotateClockWise( t1,t2,t3,t4 )
+			self.faceList['rear'].setTopTriplet(t1)
+			self.faceList['right'].setTopTriplet(t2)
+			self.faceList['front'].setTopTriplet(t3)
+			self.faceList['left'].setTopTriplet(t4)
+			
+			self.faceList['top'].rotateFaceClockWise()
+		if move=="UR" :#"TopRight":
+			t1 = self.faceList['rear'].getTopTriplet()
+			t2 = self.faceList['right'].getTopTriplet()
+			t3 = self.faceList['front'].getTopTriplet()
+			t4 = self.faceList['left'].getTopTriplet()
+			[ t1,t2,t3,t4 ]	 = self.rotateCounterClockWise( t1,t2,t3,t4 )
+			self.faceList['rear'].setTopTriplet(t1)
+			self.faceList['right'].setTopTriplet(t2)
+			self.faceList['front'].setTopTriplet(t3)
+			self.faceList['left'].setTopTriplet(t4)
+			
+			self.faceList['top'].rotateFaceCounterClockWise()
+
+		if move == "LU" :#"LeftUp":
+			print( " NOT FULLY TESTED")
+			t1 = self.faceList['top'].getLeftTriplet()
+			t2 = self.faceList['front'].getLeftTriplet()
+			t3 = self.faceList['bottom'].getLeftTriplet()
+			t4 = self.faceList['rear'].getRightTriplet()
+			[ t1,t2,t3,t4 ]	 = self.rotateCounterClockWise( t1,t2,t3,t4 )
+			self.faceList['top'].setLeftTriplet(t1)
+			self.faceList['front'].setLeftTriplet(t2)
+			self.faceList['bottom'].setLeftTriplet(t3)
+			self.faceList['rear'].setRightTriplet(t4)
+			
+			self.faceList['left'].rotateFaceCounterClockWise()
+
+		if move == "LD" :#"LeftDown":
+			t1 = self.faceList['top'].getLeftTriplet()
+			t2 = self.faceList['front'].getLeftTriplet()
+			t3 = self.faceList['bottom'].getLeftTriplet()
+			t3.reverse()
+			t4 = self.faceList['rear'].getRightTriplet()
+			t4.reverse()
+			[ t1,t2,t3,t4 ]	 = self.rotateClockWise( t1,t2,t3,t4 )
+			self.faceList['top'].setLeftTriplet(t1)
+			self.faceList['front'].setLeftTriplet(t2)
+			self.faceList['bottom'].setLeftTriplet(t3)
+			self.faceList['rear'].setRightTriplet(t4)
+			
+			self.faceList['left'].rotateFaceClockWise()
+
+		if move=="FC" :#"FrontClockWise":	
 			t1 = self.faceList['top'].getBottomTriplet()
 			t2 = self.faceList['right'].getLeftTriplet()
+			t2.reverse()
 			t3 = self.faceList['bottom'].getTopTriplet()
 			t4 = self.faceList['left'].getRightTriplet()
+			t4.reverse()
 			[ t1,t2,t3,t4 ]	 = self.rotateClockWise( t1,t2,t3,t4 )
 			self.faceList['top'].setBottomTriplet(t1)
 			self.faceList['right'].setLeftTriplet(t2)
@@ -133,12 +190,13 @@ class Cube:
 			self.faceList['left'].setRightTriplet(t4)
 			self.faceList['front'].rotateFaceClockWise()
 
-		if move=="FrontCounterClockWise":	
+		if move=="FA" :#FrontCounterClockWise"
 			t1 = self.faceList['top'].getBottomTriplet()
+			t1.reverse()
 			t2 = self.faceList['right'].getLeftTriplet()
 			t3 = self.faceList['bottom'].getTopTriplet()
-			t4 = self.faceList['left'].getRightTriplet()
 			t3.reverse()
+			t4 = self.faceList['left'].getRightTriplet()
 			[ t1,t2,t3,t4 ]	 = self.rotateCounterClockWise( t1,t2,t3,t4 )
 			self.faceList['top'].setBottomTriplet(t1)
 			self.faceList['right'].setLeftTriplet(t2)
@@ -146,12 +204,30 @@ class Cube:
 			self.faceList['left'].setRightTriplet(t4)
 			self.faceList['front'].rotateFaceCounterClockWise()
 
-		if move == "RightDown":
+		if move == "RU" :#"RightUp":
 			t1 = self.faceList['top'].getRightTriplet()
 			t2 = self.faceList['rear'].getLeftTriplet()
 			t3 = self.faceList['bottom'].getRightTriplet()
 			t4 = self.faceList['front'].getRightTriplet()
 			[ t1,t2,t3,t4 ]	 = self.rotateClockWise( t1,t2,t3,t4 )
+			self.faceList['top'].setRightTriplet(t1)
+			t2.reverse()
+			self.faceList['rear'].setLeftTriplet(t2)
+			t3.reverse()
+			self.faceList['bottom'].setRightTriplet(t3)
+			#t4.reverse()
+			self.faceList['front'].setRightTriplet(t4)
+			
+			self.faceList['right'].rotateFaceClockWise()
+
+		if move == "RD" :#"RightDown":
+			print( " NOT FULLY TESTED")
+			t1 = self.faceList['top'].getRightTriplet()
+			t2 = self.faceList['rear'].getLeftTriplet()
+			t3 = self.faceList['bottom'].getRightTriplet()
+			t4 = self.faceList['front'].getRightTriplet()
+			[ t1,t2,t3,t4 ]	 = self.rotateCounterClockWise( t1,t2,t3,t4 )
+			t1.reverse()
 			self.faceList['top'].setRightTriplet(t1)
 			self.faceList['rear'].setLeftTriplet(t2)
 			self.faceList['bottom'].setRightTriplet(t3)
@@ -159,9 +235,57 @@ class Cube:
 			
 			self.faceList['right'].rotateFaceCounterClockWise()
 
-#			indexFaces={ 	'top'   : 0,
-#				'left'  : 1,
-#				'front' : 2,
-#				'right' : 3,
-#				'rear'  : 4,
-#				'bottom'  : 5}	
+		if move== "BC" :#"RearClockWise":
+			t1 = self.faceList['top'].getTopTriplet()
+			t2 = self.faceList['left'].getLeftTriplet()
+			t3 = self.faceList['bottom'].getBottomTriplet()
+			t4 = self.faceList['right'].getRightTriplet()			
+			[ t1,t2,t3,t4 ]	 = self.rotateCounterClockWise( t1,t2,t3,t4 )
+			self.faceList['top'].setTopTriplet(t1)
+			self.faceList['left'].setLeftTriplet(t2)
+			t3.reverse()
+			self.faceList['bottom'].setBottomTriplet(t3)
+			self.faceList['right'].setRightTriplet(t4)
+			
+			self.faceList['rear'].rotateFaceCounterClockWise()
+
+		if move=="BA" :#"RearCounterClockWise":
+			t1 = self.faceList['top'].getTopTriplet()
+			t2 = self.faceList['left'].getLeftTriplet()
+			t3 = self.faceList['bottom'].getBottomTriplet()
+			t4 = self.faceList['right'].getRightTriplet()			
+			[ t1,t2,t3,t4 ]	 = self.rotateClockWise( t1,t2,t3,t4 )
+			self.faceList['top'].setTopTriplet(t1)
+			self.faceList['left'].setLeftTriplet(t2)
+			t3.reverse()
+			self.faceList['bottom'].setBottomTriplet(t3)
+			self.faceList['right'].setRightTriplet(t4)
+			
+			self.faceList['rear'].rotateFaceClockWise()
+
+
+		if move=="DL" :#"BottomLeft":
+			t1 = self.faceList['front'].getBottomTriplet()
+			t2 = self.faceList['right'].getBottomTriplet()
+			t3 = self.faceList['rear'].getBottomTriplet()
+			t4 = self.faceList['left'].getBottomTriplet()
+			[ t1,t2,t3,t4 ]	 = self.rotateCounterClockWise( t1,t2,t3,t4 )
+			self.faceList['front'].setBottomTriplet(t1)
+			self.faceList['right'].setBottomTriplet(t2)
+			self.faceList['rear'].setBottomTriplet(t3)
+			self.faceList['left'].setBottomTriplet(t4)
+			
+			self.faceList['bottom'].rotateFaceCounterClockWise()
+		
+		if move=="DR" : #"BottomRight":
+			t1 = self.faceList['front'].getBottomTriplet()
+			t2 = self.faceList['right'].getBottomTriplet()
+			t3 = self.faceList['rear'].getBottomTriplet()
+			t4 = self.faceList['left'].getBottomTriplet()
+			[ t1,t2,t3,t4 ]	 = self.rotateClockWise( t1,t2,t3,t4 )
+			self.faceList['front'].setBottomTriplet(t1)
+			self.faceList['right'].setBottomTriplet(t2)
+			self.faceList['rear'].setBottomTriplet(t3)
+			self.faceList['left'].setBottomTriplet(t4)
+			
+			self.faceList['bottom'].rotateFaceClockWise()
