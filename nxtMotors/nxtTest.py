@@ -47,7 +47,7 @@ def my_callback_two(channel):
 
 # questa funzione e' puramente di test:
 # setto il motore a dutyCycle fisso per 1s
-def testInputMotor(tTest, PWMPin, input1, input2):
+def testInputMotor(tTest, angle, PWMPin, input1, input2):
     # tTest : tempo di mantentimento di un valore di duty cycle
     # duty cycle iniziale
     dutyCycle_Init=20
@@ -67,7 +67,17 @@ def testInputMotor(tTest, PWMPin, input1, input2):
         GPIO.add_event_detect(input1, GPIO.BOTH,  callback=my_callback_one)
         GPIO.add_event_detect(input2, GPIO.BOTH,  callback=my_callback_two)
         global turnCounter
-        while turnCounter < ( 600 + 10):
+        if angle == 90:
+            rotationSteps = 800
+        elif angle == 180:
+            rotationSteps = 250
+        elif angle == 270:
+            rotationSteps = 430
+        elif angle == 360:
+            rotationSteps = ( 600 + 10)
+        else:
+            print("Input not valid")
+        while turnCounter < rotationSteps:
             pass
             # if GPIO.input(input1) == GPIO.LOW:
             #     statusInput1 += "0;"
@@ -170,7 +180,7 @@ GPIO.setup(Mot1_decoderIN1_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(Mot1_decoderIN2_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 # funzione di test del PWM
-testInputMotor(1,PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+testInputMotor(1,angle=90 , PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
 
 print("wait to stop Motors before exit")
 #time.sleep(0.1)
