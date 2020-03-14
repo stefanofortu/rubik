@@ -2,11 +2,15 @@ import RPi.GPIO as GPIO
 import time
 import sys
 
-# questa funzione è puramente di test:
+statusInput1 = ""
+statusInput2 = ""
+turnCounter = 0
+
+# questa funzione e' puramente di test:
 # ogni tTest cambio il duty cycle da 0 a 100 e poi di nuovo a 0
 def testDutyCycle(Mot1_PWM_Pin):
     # tempo di mantentimento di un valore di duty cycle
-    tTest = 0.1
+    tTest = 0.5
     # duty cycle iniziale
     dutyCycle_Init=0
     # frequenza del PWM
@@ -28,6 +32,73 @@ def testDutyCycle(Mot1_PWM_Pin):
         pass
     p.stop()
 
+
+def my_callback_one(channel):
+    global statusInput1 
+    #statusInput1 += "|"
+    global turnCounter
+    turnCounter += 1
+
+def my_callback_two(channel):
+    global statusInput2 
+    #statusInput2 += "|"
+    global turnCounter
+    turnCounter += 1
+
+# questa funzione e' puramente di test:
+# setto il motore a dutyCycle fisso per 1s
+def testInputMotor(tTest, PWMPin, input1, input2):
+    # tTest : tempo di mantentimento di un valore di duty cycle
+    # duty cycle iniziale
+    dutyCycle_Init=20
+    # frequenza del PWM
+    frequency_Hz=100
+    # PWM setup
+    p = GPIO.PWM(PWMPin, frequency_Hz)
+    p.start(dutyCycle_Init)
+    cnt = 0;
+
+    try:
+        print("duty cycle: " + str(dutyCycle_Init) + " for " + str(tTest) + " s")
+        time.sleep(0) #wait 100ms per inizializzazione encoder
+
+        global statusInput1
+        global statusInput2
+        GPIO.add_event_detect(input1, GPIO.BOTH,  callback=my_callback_one)
+        GPIO.add_event_detect(input2, GPIO.BOTH,  callback=my_callback_two)
+        global turnCounter
+        while turnCounter < ( 600 + 10):
+            pass
+            # if GPIO.input(input1) == GPIO.LOW:
+            #     statusInput1 += "0;"
+            # else:
+            #     statusInput1 += "1;"
+            # if GPIO.input(input2) == GPIO.LOW:
+            #     statusInput2 += "0;"
+            # else:
+            #     statusInput2 += "1;"
+            # cnt +=1;
+            time.sleep(0)
+    except KeyboardInterrupt:
+        pass
+
+    p.stop()
+    #p.ChangeDutyCycle(0)
+    #p.stop()
+
+
+    
+    #print("PWMPin : " + str(PWMPin))
+    GPIO.output(PWMPin, GPIO.LOW)
+
+    GPIO.remove_event_detect(input1)
+    GPIO.remove_event_detect(input2)
+    time.sleep(0.001)
+    # print(statusInput1)
+    # print(statusInput2)
+    print("turnCounter : " + str(turnCounter))
+
+
 # There are two ways of numbering the IO pins on a Raspberry Pi within RPi.GPIO. 
 # The first is using the BOARD numbering system.
 # This refers to the pin numbers on the P1 header of the Raspberry Pi board.
@@ -38,7 +109,7 @@ GPIO.setmode(GPIO.BOARD)
 # Pin 31 --> PWM
 # Pin 33 --> inversione per PWM (2)
 # Pin 35 --> input1 encoder
-# Pin 36 --> input2 encoder
+# Pin 37 --> input2 encoder
 
 # References
 # [1] : NXT: http://trivox.tripod.com/lego-nxt-motor-input-output.html
@@ -62,6 +133,11 @@ Mot1_PWM_Pin=33
 # LN298 lo amplifica e lo porta in uscita al bianco/nero del NXT
 Mot1_Inv_Pin=31
 
+# decoder input 1
+Mot1_decoderIN1_Pin = 35
+# decoder input 2
+Mot1_decoderIN2_Pin = 37
+
 ################################################################
 # NXT - MOTOR
 ################################################################
@@ -72,9 +148,8 @@ Mot1_Inv_Pin=31
 # 3           red     rotation detector supply    ground (0V) DC ---> collegato massa L298N
 # 4           green   rotation detector supply    + 4.3(to 5.0 V) ---> collegato 5V stabilizzati L298N
 # OUTPUT
-# 5           yellow  rotation detector output 1 --> collegato al pin 35/36 encoder
-# 6           blue    rotation detector output 2 --> collegato al pin 35/36 encoder
-
+# 5           yellow  rotation detector output 1 --> collegato al pin 35 encoder
+# 6           blue    rotation detector output 2 --> collegato al pin 37 encoder
 
 # setup e start value dell'enable
 GPIO.setup(Mot1_Enable_Pin, GPIO.OUT)
@@ -82,13 +157,27 @@ GPIO.output(Mot1_Enable_Pin, GPIO.HIGH)
 
 # setup del bit di PWM
 GPIO.setup(Mot1_PWM_Pin, GPIO.OUT)
+GPIO.output(Mot1_PWM_Pin, GPIO.LOW)
 
 # setup del bit di inversionePWM
 GPIO.setup(Mot1_Inv_Pin, GPIO.OUT)
 GPIO.output(Mot1_Inv_Pin, GPIO.LOW)
 
+
+# setup dei pin di input del decoder, come ingressi. Per ora non setto i pullup/pullDown 
+GPIO.setup(Mot1_decoderIN1_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+# decoder input 2
+GPIO.setup(Mot1_decoderIN2_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
 # funzione di test del PWM
-# testDutyCycle(Mot1_PWM_Pin)
+testInputMotor(1,PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+
+print("wait to stop Motors before exit")
+#time.sleep(0.1)
+#print("Mot1_PWM_Pin : " + str(Mot1_PWM_Pin))
+#GPIO.output(Mot1_PWM_Pin, GPIO.HIGH)
+time.sleep(1)
+#GPIO.output(Mot1_PWM_Pin, GPIO.LOW)
 
 GPIO.cleanup()
 
