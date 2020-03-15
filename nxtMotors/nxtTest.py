@@ -47,16 +47,26 @@ def my_callback_two(channel):
 
 # questa funzione e' puramente di test:
 # setto il motore a dutyCycle fisso per 1s
-def testInputMotor(tTest, angle, PWMPin, input1, input2):
+def testInputMotor(tTest, angle, PWMPin, InvPin, enablePin, input1, input2):
     # tTest : tempo di mantentimento di un valore di duty cycle
-    # duty cycle iniziale
-    dutyCycle_Init=20
+    if angle > 0:
+        GPIO.output(PWMPin, GPIO.LOW)
+        GPIO.output(InvPin, GPIO.LOW)
+        # duty cycle iniziale
+        dutyCycle_Init=20
+    else:
+        GPIO.output(PWMPin, GPIO.HIGH)
+        GPIO.output(InvPin, GPIO.HIGH)
+        # duty cycle iniziale
+        dutyCycle_Init=80
+
     # frequenza del PWM
     frequency_Hz=100
     # PWM setup
     p = GPIO.PWM(PWMPin, frequency_Hz)
-    p.start(dutyCycle_Init)
     cnt = 0;
+    global turnCounter
+    turnCounter = 0
 
     try:
         print("duty cycle: " + str(dutyCycle_Init) + " for " + str(tTest) + " s")
@@ -66,7 +76,6 @@ def testInputMotor(tTest, angle, PWMPin, input1, input2):
         global statusInput2
         GPIO.add_event_detect(input1, GPIO.BOTH,  callback=my_callback_one)
         GPIO.add_event_detect(input2, GPIO.BOTH,  callback=my_callback_two)
-        global turnCounter
         if angle == 90:
             rotationSteps = 800
         elif angle == 180:
@@ -75,8 +84,25 @@ def testInputMotor(tTest, angle, PWMPin, input1, input2):
             rotationSteps = 430
         elif angle == 360:
             rotationSteps = ( 600 + 10)
+        elif angle == +1: #For tilt arm
+            rotationSteps = 200
+        elif angle == -1: #For tilt arm
+            rotationSteps = 300
+        elif angle == +2: #For tilt arm
+            rotationSteps = 62
+        elif angle == +3: #For tilt arm
+            rotationSteps = 200
+        elif angle == -3: #For tilt arm
+            rotationSteps = 200
+        elif angle == +4: #For tilt arm
+            rotationSteps = 210
+        elif angle == -4: #For tilt arm
+            rotationSteps = 250
         else:
             print("Input not valid")
+        p.start(dutyCycle_Init)
+        time.sleep(0.1)
+        GPIO.output(enablePin, GPIO.HIGH)
         while turnCounter < rotationSteps:
             pass
             # if GPIO.input(input1) == GPIO.LOW:
@@ -90,20 +116,32 @@ def testInputMotor(tTest, angle, PWMPin, input1, input2):
             # cnt +=1;
             time.sleep(0)
     except KeyboardInterrupt:
-        pass
-
+        p.stop()
+        if angle > 0: 
+            GPIO.output(PWMPin, GPIO.LOW)
+        else:
+            GPIO.output(PWMPin, GPIO.HIGH)
+        GPIO.cleanup()
+    GPIO.output(enablePin, GPIO.LOW)
     p.stop()
+    #time.sleep(0.1)
     #p.ChangeDutyCycle(0)
     #p.stop()
-
-
-    
+    # time.sleep(1)
     #print("PWMPin : " + str(PWMPin))
     GPIO.output(PWMPin, GPIO.LOW)
+    GPIO.output(InvPin, GPIO.LOW)
+    
+    #if angle > 0: 
+    #    GPIO.output(PWMPin, GPIO.LOW)
+    #    GPIO.output(InvPin, GPIO.LOW)
+    #else:
+    #    GPIO.output(PWMPin, GPIO.HIGH)
+    #    GPIO.output(InvPin, GPIO.HIGH)
 
     GPIO.remove_event_detect(input1)
     GPIO.remove_event_detect(input2)
-    time.sleep(0.001)
+    time.sleep(0.1)
     # print(statusInput1)
     # print(statusInput2)
     print("turnCounter : " + str(turnCounter))
@@ -130,24 +168,25 @@ GPIO.setmode(GPIO.BOARD)
 # Se outputMot1_Enable = 0 (0V) --> motore non abilitato.
 # questo va collegato al pin 7 del L298N [2]. Il pin a cui va collegato è quello più esterno. Quello interno è fisso a 5V
 Mot1_Enable_Pin=29
-
+Mot2_Enable_Pin=8
 # Il PIN 33 è PWM1: GPIO con la capacità di fare PWM
 # questo va collegato al pin 8 o 9 del L298N [2](dipende dal verso di rotazione che si vuole dare)
 # LN298 lo amplifica e lo porta in uscita al bianco/nero del NXT
 Mot1_PWM_Pin=33
-
+Mot2_PWM_Pin=12
 # Il PIN 31 e' l'altro filo che pilota il motore. Il motore DC lavora per differenza tra Mot1_PWM_Pin e Mot1_Inv_Pin;
 # se Mot1_Inv_Pin=0 allora il segnale che pilota motore è PWM
 # se Mot1_Inv_Pin=0 allora il segnale che pilota direttamente il motore è invertito
 # questo va collegato al pin 8 o 9 del L298N [2](dipende dal verso di rotazione che si vuole dare)
 # LN298 lo amplifica e lo porta in uscita al bianco/nero del NXT
 Mot1_Inv_Pin=31
-
+Mot2_Inv_Pin=10
 # decoder input 1
 Mot1_decoderIN1_Pin = 35
+Mot2_decoderIN1_Pin = 16
 # decoder input 2
 Mot1_decoderIN2_Pin = 37
-
+Mot2_decoderIN2_Pin = 18
 ################################################################
 # NXT - MOTOR
 ################################################################
@@ -163,24 +202,73 @@ Mot1_decoderIN2_Pin = 37
 
 # setup e start value dell'enable
 GPIO.setup(Mot1_Enable_Pin, GPIO.OUT)
-GPIO.output(Mot1_Enable_Pin, GPIO.HIGH)
+GPIO.output(Mot1_Enable_Pin, GPIO.LOW)
+
+GPIO.setup(Mot2_Enable_Pin, GPIO.OUT)
+GPIO.output(Mot2_Enable_Pin, GPIO.LOW)
 
 # setup del bit di PWM
 GPIO.setup(Mot1_PWM_Pin, GPIO.OUT)
 GPIO.output(Mot1_PWM_Pin, GPIO.LOW)
 
+GPIO.setup(Mot2_PWM_Pin, GPIO.OUT)
+GPIO.output(Mot2_PWM_Pin, GPIO.LOW)
+
 # setup del bit di inversionePWM
 GPIO.setup(Mot1_Inv_Pin, GPIO.OUT)
 GPIO.output(Mot1_Inv_Pin, GPIO.LOW)
 
+GPIO.setup(Mot2_Inv_Pin, GPIO.OUT)
+GPIO.output(Mot2_Inv_Pin, GPIO.LOW)
 
 # setup dei pin di input del decoder, come ingressi. Per ora non setto i pullup/pullDown 
 GPIO.setup(Mot1_decoderIN1_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(Mot2_decoderIN1_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
 # decoder input 2
 GPIO.setup(Mot1_decoderIN2_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(Mot2_decoderIN2_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 # funzione di test del PWM
-testInputMotor(1,angle=90 , PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+# testInputMotor(1,angle=90 , PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+# testInputMotor(1,angle=360 , PWMPin=Mot2_PWM_Pin, input1=Mot2_decoderIN1_Pin,input2=Mot2_decoderIN2_Pin)
+
+userInput = ""
+while userInput.lower() != "q":
+    userInput = input("Next step [Up/Down/Quit] : ")
+    if userInput.lower() == "u1" :
+        pass
+        testInputMotor(1,angle=1 , PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin, 
+                        input1=Mot2_decoderIN1_Pin,input2=Mot2_decoderIN2_Pin)
+    elif userInput.lower() == "d1" :
+        testInputMotor(1,angle=-1 , PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin, 
+                        input1=Mot2_decoderIN1_Pin,input2=Mot2_decoderIN2_Pin)
+
+    elif userInput.lower() == "g" : # da START A ROTATE : "Go" : "G"
+        testInputMotor(1,angle=+4 , PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin, 
+                        input1=Mot2_decoderIN1_Pin,input2=Mot2_decoderIN2_Pin)
+
+    elif userInput.lower() == "u" : # from ROTATE to UP : "Up" : "U"     
+        testInputMotor(1,angle=-3 , PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin, 
+                        input1=Mot2_decoderIN1_Pin,input2=Mot2_decoderIN2_Pin)
+    
+    elif userInput.lower() == "c" : #da UP a ROTATE : "Continue" : "C"
+        testInputMotor(1,angle=+3 , PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin, 
+                        input1=Mot2_decoderIN1_Pin,input2=Mot2_decoderIN2_Pin)
+    
+    elif userInput.lower() == "s" : #da ROTATE A START : "Start" : "S"
+        testInputMotor(1,angle=-4 , PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin, 
+                        input1=Mot2_decoderIN1_Pin,input2=Mot2_decoderIN2_Pin)
+    
+    elif userInput.lower() == "r" : # da ROTATE A ROTATE : "Rotation" : "R"
+        testInputMotor(1,angle=1 , PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin, 
+                        input1=Mot2_decoderIN1_Pin,input2=Mot2_decoderIN2_Pin)
+        testInputMotor(1,angle=-1 , PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin, 
+                        input1=Mot2_decoderIN1_Pin,input2=Mot2_decoderIN2_Pin)
+        testInputMotor(1,angle=2 , PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin, 
+                        input1=Mot2_decoderIN1_Pin,input2=Mot2_decoderIN2_Pin)
+    else:
+        pass
 
 print("wait to stop Motors before exit")
 #time.sleep(0.1)
