@@ -25,9 +25,9 @@ class CubeSolver:
 		else:
 			equalsSubString=0
 			for i in range(6):
-				partialString=self.cubeString[i*9:i*9+6]
-				firstC=partialString[0]
-				if partialString== firstC*6:
+				partialString=self.cubeString[i*9:(i+1)*9]
+				firstC=partialString[4]
+				if partialString== firstC*9:
 					equalsSubString+=1;
 			if equalsSubString==6:
 				return True
