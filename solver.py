@@ -9,11 +9,10 @@ direction_dict={'L':"Left", 'R':"Right", 'U':"Up", 'D':"Down", 'C':"Clockwise", 
 
 
 class CubeSolver:
-	def __init__(self,solverPath):
+	def __init__(self):
 		#self.args="random"
 		self.cubeString="random"
 		self.cube=Cube()
-		self.solverPath=solverPath
 
 	def getUserInput(self):
 		self.cube.getCubeFromUser()
@@ -34,17 +33,18 @@ class CubeSolver:
 			else:
 				return False
 
-	def solve(self):
+	def solve(self,solverPath):
 		self.cubeString=self.cube.stringify()
 		
 		if self.isAlreadySolved():
 			print("*"*80)
 			print("Cube already solved")
 			print("*"*80)
-			return
+			return []
 		# print(self.cubeString)
 		try:
-			p = subprocess.Popen([self.solverPath, self.cubeString], stdout=subprocess.PIPE)
+			print(solverPath)
+			p = subprocess.Popen([solverPath, self.cubeString], stdout=subprocess.PIPE)
 			(output, err) = p.communicate()
 		except:
 			print("Unexpected Error", sys.exc_info()[0])
