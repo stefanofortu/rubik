@@ -4,3 +4,15 @@
 solver/cubex
 solver.p
 *.py.save
+
+### ALL VISUAL STUDIO FILE
+Debug/
+BackUp/
+v16/
+*.ilk
+*.exe
+*.pdb
+*.obj
+*cubex.sln
+*.vcxproj*
+UpgradeLog.htm

@@ -25,36 +25,36 @@ class Face:
 		elif (len(str(num))==9):
 			self.initFaceFromStr(num);
 		else:
-			print "Cannot Initialize Face correctly"
+			print ("Cannot Initialize Face correctly")
 
 	def initFaceFromStr(self,str):
 		if ( len(str)==9 ):
 			self.face=[ str[i] for i in range(0,9)]
 		else:
-			print "Cannot Initialize Face correctly"
+			print ("Cannot Initialize Face correctly")
 
 	def printFace(self):
 		for i in range(0,9):
 			if ((i)%3 == 0):
-				print "",
-			print self.face[i],
+				print ("",end='')
+			print (self.face[i], end='')
 			if ((i+1)%3 == 0):
-				print ""
+				print ("", end='')
 
 	def getFaceFromUser(self,nameFace):
 		valid=False;
 		while (valid == False ):
-			print "============> Insert " + nameFace + " face : ",
-			inputStr=raw_input();
+			print ("============> Insert " + nameFace + " face : ", end='')
+			inputStr=input();
 			if len(inputStr) != 9:
-				print "Insert correct number of elements"
+				print ("Insert correct number of elements", end='')
 				continue;
 			numCorrectChars=0;
 			for i in range(0,9):
 				if inputStr[i] in allowed_char:
 					numCorrectChars +=1;
 			if numCorrectChars!=9:
-				print "Insert valid letters"
+				print ("Insert valid letters", end='')
 				valid=False
 				continue;
 			else:

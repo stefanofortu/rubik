@@ -41,20 +41,22 @@ class Cube:
 	def printFourFaces(self,row):
 		self.prepareForPrint();
 		for k in range(0,36):
-			i=(k/3)%4 
-			j=k%3 + 3*(k/12) 
+			i=int(int(k/3)%4) 
+			j=int(k%3 + 3*int(k/12)) 
 			if (j%3==0 ):
-				print "",
+				print ("",end = '')
 			charToPrint=self.faceListPrint[i+4*row].face[j]
+			print (" ", end='')
 			if charToPrint==" ":
-				print charToPrint,
+				print (charToPrint, end='')
 			else:
 				if len(colorFace[charToPrint.lower()])==1:
-					print colored(charToPrint,colorFace[charToPrint.lower()][0], attrs=['bold']),
+					print (colored(charToPrint,colorFace[charToPrint.lower()][0], attrs=['bold']), end='')
 				else:
-					print colored(charToPrint,colorFace[charToPrint.lower()][0],colorFace[charToPrint.lower()][1], attrs=['bold']),
+					print (colored(charToPrint,colorFace[charToPrint.lower()][0],colorFace[charToPrint.lower()][1], attrs=['bold']), end='')
 			if ((i+1)%4 == 0 ) and ((j+1)%3 == 0 ):
-				print ""
+				print ("")
+
 	def printCube(self):
 		for row in range(0,3):
 			self.printFourFaces(row)
@@ -66,13 +68,12 @@ class Cube:
 		for nameFace in indexFaces:
 			for j in range(0,9):
 				numRipetition[ colorList.index(self.faceList[nameFace].face[j].lower()) ] +=1;
-		numRipetition = filter(lambda x: x == 9,numRipetition)
-		#print numRipetition
+		numRipetition = list(filter(lambda x: x == 9,numRipetition))
 		if len(numRipetition) == 6:
-			print "Face inserted were valid"
+			print ("Face inserted were valid")
 			return True
 		else:
-			print "FACES NOT VALID"
+			print ("FACES NOT VALID")
 			return False
 
 	def getCubeFromUser(self):

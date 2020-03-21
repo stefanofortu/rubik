@@ -36,27 +36,28 @@ class CubeSolver:
 
 	def solve(self):
 		self.cubeString=self.cube.stringify()
-
+		
 		if self.isAlreadySolved():
 			print("*"*80)
 			print("Cube already solved")
 			print("*"*80)
 			return
-		#print(self.cubeString)
+		# print(self.cubeString)
 		try:
 			p = subprocess.Popen([self.solverPath, self.cubeString], stdout=subprocess.PIPE)
 			(output, err) = p.communicate()
 		except:
 			print("Unexpected Error", sys.exc_info()[0])
-		#print (output)
-		moves=output.split(", ")
+			return            
+		outputStr=str(output)        
+		moves=outputStr.split(", ")
 		numMoves=len(moves);
-		moves_ok = filter(lambda x: len(x) == 2,moves)
-		if ( numMoves != len(moves_ok)  +1 ):
-			print "Not 2 chars moves"
-			exit();
+		movesNoBytePrefix = list([ x[-2:] for x in moves])
+		moves2Char = list(filter(lambda x: len(x) == 2,movesNoBytePrefix))
+		if ( numMoves != len(moves2Char)  +1 ):
+			print ("Not 2 chars moves")
+			sys.exit()
 		movesVerbose = []
-		for m in moves_ok:
+		for m in moves2Char:
 			movesVerbose.append(side_dict[m[0]] + "_" +  direction_dict[m[1]])
 		return movesVerbose
-

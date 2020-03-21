@@ -1,7 +1,5 @@
-from cube import Cube
-from face import Face
 from solver import CubeSolver
-
+from sys import exit
 
 print("MISSING : evaluation INPUTS")
 print("MISSING : testing sul cubo")
@@ -19,7 +17,7 @@ else:
 	s.getUserInput()
 	s.cube.verifyFaces()
 	s.cube.printCube()
-	in1 = str(raw_input("Want to save this cube configuration? [Y/N]"))
+	in1 = str(input("Want to save this cube configuration? [Y/N]"))
 	if in1 == "Y" or in1 == "y":
 		pickle.dump(s, open("solver.p",'wb'))
 		print("Configuration saved")
@@ -31,3 +29,6 @@ for n,move in enumerate(moveList):
 	print (str(n) + " : move " + move)
 	s.cube.executeMove(move)
 	s.cube.printCube()
+    
+
+exit
