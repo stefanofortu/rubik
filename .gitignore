@@ -5,6 +5,9 @@ solver/cubex
 solver.p
 *.py.save
 
+venv/*
+.idea/*
+
 ### ALL VISUAL STUDIO FILE
 Debug/
 BackUp/
