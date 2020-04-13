@@ -18,7 +18,7 @@ allowed_char=dict_allowed_input.keys()
 class Face:
 	def __init__(self):
 		self.face=[ " " for i in range(0,9)]
-	
+
 	def __init__(self,num):
 		if (len(str(num))==1):
 			self.face=[ str(num) for i in range(0,9)]
@@ -61,15 +61,36 @@ class Face:
 				valid=True;
 		self.initFaceFromStr(inputStr)
 		
-	def stringify(self):
+	def serialize(self):
 		faceNum=[ dict_allowed_input[self.face[i]] for i in range(0,9)]
 		return ''.join( [str(x) for x in faceNum ] )
 
+	def setFaceFromString(self, inputString):
+		if len(inputString) != 9:
+			print("Insert correct number of elements")
+			return -1
+		numCorrectChars = 0
+		for i in range(0, 9):
+			if inputString[i] in allowed_char:
+				numCorrectChars +=1
+		if numCorrectChars != 9:
+			print("Insert valid letters")
+			return -2
+		self.initFaceFromStr(inputString)
+		return 0
+
+	def stringify(self):
+		faceNum = [dict_allowed_input[self.face[i]] for i in range(0, 9)]
+		return ''.join([str(x) for x in faceNum])
+
+	def stringify(self):
+		return ''.join([str(x) for x in self.face])
+
 	def rotateFaceClockWise(self):
-		# 0 | 1 | 2			# 6 | 3 | 0 
+		# 0 | 1 | 2			# 6 | 3 | 0
 		# 3 | 4 | 5   -->   # 7 | 4 | 1
 		# 6 | 7 | 8 		# 8 | 5 | 2
-		faceNew=[ " " for i in range(0,9)]	
+		faceNew=[ " " for i in range(0,9)]
 		faceNew[0]=self.face[6]
 		faceNew[1]=self.face[3]
 		faceNew[2]=self.face[0]
@@ -82,10 +103,10 @@ class Face:
 		self.face=faceNew
 
 	def rotateFaceCounterClockWise(self):
-		# 0 | 1 | 2			# 2 | 5 | 8 
+		# 0 | 1 | 2			# 2 | 5 | 8
 		# 3 | 4 | 5   -->   # 1 | 4 | 7
 		# 6 | 7 | 8 		# 0 | 3 | 6
-		faceNew=[ " " for i in range(0,9)]	
+		faceNew=[ " " for i in range(0,9)]
 		faceNew[0]=self.face[2]
 		faceNew[1]=self.face[5]
 		faceNew[2]=self.face[8]

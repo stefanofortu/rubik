@@ -1,7 +1,7 @@
 from cube import Cube
 import sys
 import subprocess
-
+import pickle
 
 side_dict={'U':"Top", 'D':"Bottom", 'L':"Left", 'R':"Right", 'F':"Front", 'B':"Rear"}
 direction_dict={'L':"Left", 'R':"Right", 'U':"Up", 'D':"Down", 'C':"Clockwise", 'A':"Counterclockwise"}
@@ -12,10 +12,22 @@ class CubeSolver:
 	def __init__(self):
 		#self.args="random"
 		self.cubeString="random"
-		self.cube=Cube()
+		self.cube = Cube()
+		self.solverPath = "C:\\Users\\Stefano\\Progetti\\rubik\\solver\\cubex"
 
 	def getUserInput(self):
 		self.cube.getCubeFromUser()
+
+	def setSolverFromString(self, stringArray):
+		return self.cube.setCubeFromString(stringArray)
+
+	def saveCube(self, fileName):
+		pickle.dump((self.cube, self.solverPath), open(fileName+".p", 'wb'))
+		print("Configuration saved")
+
+	def loadCube(self, fileName):
+		self.cube, self.solverPath = pickle.load(open(fileName + ".p", 'rb'))
+		print("Configuration loaded")
 
 	def isAlreadySolved(self):
 		if (len(self.cubeString)!=6*9):
@@ -34,7 +46,7 @@ class CubeSolver:
 				return False
 
 	def solve(self,solverPath):
-		self.cubeString=self.cube.stringify()
+		self.cubeString=self.cube.serialize()
 		
 		if self.isAlreadySolved():
 			print("*"*80)
@@ -43,8 +55,8 @@ class CubeSolver:
 			return []
 		# print(self.cubeString)
 		try:
-			print(solverPath)
-			p = subprocess.Popen([solverPath, self.cubeString], stdout=subprocess.PIPE)
+			print(self.solverPath)
+			p = subprocess.Popen([self.solverPath, self.cubeString], stdout=subprocess.PIPE)
 			(output, err) = p.communicate()
 		except:
 			print("Unexpected Error", sys.exc_info()[0])

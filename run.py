@@ -1,5 +1,5 @@
 from solver import CubeSolver
-from sys import exit
+import sys
 import pickle
 
 print("MISSING : evaluation INPUTS")
