@@ -20,10 +20,22 @@ from PySide2.QtWidgets import QWidget
 # from PySide2 import QtWidgets
 from solver import CubeSolver
 
+CubeColorMap    = { 'b': QColor(0,0,255) ,
+					'w': QColor(255,255,255),
+					'r': QColor(255,0,0),
+					'y': QColor(255,255,0),
+					'o': QColor(255,69,0),
+					'g': QColor(0,255,0),
+                    '-': QColor(180,180,180) }
+
+
 class myWidget(QWidget):
-    def __init__(self, parent, solver):
+    def __init__(self, parent, qtApp):
         super().__init__(parent)
-        self.cubeSolver = solver
+        self.qtApp = qtApp
+
+    def updateGui(self):
+        self.repaint()
 
     def paintEvent(self, e):
         painter = QPainter(self)
@@ -38,24 +50,54 @@ class myWidget(QWidget):
         height_rect = 25
         width_rect = 25
         offset = 1
+        stringCube = self.qtApp.getCurrentCubeSimuationString()
+        # stringCube = '-'*9*6
+        cnt = 0
         for y in range(offset, height_rect * 3 + offset, height_rect):
             for x in range(offset + width_rect * 3, width_rect * 6 + offset, width_rect):
                 painter.save()
-                painter.setBrush(QBrush(QColor(0,255,255))) #self.cubeForGui[0], self.cubeForGui[1], self.cubeForGui[2])))
+                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
+                cnt += 1
                 painter.drawRect(x, y, width_rect, height_rect)
                 painter.restore()
 
         for y in range(offset + height_rect * 3, height_rect * 6 + offset, height_rect):
-            for x in range(offset, width_rect * 12 + offset, width_rect):
+            for x in range(offset, width_rect * 3 + offset, width_rect):
                 painter.save()
-                painter.setBrush(QBrush(QColor(0, 0, 255)))
+                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
+                cnt += 1
+                painter.drawRect(x, y, width_rect, height_rect)
+                painter.restore()
+
+        for y in range(offset + height_rect * 3, height_rect * 6 + offset, height_rect):
+            for x in range(offset + width_rect*3, width_rect * 6 + offset, width_rect):
+                painter.save()
+                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
+                cnt += 1
+                painter.drawRect(x, y, width_rect, height_rect)
+                painter.restore()
+
+        for y in range(offset + height_rect * 3, height_rect * 6 + offset, height_rect):
+            for x in range(offset + width_rect*6 , width_rect * 9 + offset, width_rect):
+                painter.save()
+                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
+                cnt += 1
+                painter.drawRect(x, y, width_rect, height_rect)
+                painter.restore()
+
+        for y in range(offset + height_rect * 3, height_rect * 6 + offset, height_rect):
+            for x in range(offset + width_rect*9, width_rect * 12 + offset, width_rect):
+                painter.save()
+                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
+                cnt += 1
                 painter.drawRect(x, y, width_rect, height_rect)
                 painter.restore()
 
         for y in range(offset + height_rect * 6, height_rect * 9 + offset, height_rect):
             for x in range(offset + width_rect * 3, width_rect * 6 + offset, width_rect):
                 painter.save()
-                painter.setBrush(QBrush(QColor(0, 0, 255)))
+                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
+                cnt += 1
                 painter.drawRect(x, y, width_rect, height_rect)
                 painter.restore()
         # painter.begin(self.widget_2)
@@ -115,6 +157,15 @@ class Ui_MainWindow(object):
         self.CreateNewButton.setObjectName(u"CreateNewButton")
         self.gridLayout.addWidget(self.CreateNewButton, 2, 3, 1, 1)
 
+        self.separator1 = QFrame(self.centralwidget)
+        self.separator1.setObjectName(u"separator1")
+        self.separator1.setEnabled(True)
+        self.separator1.setLineWidth(2)
+        self.separator1.setFrameShape(QFrame.HLine)
+        self.separator1.setFrameShadow(QFrame.Sunken)
+
+        self.gridLayout.addWidget(self.separator1, 3, 0, 1, 6)
+
         # Load from file
         # Label for Save Configuration
         self.labelLoadConfiguration = QLabel(self.centralwidget)
@@ -161,123 +212,98 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.separator2, 10, 0, 1, 6)
 
         # Widget - canvas for cube preview
-        self.widget_cubePreview = myWidget(self.centralwidget, self.cubeSolver)
+        self.widget_cubePreview = myWidget(self.centralwidget, self)
         self.widget_cubePreview.setObjectName(u"widget_cubePreview")
         self.widget_cubePreview.setMinimumSize(QSize(0, 50))
         self.gridLayout.addWidget(self.widget_cubePreview, 11, 0, 3, 4)
 
-
+        #push button - Solve the Cube
         self.pushButtonSimulationSolve = QPushButton(self.centralwidget)
         self.pushButtonSimulationSolve.setObjectName(u"pushButtonSimulationSolve")
         self.gridLayout.addWidget(self.pushButtonSimulationSolve, 11, 4, 1, 2)
 
         # Widget - TBD
-        self.widget = myWidget(self.centralwidget, self.cubeSolver)
-        self.widget.setObjectName(u"widget")
-        self.widget.setMinimumSize(QSize(50, 50))
-        self.widget.setStyleSheet(u"background-color: rgb(205, 0, 255);")
+        self.widget_cubeMotorResolutor = myWidget(self.centralwidget, self)
+        self.widget_cubeMotorResolutor.setObjectName(u"widget_cubeMotorResolutor")
+        self.widget_cubeMotorResolutor.setMinimumSize(QSize(50, 50))
+        self.widget_cubeMotorResolutor.setStyleSheet(u"background-color: rgb(205, 0, 255);")
+        self.gridLayout.addWidget(self.widget_cubeMotorResolutor, 16, 0, 5, 4)
 
-        self.gridLayout.addWidget(self.widget, 16, 0, 5, 4)
+        # TEXT EDIT PER LISTA MOSSE
+        self.textEditMovesList = QTextEdit(self.centralwidget)
+        self.textEditMovesList.setObjectName(u"textEditMovesList")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.textEditMovesList.sizePolicy().hasHeightForWidth())
+        self.textEditMovesList.setSizePolicy(sizePolicy3)
+        self.textEditMovesList.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.gridLayout.addWidget(self.textEditMovesList, 12, 4, 1, 2)
+
+        #push button - move simulation forward
+        self.pushButtonSimulationBackward = QPushButton(self.centralwidget)
+        self.pushButtonSimulationBackward.setObjectName(u"pushButtonSimulationBackward")
+        self.pushButtonSimulationBackward.setDisabled(True)
+        self.gridLayout.addWidget(self.pushButtonSimulationBackward, 13, 4, 1, 1)
+
+        #push button - move simulation forward
+        self.pushButtonSimulationForward = QPushButton(self.centralwidget)
+        self.pushButtonSimulationForward.setObjectName(u"pushButtonSimulationForward")
+        self.pushButtonSimulationForward.setDisabled(True)
+        self.gridLayout.addWidget(self.pushButtonSimulationForward, 13, 5, 1, 1)
 
 
-        self.label_4 = QLabel(self.centralwidget)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
-        #self.gridLayout.addWidget(self.label_4, 19, 4, 1, 1)
-
-
-
-
-
-
-
-        self.label_5 = QLabel(self.centralwidget)
-        self.label_5.setObjectName(u"label_5")
-
-        self.gridLayout.addWidget(self.label_5, 18, 5, 1, 1)
-
-        self.pushButton_2 = QPushButton(self.centralwidget)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-
-        self.gridLayout.addWidget(self.pushButton_2, 17, 5, 1, 1)
-
-        self.pushButton_4 = QPushButton(self.centralwidget)
-        self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setMinimumSize(QSize(50, 0))
-
-        self.gridLayout.addWidget(self.pushButton_4, 13, 4, 1, 1)
-
-        self.label_6 = QLabel(self.centralwidget)
-        self.label_6.setObjectName(u"label_6")
-
-        self.gridLayout.addWidget(self.label_6, 19, 5, 1, 1)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.gridLayout.addItem(self.horizontalSpacer_2, 1, 4, 1, 2)
 
-        self.label_3 = QLabel(self.centralwidget)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
-
-        self.gridLayout.addWidget(self.label_3, 18, 4, 1, 1)
-
-        self.line = QFrame(self.centralwidget)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.HLine)
-        self.line.setFrameShadow(QFrame.Sunken)
-
-        self.gridLayout.addWidget(self.line, 15, 0, 1, 6)
 
 
-        self.pushButton_5 = QPushButton(self.centralwidget)
-        self.pushButton_5.setObjectName(u"pushButton_5")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.pushButton_5.sizePolicy().hasHeightForWidth())
-        self.pushButton_5.setSizePolicy(sizePolicy2)
-        self.pushButton_5.setMinimumSize(QSize(50, 0))
-
-        self.gridLayout.addWidget(self.pushButton_5, 13, 5, 1, 1)
-
-        self.separator1 = QFrame(self.centralwidget)
-        self.separator1.setObjectName(u"separator1")
-        self.separator1.setEnabled(True)
-        self.separator1.setLineWidth(2)
-        self.separator1.setFrameShape(QFrame.HLine)
-        self.separator1.setFrameShadow(QFrame.Sunken)
-
-        self.gridLayout.addWidget(self.separator1, 3, 0, 1, 6)
-
-        self.textEdit = QTextEdit(self.centralwidget)
-        self.textEdit.setObjectName(u"textEdit")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.textEdit.sizePolicy().hasHeightForWidth())
-        self.textEdit.setSizePolicy(sizePolicy3)
-        self.textEdit.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-
-        self.gridLayout.addWidget(self.textEdit, 12, 4, 1, 2)
-
-
-
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.gridLayout.addItem(self.verticalSpacer_2, 16, 5, 1, 1)
-
-        self.widget_3 = myWidget(self.centralwidget, self.cubeSolver)
+        #Widget axes
+        self.widget_3 = myWidget(self.centralwidget, self)
         self.widget_3.setObjectName(u"widget_3")
         self.widget_3.setAutoFillBackground(False)
         self.widget_3.setStyleSheet(u"background-color: rgb(200, 200, 200);")
         self.gridLayout.addWidget(self.widget_3, 16, 4, 1, 1)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.gridLayout.addItem(self.verticalSpacer_2, 16, 5, 1, 1)
+
+        self.pushButtonStartMotorMovement = QPushButton(self.centralwidget)
+        self.pushButtonStartMotorMovement.setObjectName(u"pushButtonStartMotorMovement")
+        self.gridLayout.addWidget(self.pushButtonStartMotorMovement, 17, 5, 1, 1)
+
+        #label Current Step
+        self.labelCurrentStep = QLabel(self.centralwidget)
+        self.labelCurrentStep.setObjectName(u"labelCurrentStep")
+        self.labelCurrentStep.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
+        self.gridLayout.addWidget(self.labelCurrentStep, 18, 4, 1, 1)
+
+        self.labelcurrentStepName = QLabel(self.centralwidget)
+        self.labelcurrentStepName.setObjectName(u"labelcurrentStepName")
+        self.gridLayout.addWidget(self.labelcurrentStepName, 18, 5, 1, 1)
+
+        #Label Current Movement
+        self.labelCurrentMovement = QLabel(self.centralwidget)
+        self.labelCurrentMovement.setObjectName(u"labelCurrentMovement")
+        self.labelCurrentMovement.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
+        self.gridLayout.addWidget(self.labelCurrentMovement, 19, 4, 1, 1)
+
+        self.labelCurrentMovementName = QLabel(self.centralwidget)
+        self.labelCurrentMovementName.setObjectName(u"labelCurrentMovementName")
+        self.gridLayout.addWidget(self.labelCurrentMovementName, 19, 5, 1, 1)
+
+        #############################
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 837, 21))
         MainWindow.setMenuBar(self.menubar)
+
+
+
 
         # QWidget.setTabOrder(self.lineEdit, self.lineEdit6)
         # QWidget.setTabOrder(self.lineEdit6, self.lineEdit2)
@@ -321,34 +347,17 @@ class Ui_MainWindow(object):
 
         self.pushButtonSimulationSolve.setText(QCoreApplication.translate("MainWindow", u"Solve Cube", None))
 
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Current movement", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"--", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"<", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"--", None))
-        # self.lineEdit2.setText("")
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Current Step", None))
-        self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u">", None))
-        self.textEdit.setHtml(QCoreApplication.translate("MainWindow",
-                                                         u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-                                                         "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-                                                         "p, li { white-space: pre-wrap; }\n"
-                                                         "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">LR;</span></p>\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">RH;</span></p>\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">GH;</span></p>\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">FS;</span></"
-                                                         "p>\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">WS;</span></p>\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">AS;</span></p>\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; color:#55aa00;\">FA;</span></p>\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; color:#55aa00;\">AS;</span></p>\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">GT;</span></p>\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span s"
-                                                         "tyle=\" font-size:8pt;\">AS;</span></p>\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">TR;</span></p>\n"
-                                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">WQ;</span></p></body></html>",
-                                                         None))
+        self.textEditMovesList.setHtml("<br/>LR; <br/>GH; <br/> FS; <br/>")
+        self.textEditMovesList.insertHtml("<span style=\"color:#55aa00;\">AS;</span>")
 
+        self.pushButtonSimulationBackward.setText(QCoreApplication.translate("MainWindow", u"<", None))
+        self.pushButtonSimulationForward.setText(QCoreApplication.translate("MainWindow", u">", None))
+
+
+        self.pushButtonStartMotorMovement.setText(QCoreApplication.translate("MainWindow", u"StartSimulation", None))
+        self.labelCurrentStep.setText(QCoreApplication.translate("MainWindow", u"Current Step", None))
+        self.labelcurrentStepName.setText(QCoreApplication.translate("MainWindow", u"step xx", None))
+        self.labelCurrentMovement.setText(QCoreApplication.translate("MainWindow", u"Current movement", None))
+        self.labelCurrentMovementName.setText(QCoreApplication.translate("MainWindow", u"step yy", None))
 
     # retranslateUi

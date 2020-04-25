@@ -61,10 +61,6 @@ class Face:
 				valid=True;
 		self.initFaceFromStr(inputStr)
 		
-	def serialize(self):
-		faceNum=[ dict_allowed_input[self.face[i]] for i in range(0,9)]
-		return ''.join( [str(x) for x in faceNum ] )
-
 	def setFaceFromString(self, inputString):
 		if len(inputString) != 9:
 			print("Insert correct number of elements")
@@ -79,12 +75,14 @@ class Face:
 		self.initFaceFromStr(inputString)
 		return 0
 
-	def stringify(self):
-		faceNum = [dict_allowed_input[self.face[i]] for i in range(0, 9)]
-		return ''.join([str(x) for x in faceNum])
+	def serialize(self):
+		faceNum=[ dict_allowed_input[self.face[i]] for i in range(0,9)]
+		return ''.join( [str(x) for x in faceNum ] )
 
 	def stringify(self):
 		return ''.join([str(x) for x in self.face])
+
+
 
 	def rotateFaceClockWise(self):
 		# 0 | 1 | 2			# 6 | 3 | 0

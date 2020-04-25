@@ -11,16 +11,65 @@ class MyQtApp(mainW.Ui_MainWindow, QtWidgets.QMainWindow):
         super().__init__(solver)
         self.setupUi(self)
         self.cubeSolver = solver
+        self.simulationStepShown = 0
         self.CreateNewButton.clicked.connect(self.setSolver)
         self.LoadConfigurationButton.clicked.connect(self.loadSolver)
         self.SaveConfigurationButton.clicked.connect(self.saveSolver)
         self.pushButtonSimulationSolve.clicked.connect(self.solveSimulation)
-        # self.widget_2.setMinimumHeight(100)
-        # @#self.widget_2.setMinimumWidth(100)
+        self.pushButtonSimulationBackward.clicked.connect(self.stepBackward)
+        self.pushButtonSimulationForward.clicked.connect(self.stepForward)
+
+    def getCurrentCubeSimuationString(self):
+        return self.cubeSolver.getCubeAtSimulatorStep(self.simulationStepShown).stringify()
+
+    def stepForward(self):
+        if self.simulationStepShown >= 0 and self.simulationStepShown < self.cubeSolver.getSimulatorStep() :
+            self.simulationStepShown += 1
+            self.pushButtonSimulationBackward.setDisabled(False)
+
+        if self.simulationStepShown == self.cubeSolver.getSimulatorStep()-1:
+            self.pushButtonSimulationForward.setDisabled(True)
+        self.widget_cubePreview.updateGui()
+        moves = self.textEditMovesList.toPlainText().split("\n")
+        string = ""
+        for num, elem in enumerate(moves):
+            if num == self.simulationStepShown:
+                string += "<span style=\"color:#55aa00;\">" + elem + "</span>" + "<br/>"
+            else:
+                string += elem + "<br/>"
+        self.textEditMovesList.setHtml(string)
+
+    def stepBackward(self):
+        if self.simulationStepShown > 0:
+            self.simulationStepShown -= 1
+            self.pushButtonSimulationForward.setDisabled(False)
+
+        if self.simulationStepShown == 0:
+            self.pushButtonSimulationBackward.setDisabled(True)
+        self.widget_cubePreview.updateGui()
+        self.textEditMovesList.repaint()
+        moves = self.textEditMovesList.toPlainText().split("\n")
+        string=""
+        #string = "<span style=\"color:#55aa00;\">" + "Start" + "</span>" + "<br/>"
+        for num, elem in enumerate(moves):
+            if num == self.simulationStepShown:
+                string += "<span style=\"color:#55aa00;\">" + elem + "</span>" + "<br/>"
+            else:
+                string += elem + "<br/>"
+        self.textEditMovesList.setHtml(string)
 
     def solveSimulation(self):
         res = self.cubeSolver.solve()
-        print(res)
+        self.pushButtonSimulationForward.setDisabled(False)
+        #self.pushButtonSimulationBackward.setDisabled(False)
+        self.textEditMovesList.setHtml("")
+        self.simulationStepShown = 0
+        string = "<span style=\"color:#55aa00;\">" + "Start" + "</span>" + "<br/>"
+        for elem in res:
+            string += elem + "<br/>"
+        self.textEditMovesList.insertHtml(string) # + str(elem).lower() ) # + "<br/>
+        #print(self.textEditMovesList.toPlainText())
+        #print(res)
 
     def setSolver(self):
         stringArray = [self.lineEditInsertTop.text(), self.lineEditInsertLeft.text(), self.lineEditInsertFront.text(),
@@ -33,7 +82,8 @@ class MyQtApp(mainW.Ui_MainWindow, QtWidgets.QMainWindow):
         s.cube.printCube()
 
     def loadSolver(self):
-        s.loadCube(self.lineEditLoadFromFile.text())
+        s.loadCube(self.lineEditLoadConfiguration.text())
+        self.widget_cubePreview.updateGui()
         print("load Solver")
 
     def saveSolver(self):

@@ -23,6 +23,7 @@ class Cube:
         for name in indexFaces:  # range(0,6):
             self.faceList[name] = Face(string[indexFaces[name]]);
 
+
     ######### PRINTING ##########################
     def prepareForPrint(self):
         self.faceListPrint[0] = Face(" ")
@@ -101,19 +102,14 @@ class Cube:
                     cubeStr += self.faceList[nameFace].serialize()
         return cubeStr
 
-	def rotateClockWise(self, triplet1, triplet2, triplet3, triplet4):
-		savedTriplet = [' ', ' ',  ' ']
-		#. save triplet4 
-		savedTriplet = triplet4
-		#. move triplet3 	into 	triplet4
-		triplet4 = triplet3
-		#. move triplet2 	into 	triplet3
-		triplet3 = triplet2
-		#. move triplet1 	into 	triplet2
-		triplet2 = triplet1
-		#. move saved 		into 	triplet1
-		triplet1 = savedTriplet
-		return triplet1, triplet2, triplet3, triplet4
+    def stringify(self):
+        cubeStr = ""
+        for i in range(0, 6):
+            for nameFace in indexFaces:
+                if indexFaces[nameFace] == i:
+                    cubeStr += self.faceList[nameFace].stringify()
+        return cubeStr
+
 
     def rotateClockWise(self, triplet1, triplet2, triplet3, triplet4):
         savedTriplet = [' ', ' ', ' ']
