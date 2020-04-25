@@ -1,119 +1,16 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'mainW.ui'
-##
-## Created by: Qt User Interface Compiler version 5.14.1
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
-from PySide2.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-                            QRect, QSize, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-                           QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
-                           QRadialGradient)
-from PySide2.QtWidgets import *
-
+from PySide2.QtCore import (QCoreApplication, QMetaObject, QRect, QSize, Qt)
+from PySide2.QtWidgets import QGridLayout, QLineEdit, QPushButton, QFrame, QLabel, QSizePolicy, QTextEdit, QSpacerItem, \
+    QMenuBar
 from PySide2.QtWidgets import QWidget
+from cubeWidget import MyWidget
+from axisCubeWidget import AxisCubeWidget
+
 
 # from PySide2 import QtWidgets
-from solver import CubeSolver
 
-CubeColorMap    = { 'b': QColor(0,0,255) ,
-					'w': QColor(255,255,255),
-					'r': QColor(255,0,0),
-					'y': QColor(255,255,0),
-					'o': QColor(255,69,0),
-					'g': QColor(0,255,0),
-                    '-': QColor(180,180,180) }
-
-
-class myWidget(QWidget):
-    def __init__(self, parent, qtApp):
-        super().__init__(parent)
-        self.qtApp = qtApp
-
-    def updateGui(self):
-        self.repaint()
-
-    def paintEvent(self, e):
-        painter = QPainter(self)
-        painter.begin(self)
-        # qp = QPen()
-        # qp.setColor(QColor().cyan())
-        # painter.setPen(QPen());
-        # qb = QBrush()
-        # qb.setColor(QColor().cyan())
-        # painter.setBrush(qb) #QBrush(Qt.BrushStyle.SolidPattern))
-        # painter.drawRect(QRect(0, 0, self.width() - 1, self.height() - 1))
-        height_rect = 25
-        width_rect = 25
-        offset = 1
-        stringCube = self.qtApp.getCurrentCubeSimuationString()
-        # stringCube = '-'*9*6
-        cnt = 0
-        for y in range(offset, height_rect * 3 + offset, height_rect):
-            for x in range(offset + width_rect * 3, width_rect * 6 + offset, width_rect):
-                painter.save()
-                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
-                cnt += 1
-                painter.drawRect(x, y, width_rect, height_rect)
-                painter.restore()
-
-        for y in range(offset + height_rect * 3, height_rect * 6 + offset, height_rect):
-            for x in range(offset, width_rect * 3 + offset, width_rect):
-                painter.save()
-                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
-                cnt += 1
-                painter.drawRect(x, y, width_rect, height_rect)
-                painter.restore()
-
-        for y in range(offset + height_rect * 3, height_rect * 6 + offset, height_rect):
-            for x in range(offset + width_rect*3, width_rect * 6 + offset, width_rect):
-                painter.save()
-                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
-                cnt += 1
-                painter.drawRect(x, y, width_rect, height_rect)
-                painter.restore()
-
-        for y in range(offset + height_rect * 3, height_rect * 6 + offset, height_rect):
-            for x in range(offset + width_rect*6 , width_rect * 9 + offset, width_rect):
-                painter.save()
-                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
-                cnt += 1
-                painter.drawRect(x, y, width_rect, height_rect)
-                painter.restore()
-
-        for y in range(offset + height_rect * 3, height_rect * 6 + offset, height_rect):
-            for x in range(offset + width_rect*9, width_rect * 12 + offset, width_rect):
-                painter.save()
-                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
-                cnt += 1
-                painter.drawRect(x, y, width_rect, height_rect)
-                painter.restore()
-
-        for y in range(offset + height_rect * 6, height_rect * 9 + offset, height_rect):
-            for x in range(offset + width_rect * 3, width_rect * 6 + offset, width_rect):
-                painter.save()
-                painter.setBrush(QBrush(CubeColorMap[stringCube[cnt]]))
-                cnt += 1
-                painter.drawRect(x, y, width_rect, height_rect)
-                painter.restore()
-        # painter.begin(self.widget_2)
-        # painter.save()
-        # painter.translate(10, 10)
-
-        painter.drawRect(30, 30, 10, 10)
-        # painter.drawRect(QRect(self.x(), self.y(), 10, 10))
-        # painter.restore()
-        painter.end()
-
-
-class Ui_MainWindow(object):
-    def __init__(self, cubeSolver):
+class Ui_CubeApp(object):
+    def __init__(self):
         super().__init__()
-        self.cubeSolver = cubeSolver
 
     def setupUi(self, MainWindow):
         if MainWindow.objectName():
@@ -182,7 +79,6 @@ class Ui_MainWindow(object):
         self.LoadConfigurationButton.setMinimumSize(QSize(0, 0))
         self.gridLayout.addWidget(self.LoadConfigurationButton, 6, 2, 1, 1)
 
-
         # Save to File
         # Label for Save Configuration
         self.label_SaveConfiguration = QLabel(self.centralwidget)
@@ -193,9 +89,9 @@ class Ui_MainWindow(object):
         self.lineEditSaveConfiguration = QLineEdit(self.centralwidget)
         self.lineEditSaveConfiguration.setObjectName(u"lineEditSaveConfiguration")
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        #sizePolicy1.setHorizontalStretch(0)
-        #sizePolicy1.setVerticalStretch(0)
-        #sizePolicy1.setHeightForWidth(self.lineEditSaveConfiguration.sizePolicy().hasHeightForWidth())
+        # sizePolicy1.setHorizontalStretch(0)
+        # sizePolicy1.setVerticalStretch(0)
+        # sizePolicy1.setHeightForWidth(self.lineEditSaveConfiguration.sizePolicy().hasHeightForWidth())
         self.lineEditSaveConfiguration.setSizePolicy(sizePolicy1)
         self.gridLayout.addWidget(self.lineEditSaveConfiguration, 7, 1, 1, 1)
         # Push Button for Save Configuration
@@ -212,18 +108,19 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.separator2, 10, 0, 1, 6)
 
         # Widget - canvas for cube preview
-        self.widget_cubePreview = myWidget(self.centralwidget, self)
+        self.widget_cubePreview = MyWidget(self.centralwidget, self)
         self.widget_cubePreview.setObjectName(u"widget_cubePreview")
         self.widget_cubePreview.setMinimumSize(QSize(0, 50))
         self.gridLayout.addWidget(self.widget_cubePreview, 11, 0, 3, 4)
 
-        #push button - Solve the Cube
+        # push button - Solve the Cube
         self.pushButtonSimulationSolve = QPushButton(self.centralwidget)
         self.pushButtonSimulationSolve.setObjectName(u"pushButtonSimulationSolve")
+        self.pushButtonSimulationSolve.setDisabled(True)
         self.gridLayout.addWidget(self.pushButtonSimulationSolve, 11, 4, 1, 2)
 
         # Widget - TBD
-        self.widget_cubeMotorResolutor = myWidget(self.centralwidget, self)
+        self.widget_cubeMotorResolutor = MyWidget(self.centralwidget, self)
         self.widget_cubeMotorResolutor.setObjectName(u"widget_cubeMotorResolutor")
         self.widget_cubeMotorResolutor.setMinimumSize(QSize(50, 50))
         self.widget_cubeMotorResolutor.setStyleSheet(u"background-color: rgb(205, 0, 255);")
@@ -240,32 +137,28 @@ class Ui_MainWindow(object):
         self.textEditMovesList.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.gridLayout.addWidget(self.textEditMovesList, 12, 4, 1, 2)
 
-        #push button - move simulation forward
+        # push button - move simulation forward
         self.pushButtonSimulationBackward = QPushButton(self.centralwidget)
         self.pushButtonSimulationBackward.setObjectName(u"pushButtonSimulationBackward")
         self.pushButtonSimulationBackward.setDisabled(True)
         self.gridLayout.addWidget(self.pushButtonSimulationBackward, 13, 4, 1, 1)
 
-        #push button - move simulation forward
+        # push button - move simulation forward
         self.pushButtonSimulationForward = QPushButton(self.centralwidget)
         self.pushButtonSimulationForward.setObjectName(u"pushButtonSimulationForward")
         self.pushButtonSimulationForward.setDisabled(True)
         self.gridLayout.addWidget(self.pushButtonSimulationForward, 13, 5, 1, 1)
 
-
-
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.gridLayout.addItem(self.horizontalSpacer_2, 1, 4, 1, 2)
 
-
-
-        #Widget axes
-        self.widget_3 = myWidget(self.centralwidget, self)
-        self.widget_3.setObjectName(u"widget_3")
-        self.widget_3.setAutoFillBackground(False)
-        self.widget_3.setStyleSheet(u"background-color: rgb(200, 200, 200);")
-        self.gridLayout.addWidget(self.widget_3, 16, 4, 1, 1)
+        # Widget axes
+        self.widgetAxisCube = AxisCubeWidget(self.centralwidget, self)
+        self.widgetAxisCube.setObjectName(u"widgetAxisCube")
+        self.widgetAxisCube.setAutoFillBackground(False)
+        self.widgetAxisCube.setStyleSheet(u"background-color: rgb(200, 200, 200);")
+        self.gridLayout.addWidget(self.widgetAxisCube, 16, 4, 1, 1)
 
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.gridLayout.addItem(self.verticalSpacer_2, 16, 5, 1, 1)
@@ -274,7 +167,7 @@ class Ui_MainWindow(object):
         self.pushButtonStartMotorMovement.setObjectName(u"pushButtonStartMotorMovement")
         self.gridLayout.addWidget(self.pushButtonStartMotorMovement, 17, 5, 1, 1)
 
-        #label Current Step
+        # label Current Step
         self.labelCurrentStep = QLabel(self.centralwidget)
         self.labelCurrentStep.setObjectName(u"labelCurrentStep")
         self.labelCurrentStep.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
@@ -284,7 +177,7 @@ class Ui_MainWindow(object):
         self.labelcurrentStepName.setObjectName(u"labelcurrentStepName")
         self.gridLayout.addWidget(self.labelcurrentStepName, 18, 5, 1, 1)
 
-        #Label Current Movement
+        # Label Current Movement
         self.labelCurrentMovement = QLabel(self.centralwidget)
         self.labelCurrentMovement.setObjectName(u"labelCurrentMovement")
         self.labelCurrentMovement.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
@@ -301,9 +194,6 @@ class Ui_MainWindow(object):
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 837, 21))
         MainWindow.setMenuBar(self.menubar)
-
-
-
 
         # QWidget.setTabOrder(self.lineEdit, self.lineEdit6)
         # QWidget.setTabOrder(self.lineEdit6, self.lineEdit2)
@@ -329,35 +219,25 @@ class Ui_MainWindow(object):
         # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle("MainWindow")
         self.lineEditInsertTop.setText("ggggggggg")
         self.lineEditInsertLeft.setText("yyyyyyyyy")
         self.lineEditInsertFront.setText("rrrrrrrrr")
         self.lineEditInsertRight.setText("wwwwwwwww")
         self.lineEditInsertBack.setText("ooooooooo")
         self.lineEditInsertBottom.setText("bbbbbbbbb")
-        self.CreateNewButton.setText(QCoreApplication.translate("MainWindow", u"Insert New Cube", None))
-
-        self.labelLoadConfiguration.setText(QCoreApplication.translate("MainWindow", u"Load from file : ", None))
+        self.CreateNewButton.setText("Insert New Cube")
+        self.labelLoadConfiguration.setText("Load from file : ")
         self.lineEditLoadConfiguration.setText("solver")
-        self.LoadConfigurationButton.setText(QCoreApplication.translate("MainWindow", u"Load", None))
-        self.label_SaveConfiguration.setText(QCoreApplication.translate("MainWindow", u"Save from file : ", None))
+        self.LoadConfigurationButton.setText("Load")
+        self.label_SaveConfiguration.setText("Save from file : ")
         self.lineEditSaveConfiguration.setText("solver")
-        self.SaveConfigurationButton.setText(QCoreApplication.translate("MainWindow", u"Save", None))
-
-        self.pushButtonSimulationSolve.setText(QCoreApplication.translate("MainWindow", u"Solve Cube", None))
-
-        self.textEditMovesList.setHtml("<br/>LR; <br/>GH; <br/> FS; <br/>")
-        self.textEditMovesList.insertHtml("<span style=\"color:#55aa00;\">AS;</span>")
-
-        self.pushButtonSimulationBackward.setText(QCoreApplication.translate("MainWindow", u"<", None))
-        self.pushButtonSimulationForward.setText(QCoreApplication.translate("MainWindow", u">", None))
-
-
-        self.pushButtonStartMotorMovement.setText(QCoreApplication.translate("MainWindow", u"StartSimulation", None))
-        self.labelCurrentStep.setText(QCoreApplication.translate("MainWindow", u"Current Step", None))
-        self.labelcurrentStepName.setText(QCoreApplication.translate("MainWindow", u"step xx", None))
-        self.labelCurrentMovement.setText(QCoreApplication.translate("MainWindow", u"Current movement", None))
-        self.labelCurrentMovementName.setText(QCoreApplication.translate("MainWindow", u"step yy", None))
-
-    # retranslateUi
+        self.SaveConfigurationButton.setText("Save")
+        self.pushButtonSimulationSolve.setText("Solve Cube")
+        self.pushButtonSimulationBackward.setText("<")
+        self.pushButtonSimulationForward.setText(">")
+        self.pushButtonStartMotorMovement.setText("StartSimulation")
+        self.labelCurrentStep.setText("Current Step")
+        self.labelcurrentStepName.setText("step xx")
+        self.labelCurrentMovement.setText("Current movement")
+        self.labelCurrentMovementName.setText("step yy")
