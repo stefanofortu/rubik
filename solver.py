@@ -86,5 +86,5 @@ class CubeSolver:
 			return None
 		return self.cubeSimulator[pos]
 
-	def getSimulatorStep(self):
+	def getNumSimulatorSteps(self):
 		return len(self.cubeSimulator)
