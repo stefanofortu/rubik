@@ -154,7 +154,6 @@ class Cube:
             self.faceList['top'].rotateFaceClockWise()
 
         elif move == "Top_Right":  # "TopRight"
-            print("to check")
             t1 = self.faceList['rear'].getTopTriplet()
             t2 = self.faceList['right'].getTopTriplet()
             t3 = self.faceList['front'].getTopTriplet()

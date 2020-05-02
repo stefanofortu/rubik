@@ -1,6 +1,7 @@
 from PySide2.QtCore import (QCoreApplication, QMetaObject, QRect, QSize, Qt)
 from PySide2.QtWidgets import QGridLayout, QLineEdit, QPushButton, QFrame, QLabel, QSizePolicy, QTextEdit, QSpacerItem, \
     QMenuBar
+from PySide2.QtGui import QPalette, QColor, QBrush
 from PySide2.QtWidgets import QWidget
 from cubeWidget import MyWidget
 from axisCubeWidget import AxisCubeWidget
@@ -15,9 +16,13 @@ class Ui_CubeApp(object):
     def setupUi(self, MainWindow):
         if MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(837, 671)
+        MainWindow.resize(350, 700)
+        palette = QPalette()
+        palette.setBrush(QPalette.Active, QPalette.Window, QBrush(QColor(200, 200, 200, 255)))
+        MainWindow.setPalette(palette)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+
         self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName(u"gridLayout")
 
@@ -134,6 +139,7 @@ class Ui_CubeApp(object):
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.textEditMovesList.sizePolicy().hasHeightForWidth())
         self.textEditMovesList.setSizePolicy(sizePolicy3)
+        self.textEditMovesList.setStyleSheet("background-color: rgb(200, 200, 200);\n")
         self.textEditMovesList.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.gridLayout.addWidget(self.textEditMovesList, 12, 4, 1, 2)
 
@@ -194,24 +200,6 @@ class Ui_CubeApp(object):
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 837, 21))
         MainWindow.setMenuBar(self.menubar)
-
-        # QWidget.setTabOrder(self.lineEdit, self.lineEdit6)
-        # QWidget.setTabOrder(self.lineEdit6, self.lineEdit2)
-        # QWidget.setTabOrder(self.lineEdit2, self.lineEdit3)
-        # QWidget.setTabOrder(self.lineEdit3, self.lineEdit4)
-        # QWidget.setTabOrder(self.lineEdit4, self.lineEdit5)
-        # QWidget.setTabOrder(self.lineEdit5, self.CreateNewButton)
-        # QWidget.setTabOrder(self.CreateNewButton, self.lineEdit7)
-        # QWidget.setTabOrder(self.lineEdit7, self.LoadConfigurationButton)
-        # QWidget.setTabOrder(self.LoadConfigurationButton, self.LoadCheckBox)
-        # QWidget.setTabOrder(self.LoadCheckBox, self.lineEdit8)
-        # QWidget.setTabOrder(self.lineEdit8, self.SaveConfigurationButton)
-        # QWidget.setTabOrder(self.SaveConfigurationButton, self.SaveCheckBox)
-        # QWidget.setTabOrder(self.SaveCheckBox, self.pushButton)
-        # QWidget.setTabOrder(self.pushButton, self.textEdit)
-        # QWidget.setTabOrder(self.textEdit, self.pushButton_4)
-        # QWidget.setTabOrder(self.pushButton_4, self.pushButton_5)
-        # QWidget.setTabOrder(self.pushButton_5, self.pushButton_2)
 
         self.retranslateUi(MainWindow)
 
