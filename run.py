@@ -19,7 +19,9 @@ while inUnser.lower() != "e":
         s.saveCube('combo39moves')
         print("Configuration saved")
     elif inUnser.lower() == "r":
-        moveList = s.solve()
+        s.solve()
+        moveList = s.getCubeSimulatorMoves()
+        # motorMovementList = s.getMotorMovements()
         # from moves import executeMove
         for n, move in enumerate(moveList):
             print(str(n) + " : move " + move)

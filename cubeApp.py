@@ -129,8 +129,8 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
         # self.textEditMovesList.repaint()
 
     def solveSimulation(self):
-        self.moves = self.cubeSolver.solve()
-
+        self.cubeSolver.solve()
+        self.moves = self.cubeSolver.getCubeSimulatorMoves()
         # k = self.moves[0]
         # self.moves = []
         # self.moves = [k + " " + str(i+2) for i in range(0, 15)]
