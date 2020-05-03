@@ -235,7 +235,7 @@ GPIO.setup(Mot2_decoderIN2_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 userInput = ""
 while userInput.lower() != "q":
-    userInput = input("Next step [Up/Down/Quit] : ")
+    userInput = input("Next step [Go/Up/Continue/Start/Rotate/Quit] : ")
     if userInput.lower() == "u1" :
         pass
         testInputMotor(1,angle=1 , PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin, 

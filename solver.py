@@ -13,9 +13,11 @@ class CubeSolver:
 		#self.args="random"
 		self.cubeSerialized="random"
 		self.cube = Cube()
-		self.solverPath = "C:\\Users\\Stefano\\Progetti\\rubik\\solver\\cubex.exe"
+		#self.solverPath = "C:\\Users\\Stefano\\Progetti\\rubik\\solver\\cubex.exe"
+		self.solverPath = "/home/pi/Desktop/ftp/rubik/solver/cubex"
 		self.cubeSimulator = []
-		self.cubeSimulator.append(self.cube)
+		cubeTmp = copy.deepcopy(self.cube)
+		self.cubeSimulator.append(cubeTmp)
 
 	def getUserInput(self):
 		self.cube.getCubeFromUser()
@@ -24,12 +26,19 @@ class CubeSolver:
 		return self.cube.setCubeFromString(stringArray)
 
 	def saveCube(self, fileName):
-		pickle.dump((self.cube, self.solverPath), open(fileName+".p", 'wb'))
+		pickle.dump(self.cubeSimulator[0], open(fileName+".p", 'wb'))
 
 	def loadCube(self, fileName):
-		self.cube, self.solverPath = pickle.load(open(fileName + ".p", 'rb'))
+		self.cube = pickle.load(open(fileName + ".p", 'rb'))
 		self.cubeSimulator.clear()
 		self.cubeSimulator.append(self.cube)
+
+	def printCube(self, step):
+		self.cubeSimulator[step].printCube()
+
+	def verifyFaces(self,step):
+		self.cubeSimulator[step].verifyFaces()
+
 
 	def isAlreadySolved(self):
 		if (len(self.cubeSerialized)!=6*9):

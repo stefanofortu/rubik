@@ -2,31 +2,29 @@ from solver import CubeSolver
 import sys
 import pickle
 
-print("MISSING : evaluation INPUTS")
-print("MISSING : testing sul cubo")
-
-# solverPath="/home/pi/rubik/solver/cubex")
-# solverPath = "C:\\Users\\Stefano\\Progetti\\rubik\\solver\\cubex.exe"
 s = CubeSolver()
 
-in1 = str(input("Want to load a cube configuration? [Y/N]"))
-if in1 == "Y" or in1 == "y":
-    s.loadCube('solver45moves')
-    s.cube.verifyFaces()
-    s.cube.printCube()
-else:
-    s.getUserInput()
-    s.cube.verifyFaces()
-    s.cube.printCube()
-    in1 = str(input("Want to save this cube configuration? [Y/N]"))
-    if in1 == "Y" or in1 == "y":
-        s.saveCube('solver')
+inUnser = "L"
+while inUnser.lower() != "e":
+    inUnser = str(input("What you want to do?[S]:Save,[L]Load,[I]:Insert,[R]:Resolve],[E]:Exit : "))
+    if inUnser.lower() == "l":
+        s.loadCube('combo39moves')
+        s.verifyFaces(step=0)
+        s.printCube(step=0)
+    elif inUnser.lower() == "i":
+        s.getUserInput()
+        s.verifyFaces(step=0)
+        s.printCube(step=0)
+    elif inUnser.lower() == "s":
+        s.saveCube('combo39moves')
         print("Configuration saved")
+    elif inUnser.lower() == "r":
+        moveList = s.solve()
+        # from moves import executeMove
+        for n, move in enumerate(moveList):
+            print(str(n) + " : move " + move)
+            s.printCube(step=n)
+    else:
+        print("Choice not valid. Try again")
 
-moveList = s.solve()
-
-# from moves import executeMove
-for n, move in enumerate(moveList):
-    print(str(n) + " : move " + move)
-    s.cube.executeMove(move)
-    s.cube.printCube()
+print("Program ended")
