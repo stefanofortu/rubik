@@ -70,6 +70,9 @@ class CubeSolver:
 		moves2Char = list(filter(lambda x: len(x) == 2,movesNoBytePrefix))
 		if ( numMoves != len(moves2Char)  +1 ):
 			print ("Not 2 chars moves")
+			print("numMoves", output)
+			print("numMoves",numMoves)
+			print("moves2Char",moves2Char)
 			sys.exit()
 		movesVerbose = []
 		for m in moves2Char:

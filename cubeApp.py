@@ -5,6 +5,26 @@ from uiCubeApp import Ui_CubeApp
 from PySide2 import QtWidgets
 
 
+def createHtmlForTextEditMovesList(moves, currentMove):
+    htmlString = ""
+    # htmlString += "<style> table, th, td { border: 1px solid black;   border-collapse: collapse;} </style>"
+    htmlString += "<style> table, th, td { border-collapse: collapse;} </style>"
+    htmlString += "<table width=\"100%\" height=\"100%\" style=\"font:13px\">"
+
+    if currentMove == 0:
+        htmlString += "<tr style=\" color: white; background-color:black \" ><td>" + "Start" + "</td></tr>"
+    else:
+        htmlString += "<tr><td>" + "Start" + "</td></tr>"
+
+    for num, elem in enumerate(moves, start=1):
+        if num == currentMove:
+            htmlString += "<tr style=\" color: white; background-color:black; \" ><td>" + elem + "</td></tr>"
+        else:
+            htmlString += "<tr><td>" + elem + "</td></tr>"
+    htmlString += "</table>"
+    return htmlString
+
+
 class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
     def __init__(self, solver):
         super().__init__()
@@ -21,24 +41,6 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
 
     def getCurrentCubeSimulationString(self):
         return self.cubeSolver.getCubeAtSimulatorStep(self.simulationStepShown).stringify()
-
-    def createHtmlForTextEditMovesList(self, moves, currentMove):
-        htmlString = ""
-        htmlString += "<style> table, th, td { border: 1px solid black;   border-collapse: collapse;} </style>"
-        htmlString += "<table width=\"100%\" height=\"100%\" style=\"font:13px\">"
-
-        if currentMove == 0:
-            htmlString += "<tr style=\" color: white; background-color:black \" ><td>" + "Start" + "</td></tr>"
-        else:
-            htmlString += "<tr><td>" + "Start" + "</td></tr>"
-
-        for num, elem in enumerate(moves, start=1):
-            if num == currentMove:
-                htmlString += "<tr style=\" color: white; background-color:black; \" ><td>" + elem + "</td></tr>"
-            else:
-                htmlString += "<tr><td>" + elem + "</td></tr>"
-        htmlString += "</table>"
-        return htmlString
 
     def setScrollBarStepsUpperPlace(self, pos):
         # funzione da migliorare :
@@ -94,7 +96,8 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
         if self.simulationStepShown == self.cubeSolver.getNumSimulatorSteps() - 1:
             self.pushButtonSimulationForward.setDisabled(True)
         self.widget_cubePreview.updateGui()
-        htmlString = self.createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
+
+        htmlString = createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
         self.textEditMovesList.setHtml(htmlString)
 
         if scrollBarPosition < self.setScrollBarStepsLowerPlace(self.simulationStepShown):
@@ -114,25 +117,16 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
         if self.simulationStepShown == 0:
             self.pushButtonSimulationBackward.setDisabled(True)
         self.widget_cubePreview.updateGui()
-        self.textEditMovesList.repaint()
-        # self.moves = self.textEditMovesList.toPlainText().split("\n")
-        '''
-        string = ""
-        for num, elem in enumerate(moves):
-            if num == self.simulationStepShown:
-                string += "<span style=\"color:#55aa00;\">" + elem + "</span>" + "<br/>"
-            else:
-                string += elem + "<br/>"
-        self.textEditMovesList.setHtml(string)
-        '''
-        htmlString = self.createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
+
+        htmlString = createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
         self.textEditMovesList.setHtml(htmlString)
-        # self.textEditMovesList.verticalScrollBar().setValue(self.setScrollBarStepsUpperPlace(self.simulationStepShown))
+
         if scrollBarPosition > self.setScrollBarStepsUpperPlace(self.simulationStepShown):
             self.textEditMovesList.verticalScrollBar().setValue(
                 self.setScrollBarStepsUpperPlace(self.simulationStepShown))
         else:
             self.textEditMovesList.verticalScrollBar().setValue(scrollBarPosition)
+        # self.textEditMovesList.repaint()
 
     def solveSimulation(self):
         self.moves = self.cubeSolver.solve()
@@ -151,7 +145,7 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
             string += elem + "<br/>"
         self.textEditMovesList.insertHtml(string)  # + str(elem).lower() ) # + "<br/>
         '''
-        htmlString = self.createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
+        htmlString = createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
         self.textEditMovesList.setHtml(htmlString)
         # self.textEditMovesList.verticalScrollBar().setValue(self.textEditMovesList.verticalScrollBar().minimum())
         # print(self.textEditMovesList.toPlainText())

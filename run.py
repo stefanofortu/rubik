@@ -11,7 +11,7 @@ s = CubeSolver()
 
 in1 = str(input("Want to load a cube configuration? [Y/N]"))
 if in1 == "Y" or in1 == "y":
-    s.loadCube('solver')
+    s.loadCube('solver45moves')
     s.cube.verifyFaces()
     s.cube.printCube()
 else:
