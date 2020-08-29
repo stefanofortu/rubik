@@ -31,16 +31,22 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
         self.setupUi(self)
         self.cubeSolver = solver
         self.simulationStepShown = 0
+        self.motorMovementShown = 0
         self.CreateNewButton.clicked.connect(self.setSolver)
         self.LoadConfigurationButton.clicked.connect(self.loadSolver)
         self.SaveConfigurationButton.clicked.connect(self.saveSolver)
         self.pushButtonSimulationSolve.clicked.connect(self.solveSimulation)
         self.pushButtonSimulationBackward.clicked.connect(self.stepBackward)
         self.pushButtonSimulationForward.clicked.connect(self.stepForward)
+        self.pushButtonStartMotorMovement.clicked.connect(self.motorMovementForward)
+
         self.moves = []  # da cancellare e sostiture con chiamata a solver
 
     def getCurrentCubeSimulationString(self):
         return self.cubeSolver.getCubeAtSimulatorStep(self.simulationStepShown).stringify()
+
+    def getCurrentCubeMotorMovementString(self):
+        return self.cubeSolver.getCubeAtMotorMovement(self.motorMovementShown).stringify()
 
     def setScrollBarStepsUpperPlace(self, pos):
         # funzione da migliorare :
@@ -128,6 +134,17 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
             self.textEditMovesList.verticalScrollBar().setValue(scrollBarPosition)
         # self.textEditMovesList.repaint()
 
+
+    def motorMovementForward(self):
+        if 0 <= self.motorMovementShown < self.cubeSolver.getNumMotorMovements()-1:
+            self.motorMovementShown += 1
+        else:
+            self.pushButtonStartMotorMovement.setDisabled(True)
+
+        self.widget_cubeMotorResolutor.updateGui()
+
+        print(str(self.motorMovementShown )+ " out of " +str(self.cubeSolver.getNumMotorMovements()))
+
     def solveSimulation(self):
         self.cubeSolver.solve()
         self.moves = self.cubeSolver.getCubeSimulatorMoves()
@@ -166,6 +183,7 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
     def loadSolver(self):
         self.cubeSolver.loadCube(self.lineEditLoadConfiguration.text())
         self.widget_cubePreview.updateGui()
+        self.widget_cubeMotorResolutor.updateGui()
         self.pushButtonSimulationSolve.setDisabled(False)
 
     def saveSolver(self):

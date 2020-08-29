@@ -54,7 +54,11 @@ class Ui_CubeApp(object):
         self.lineEditInsertBottom.setObjectName(u"lineEditInsertBottom")
         self.lineEditInsertBottom.setMinimumSize(QSize(75, 0))
         self.gridLayout.addWidget(self.lineEditInsertBottom, 2, 1, 1, 1)
-        # Button - insert Datta
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.gridLayout.addItem(self.horizontalSpacer_2, 1, 4, 1, 2)
+
+        # Button - create New
         self.CreateNewButton = QPushButton(self.centralwidget)
         self.CreateNewButton.setObjectName(u"CreateNewButton")
         self.gridLayout.addWidget(self.CreateNewButton, 2, 3, 1, 1)
@@ -113,7 +117,7 @@ class Ui_CubeApp(object):
         self.gridLayout.addWidget(self.separator2, 10, 0, 1, 6)
 
         # Widget - canvas for cube preview
-        self.widget_cubePreview = MyWidget(self.centralwidget, self)
+        self.widget_cubePreview = MyWidget(self.centralwidget, self, "cubePreview")
         self.widget_cubePreview.setObjectName(u"widget_cubePreview")
         self.widget_cubePreview.setMinimumSize(QSize(0, 50))
         self.gridLayout.addWidget(self.widget_cubePreview, 11, 0, 3, 4)
@@ -123,13 +127,6 @@ class Ui_CubeApp(object):
         self.pushButtonSimulationSolve.setObjectName(u"pushButtonSimulationSolve")
         self.pushButtonSimulationSolve.setDisabled(True)
         self.gridLayout.addWidget(self.pushButtonSimulationSolve, 11, 4, 1, 2)
-
-        # Widget - TBD
-        self.widget_cubeMotorResolutor = MyWidget(self.centralwidget, self)
-        self.widget_cubeMotorResolutor.setObjectName(u"widget_cubeMotorResolutor")
-        self.widget_cubeMotorResolutor.setMinimumSize(QSize(50, 50))
-        self.widget_cubeMotorResolutor.setStyleSheet(u"background-color: rgb(205, 0, 255);")
-        self.gridLayout.addWidget(self.widget_cubeMotorResolutor, 16, 0, 5, 4)
 
         # TEXT EDIT PER LISTA MOSSE
         self.textEditMovesList = QTextEdit(self.centralwidget)
@@ -155,23 +152,31 @@ class Ui_CubeApp(object):
         self.pushButtonSimulationForward.setDisabled(True)
         self.gridLayout.addWidget(self.pushButtonSimulationForward, 13, 5, 1, 1)
 
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        # Line Separator
+        self.separator3 = QFrame(self.centralwidget)
+        self.separator3.setObjectName(u"separator3")
+        self.separator3.setLineWidth(1)
+        self.separator3.setFrameShape(QFrame.HLine)
+        self.separator3.setFrameShadow(QFrame.Sunken)
+        self.gridLayout.addWidget(self.separator3, 14, 0, 1, 6)
 
-        self.gridLayout.addItem(self.horizontalSpacer_2, 1, 4, 1, 2)
+        # Widget - TBD
+        self.widget_cubeMotorResolutor = MyWidget(self.centralwidget, self, "motorMovement")
+        self.widget_cubeMotorResolutor.setObjectName(u"widget_cubeMotorResolutor")
+        self.widget_cubeMotorResolutor.setMinimumSize(QSize(50, 50))
+        self.widget_cubeMotorResolutor.setStyleSheet(u"background-color: rgb(205, 0, 255);")
+        self.gridLayout.addWidget(self.widget_cubeMotorResolutor, 15, 0, 6, 4)
 
         # Widget axes
         self.widgetAxisCube = AxisCubeWidget(self.centralwidget, self)
         self.widgetAxisCube.setObjectName(u"widgetAxisCube")
-        self.widgetAxisCube.setAutoFillBackground(False)
-        self.widgetAxisCube.setStyleSheet(u"background-color: rgb(200, 200, 200);")
-        self.gridLayout.addWidget(self.widgetAxisCube, 16, 4, 1, 1)
-
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.gridLayout.addItem(self.verticalSpacer_2, 16, 5, 1, 1)
+        self.widget_cubeMotorResolutor.setMinimumSize(QSize(50, 50))
+        self.widgetAxisCube.setStyleSheet(u"background-color: rgb(205, 0, 255);")
+        self.gridLayout.addWidget(self.widgetAxisCube, 15, 4, 2, 2)
 
         self.pushButtonStartMotorMovement = QPushButton(self.centralwidget)
         self.pushButtonStartMotorMovement.setObjectName(u"pushButtonStartMotorMovement")
-        self.gridLayout.addWidget(self.pushButtonStartMotorMovement, 17, 5, 1, 1)
+        self.gridLayout.addWidget(self.pushButtonStartMotorMovement, 17, 4, 1, 1)
 
         # label Current Step
         self.labelCurrentStep = QLabel(self.centralwidget)
@@ -216,7 +221,7 @@ class Ui_CubeApp(object):
         self.lineEditInsertBottom.setText("bbbbbbbbb")
         self.CreateNewButton.setText("Insert New Cube")
         self.labelLoadConfiguration.setText("Load from file : ")
-        self.lineEditLoadConfiguration.setText("solver")
+        self.lineEditLoadConfiguration.setText("combo39moves")
         self.LoadConfigurationButton.setText("Load")
         self.label_SaveConfiguration.setText("Save from file : ")
         self.lineEditSaveConfiguration.setText("solver")

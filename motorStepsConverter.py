@@ -22,8 +22,9 @@ def movesConverter(moves):
 
         optimizedMovementList = motorMovesOptimizer(movementList)
         # ###################### Ritorna lista ottimizzata #######################
-        # print("norm : ", len(movementList))
-        # print("opt : ", len(optimizedMovementList))
+        print("norm : ", len(movementList))
+        print("opt : ", len(optimizedMovementList))
+        print(optimizedMovementList)
         return optimizedMovementList
 
 
@@ -133,6 +134,6 @@ def motorMovesOptimizer(moveList):
         for c in chunk:
             totalAngle += c[1]
         optimizedAngle = totalAngle % 360
-        optimizedList.append((axle, optimizedAngle))
+        optimizedList. append((axle, optimizedAngle))
 
     return optimizedList

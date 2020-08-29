@@ -315,3 +315,27 @@ class Cube:
 
         else:
             print("move not found")
+
+    def executeMotorStep(self, move):
+        if move[0] == "x":
+            self.faceList['left'].rotateFaceClockWise()
+            self.faceList['right'].rotateFaceClockWise()
+
+            savedTriplet = self.faceList['front']
+            # 1. move triplet2 	into 	triplet1
+            self.faceList['front'] = self.faceList['top']
+            # 1. move triplet3 	into 	triplet2
+            self.faceList['top'] = self.faceList['rear']
+            self.faceList['top'].rotateFaceClockWise()
+            self.faceList['top'].rotateFaceClockWise()
+            # 1. move triplet4 	into 	triplet3
+            self.faceList['rear'] = self.faceList['bottom']
+            self.faceList['rear'].rotateFaceClockWise()
+            self.faceList['rear'].rotateFaceClockWise()
+            # 1. move saved 		into 	triplet4
+            self.faceList['bottom'] = savedTriplet
+
+        elif move[0] == "y":
+            pass
+        else:
+            print("move not found : executeMotorStep()")

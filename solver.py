@@ -16,11 +16,14 @@ class CubeSolver:
         self.cube = Cube()
         self.solverPath = "C:\\Users\\Stefano\\Progetti\\rubik\\solver\\cubex.exe"
         # self.solverPath = "/home/pi/Desktop/ftp/rubik/solver/cubex"
-        self.cubeSimulatorMovesList = []
-        self.cubeMotorMovementsList = []
         self.cubeSimulator = []
+        self.cubeSimulatorMovesList = []
+        self.cubeMotorSimulator = []
+        self.cubeMotorMovementsList = []
+
         cubeTmp = copy.deepcopy(self.cube)
         self.cubeSimulator.append(cubeTmp)
+        self.cubeMotorSimulator.append(cubeTmp)
 
     def getUserInput(self):
         self.cube.getCubeFromUser()
@@ -35,6 +38,8 @@ class CubeSolver:
         self.cube = pickle.load(open(fileName + ".p", 'rb'))
         self.cubeSimulator.clear()
         self.cubeSimulator.append(self.cube)
+        self.cubeMotorSimulator.clear()
+        self.cubeMotorSimulator.append(self.cube)
 
     def printCube(self, step):
         self.cubeSimulator[step].printCube()
@@ -90,13 +95,16 @@ class CubeSolver:
         for m in moves2Char:
             mv = side_dict[m[0]] + "_" + direction_dict[m[1]]
             self.cubeSimulatorMovesList.append(mv)
-            cubeTmp = copy.deepcopy(self.cubeSimulator[-1])
-            # cubeTmp = self.cubeSimulator[-1] #select the last cube in the array
+            cubeTmp = copy.deepcopy(self.cubeSimulator[-1])  #select the last cube in the array
             cubeTmp.executeMove(mv)
             self.cubeSimulator.append(cubeTmp)
 
         self.cubeMotorMovementsList = movesConverter(self.cubeSimulatorMovesList)
-        return self.cubeSimulatorMovesList
+        self.cubeMotorMovementsList = [('x', 90), ('x', 180), ('x', 270), ('x', 90), ('x', 180), ('x', 270) ]
+        for mm in self.cubeMotorMovementsList:
+            cubeTmp = copy.deepcopy(self.cubeMotorSimulator[-1])  #select the last cube in the array
+            cubeTmp.executeMotorStep(mm)
+            self.cubeMotorSimulator.append(cubeTmp)
 
     def getCubeSimulatorMoves(self):
         return self.cubeSimulatorMovesList
@@ -109,5 +117,14 @@ class CubeSolver:
             return None
         return self.cubeSimulator[pos]
 
+    def getCubeAtMotorMovement(self, pos):
+        if pos == -1:
+            return None
+        return self.cubeMotorSimulator[pos]
+
     def getNumSimulatorSteps(self):
         return len(self.cubeSimulator)
+
+    def getNumMotorMovements(self):
+        return len(self.cubeMotorSimulator)
+
