@@ -6,7 +6,6 @@ from PySide2.QtWidgets import QWidget
 from cubeWidget import MyWidget
 from axisCubeWidget import AxisCubeWidget
 
-
 # from PySide2 import QtWidgets
 
 class Ui_CubeApp(object):
@@ -119,7 +118,7 @@ class Ui_CubeApp(object):
         # Widget - canvas for cube preview
         self.widget_cubePreview = MyWidget(self.centralwidget, self, "cubePreview")
         self.widget_cubePreview.setObjectName(u"widget_cubePreview")
-        self.widget_cubePreview.setMinimumSize(QSize(0, 50))
+        self.widget_cubePreview.setMinimumSize(QSize(230, 230))
         self.gridLayout.addWidget(self.widget_cubePreview, 11, 0, 3, 4)
 
         # push button - Solve the Cube
@@ -155,48 +154,91 @@ class Ui_CubeApp(object):
         # Line Separator
         self.separator3 = QFrame(self.centralwidget)
         self.separator3.setObjectName(u"separator3")
-        self.separator3.setLineWidth(1)
+        self.separator3.setLineWidth(3)
         self.separator3.setFrameShape(QFrame.HLine)
-        self.separator3.setFrameShadow(QFrame.Sunken)
         self.gridLayout.addWidget(self.separator3, 14, 0, 1, 6)
+
+        self.labelPreviousStep = QLabel(self.centralwidget)
+        self.labelPreviousStep.setObjectName(u"labelPreviousStep")
+        self.labelPreviousStep.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
+        self.gridLayout.addWidget(self.labelPreviousStep, 15, 0, 1, 2)
+
+        self.labelPreviousStepValue = QLabel(self.centralwidget)
+        self.labelPreviousStepValue.setObjectName(u"labelPreviousStepValue")
+        self.gridLayout.addWidget(self.labelPreviousStepValue, 15, 2, 1, 3)
+
+        self.labelPreviousMotorMovement = QLabel(self.centralwidget)
+        self.labelPreviousMotorMovement.setObjectName(u"labelPreviousMotorMovement")
+        self.gridLayout.addWidget(self.labelPreviousMotorMovement, 16, 0, 1, 2)
+
+        self.labelPreviousMotorMovementValue = QLabel(self.centralwidget)
+        self.labelPreviousMotorMovementValue.setObjectName(u"labelPreviousMotorMovementValue")
+        self.gridLayout.addWidget(self.labelPreviousMotorMovementValue, 16, 2, 1, 3)
+
+        # Line Separator
+        self.separator4 = QFrame(self.centralwidget)
+        self.separator4.setObjectName(u"separator4")
+        self.separator4.setLineWidth(1)
+        self.separator4.setFrameShape(QFrame.HLine)
+        self.separator4.setFrameShadow(QFrame.Sunken)
+        self.gridLayout.addWidget(self.separator4, 17, 0, 1, 6)
 
         # Widget - TBD
         self.widget_cubeMotorResolutor = MyWidget(self.centralwidget, self, "motorMovement")
         self.widget_cubeMotorResolutor.setObjectName(u"widget_cubeMotorResolutor")
-        self.widget_cubeMotorResolutor.setMinimumSize(QSize(50, 50))
+        self.widget_cubeMotorResolutor.setMinimumSize(QSize(230, 230))
         self.widget_cubeMotorResolutor.setStyleSheet(u"background-color: rgb(205, 0, 255);")
-        self.gridLayout.addWidget(self.widget_cubeMotorResolutor, 15, 0, 6, 4)
+        self.gridLayout.addWidget(self.widget_cubeMotorResolutor, 18, 0, 1, 4)
 
+        # Arm Motor Position
+        self.labelArmMotorPosition = QLabel(self.centralwidget)
+        self.labelArmMotorPosition.setObjectName(u"labelArmMotorPosition")
+        self.labelArmMotorPosition.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
+        self.gridLayout.addWidget(self.labelArmMotorPosition, 18, 4, 1, 1)
+
+        # Arm Motor Position
+        self.labelArmMotorPositionName = QLabel(self.centralwidget)
+        self.labelArmMotorPositionName.setObjectName(u"labelArmMotorPositionName")
+        self.gridLayout.addWidget(self.labelArmMotorPositionName, 18, 5, 1, 1)
+
+        # Line Separator
+        self.separator5 = QFrame(self.centralwidget)
+        self.separator5.setObjectName(u"separator4")
+        self.separator5.setLineWidth(1)
+        self.separator5.setFrameShape(QFrame.HLine)
+        self.separator5.setFrameShadow(QFrame.Sunken)
+        self.gridLayout.addWidget(self.separator5, 19, 0, 1, 6)
         # Widget axes
-        self.widgetAxisCube = AxisCubeWidget(self.centralwidget, self)
-        self.widgetAxisCube.setObjectName(u"widgetAxisCube")
-        self.widget_cubeMotorResolutor.setMinimumSize(QSize(50, 50))
-        self.widgetAxisCube.setStyleSheet(u"background-color: rgb(205, 0, 255);")
-        self.gridLayout.addWidget(self.widgetAxisCube, 15, 4, 2, 2)
+        #self.widgetAxisCube = AxisCubeWidget(self.centralwidget, self)
+        #self.widgetAxisCube.setObjectName(u"widgetAxisCube")
+        #self.widget_cubeMotorResolutor.setMinimumSize(QSize(50, 50))
+        #self.widgetAxisCube.setStyleSheet(u"background-color: rgb(205, 0, 255);")
+        #self.gridLayout.addWidget(self.widgetAxisCube, 16, 4, 2, 2)
+
+        # label Current Step
+        self.labelNextStep = QLabel(self.centralwidget)
+        self.labelNextStep.setObjectName(u"labelCurrentStep")
+        self.labelNextStep.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
+        self.gridLayout.addWidget(self.labelNextStep, 20, 0, 1, 1)
+
+        self.labelNextStepName = QLabel(self.centralwidget)
+        self.labelNextStepName.setObjectName(u"labelcurrentStepName")
+        self.gridLayout.addWidget(self.labelNextStepName, 20, 1, 1, 1)
 
         self.pushButtonStartMotorMovement = QPushButton(self.centralwidget)
         self.pushButtonStartMotorMovement.setObjectName(u"pushButtonStartMotorMovement")
-        self.gridLayout.addWidget(self.pushButtonStartMotorMovement, 17, 4, 1, 1)
-
-        # label Current Step
-        self.labelCurrentStep = QLabel(self.centralwidget)
-        self.labelCurrentStep.setObjectName(u"labelCurrentStep")
-        self.labelCurrentStep.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
-        self.gridLayout.addWidget(self.labelCurrentStep, 18, 4, 1, 1)
-
-        self.labelcurrentStepName = QLabel(self.centralwidget)
-        self.labelcurrentStepName.setObjectName(u"labelcurrentStepName")
-        self.gridLayout.addWidget(self.labelcurrentStepName, 18, 5, 1, 1)
+        self.pushButtonStartMotorMovement.setDisabled(True)
+        self.gridLayout.addWidget(self.pushButtonStartMotorMovement, 20, 3, 2, 2)
 
         # Label Current Movement
-        self.labelCurrentMovement = QLabel(self.centralwidget)
-        self.labelCurrentMovement.setObjectName(u"labelCurrentMovement")
-        self.labelCurrentMovement.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
-        self.gridLayout.addWidget(self.labelCurrentMovement, 19, 4, 1, 1)
+        self.labelNextMovement = QLabel(self.centralwidget)
+        self.labelNextMovement.setObjectName(u"labelCurrentMovement")
+        self.labelNextMovement.setAlignment(Qt.AlignRight | Qt.AlignTrailing | Qt.AlignVCenter)
+        self.gridLayout.addWidget(self.labelNextMovement, 21, 0, 1, 1)
 
-        self.labelCurrentMovementName = QLabel(self.centralwidget)
-        self.labelCurrentMovementName.setObjectName(u"labelCurrentMovementName")
-        self.gridLayout.addWidget(self.labelCurrentMovementName, 19, 5, 1, 1)
+        self.labelNextMovementName = QLabel(self.centralwidget)
+        self.labelNextMovementName.setObjectName(u"labelCurrentMovementName")
+        self.gridLayout.addWidget(self.labelNextMovementName, 21, 1, 1, 2)
 
         #############################
 
@@ -229,8 +271,16 @@ class Ui_CubeApp(object):
         self.pushButtonSimulationSolve.setText("Solve Cube")
         self.pushButtonSimulationBackward.setText("<")
         self.pushButtonSimulationForward.setText(">")
-        self.pushButtonStartMotorMovement.setText("StartSimulation")
-        self.labelCurrentStep.setText("Current Step")
-        self.labelcurrentStepName.setText("step xx")
-        self.labelCurrentMovement.setText("Current movement")
-        self.labelCurrentMovementName.setText("step yy")
+        self.pushButtonStartMotorMovement.setText("Execute Movement")
+
+        self.labelArmMotorPosition.setText("Arm Motor position :")
+        self.labelArmMotorPositionName.setText("Down")
+        self.labelPreviousStep.setText("Previous Step Executed : ")
+        self.labelPreviousStepValue.setText("--")
+        self.labelPreviousMotorMovement.setText("Previous Motor Movement Executed : ")
+        self.labelPreviousMotorMovementValue.setText("--")
+
+        self.labelNextStep.setText("Next Step :")
+        self.labelNextStepName.setText("step xx")
+        self.labelNextMovement.setText("Next movement :")
+        self.labelNextMovementName.setText("step yy")

@@ -316,8 +316,8 @@ class Cube:
         else:
             print("move not found")
 
-    def executeMotorStep(self, move):
-        if move[0] == "x":
+    def executeMotorStep(self, movement):
+        if movement['motor'] == "ARM" and movement['movement'] == "rotation":
             self.faceList['left'].rotateFaceClockWise()
             self.faceList['right'].rotateFaceClockWise()
 
@@ -335,7 +335,28 @@ class Cube:
             # 1. move saved 		into 	triplet4
             self.faceList['bottom'] = savedTriplet
 
-        elif move[0] == "y":
-            pass
+        elif movement['motor'] == "BASE" and movement['movement'] == "change" and movement['direction'] == +90:
+            t1 = self.faceList['front'].getBottomTriplet()
+            t2 = self.faceList['right'].getBottomTriplet()
+            t3 = self.faceList['rear'].getBottomTriplet()
+            t4 = self.faceList['left'].getBottomTriplet()
+            [t1, t2, t3, t4] = self.rotateClockWise(t1, t2, t3, t4)
+            self.faceList['front'].setBottomTriplet(t1)
+            self.faceList['right'].setBottomTriplet(t2)
+            self.faceList['rear'].setBottomTriplet(t3)
+            self.faceList['left'].setBottomTriplet(t4)
+            self.faceList['bottom'].rotateFaceClockWise()
+        elif movement['motor'] == "BASE" and movement['movement'] == "change" and movement['direction'] == -90:
+            t1 = self.faceList['front'].getBottomTriplet()
+            t2 = self.faceList['right'].getBottomTriplet()
+            t3 = self.faceList['rear'].getBottomTriplet()
+            t4 = self.faceList['left'].getBottomTriplet()
+            [t1, t2, t3, t4] = self.rotateCounterClockWise(t1, t2, t3, t4)
+            self.faceList['front'].setBottomTriplet(t1)
+            self.faceList['right'].setBottomTriplet(t2)
+            self.faceList['rear'].setBottomTriplet(t3)
+            self.faceList['left'].setBottomTriplet(t4)
+
+            self.faceList['bottom'].rotateFaceCounterClockWise()
         else:
-            print("move not found : executeMotorStep()")
+            print("move not found : executeMotorStep() " + movement['motor'] + " " + movement['movement'])
