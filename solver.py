@@ -30,7 +30,12 @@ class CubeSolver:
         self.cube.getCubeFromUser()
 
     def setSolverFromString(self, stringArray):
-        return self.cube.setCubeFromString(stringArray)
+        res = self.cube.setCubeFromString(stringArray)
+        self.cubeSimulator.clear()
+        self.cubeSimulator.append(self.cube)
+        self.cubeMotorSimulator.clear()
+        self.cubeMotorSimulator.append({"cube": self.cube, "armPosition": "GO"})
+        return res
 
     def saveCube(self, fileName):
         pickle.dump(self.cubeSimulator[0], open(fileName + ".p", 'wb'))

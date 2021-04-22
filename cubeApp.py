@@ -143,8 +143,14 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
                                                 str(prevMotorMovement["moveNumber"]) + "/" +
                                                 str(self.cubeSolver.getNumSimulatorSteps() - 1) + ") ")
 
-            prevMotorMovementLabel = str(prevMotorMovement['motor']) + "-->" + str(prevMotorMovement['movement']) + \
-                                     "  (" + str(prevMotorMovement['movementNumWithinStep']) + "/" \
+            if prevMotorMovement['motor'] == "BASE":  # and nextMotorMovement['movement'] == "change":
+                directionPrevString = " " + "{:+}".format(prevMotorMovement['direction'])
+            else:
+                directionPrevString = ""
+
+            prevMotorMovementLabel = str(prevMotorMovement['motor']) + "-->" + str(prevMotorMovement['movement']) \
+                                     + directionPrevString + "  (" + str(
+                prevMotorMovement['movementNumWithinStep']) + "/" \
                                      + str(prevMotorMovement['totalMovementWithinStep']) + ")"
 
             prevMotorMovementLabel += "      (total counter: " + str(simulationMotorMovementShown) + "/" \
@@ -153,24 +159,17 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
             self.labelPreviousMotorMovementValue.setText(prevMotorMovementLabel)
 
         if simulationMotorMovementShown < self.cubeSolver.getNumSimulatorMotorMovements() - 1:
-
             nextMotorMovement = self.cubeSolver.getSingleMotorMovement(simulationMotorMovementShown)
-
             self.labelNextStepName.setText(nextMotorMovement["moveName"])
-
-            if nextMotorMovement['motor'] == "BASE" and nextMotorMovement['movement'] == "change":
-                directionString = " " + "{:+}".format(nextMotorMovement['direction'])
+            if nextMotorMovement['motor'] == "BASE":  # and nextMotorMovement['movement'] == "change":
+                directionNextString = " " + "{:+}".format(nextMotorMovement['direction'])
             else:
-                directionString = ""
-            motorMovementNameStr = str(nextMotorMovement['motor']) + "-->" + str(nextMotorMovement['movement']) \
-                                   + directionString + \
-                                   "  (" + str(nextMotorMovement['movementNumWithinStep']) + "/" \
-                                   + str(nextMotorMovement['totalMovementWithinStep']) + ")"
+                directionNextString = ""
+            motorMovementNameStr = str(nextMotorMovement['motor']) + "-->" + str(nextMotorMovement['movement']) + \
+                directionNextString + "  (" + str(nextMotorMovement['movementNumWithinStep']) + "/" + \
+                str(nextMotorMovement['totalMovementWithinStep']) + ")"
 
             self.labelNextMovementName.setText(motorMovementNameStr)
-
-
-
         else:
             self.labelNextStepName.setText("-")
             self.labelNextMovementName.setText("-")
@@ -182,6 +181,7 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
         if 0 <= self.simulationMotorMovementShown < self.cubeSolver.getNumSimulatorMotorMovements() - 1:
             self.simulationMotorMovementShown += 1
             self.updateMotorMovementGui(self.simulationMotorMovementShown)
+            i = self.simulationMotorMovementShown
             self.widget_cubeMotorResolutor.updateGui()
 
     def solveSimulation(self):

@@ -223,7 +223,7 @@ class Ui_CubeApp(object):
 
         self.labelNextStepName = QLabel(self.centralwidget)
         self.labelNextStepName.setObjectName(u"labelcurrentStepName")
-        self.gridLayout.addWidget(self.labelNextStepName, 20, 1, 1, 1)
+        self.gridLayout.addWidget(self.labelNextStepName, 20, 1, 1, 2)
 
         self.pushButtonStartMotorMovement = QPushButton(self.centralwidget)
         self.pushButtonStartMotorMovement.setObjectName(u"pushButtonStartMotorMovement")
@@ -255,12 +255,12 @@ class Ui_CubeApp(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle("MainWindow")
-        self.lineEditInsertTop.setText("ggggggggg")
-        self.lineEditInsertLeft.setText("yyyyyyyyy")
+        self.lineEditInsertTop.setText("bbbbbbbbb")
+        self.lineEditInsertLeft.setText("wwwwwwwww")
         self.lineEditInsertFront.setText("rrrrrrrrr")
-        self.lineEditInsertRight.setText("wwwwwwwww")
+        self.lineEditInsertRight.setText("yyyyyyyyy")
         self.lineEditInsertBack.setText("ooooooooo")
-        self.lineEditInsertBottom.setText("bbbbbbbbb")
+        self.lineEditInsertBottom.setText("ggggggggg")
         self.CreateNewButton.setText("Insert New Cube")
         self.labelLoadConfiguration.setText("Load from file : ")
         self.lineEditLoadConfiguration.setText("combo39moves")

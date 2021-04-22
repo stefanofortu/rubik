@@ -318,23 +318,28 @@ class Cube:
 
     def executeMotorStep(self, movement):
         if movement['motor'] == "ARM" and movement['movement'] == "rotation":
-            self.faceList['left'].rotateFaceClockWise()
-            self.faceList['right'].rotateFaceClockWise()
+            self.faceList['front'].rotateFaceCounterClockWise()
+            self.faceList['rear'].rotateFaceClockWise()
 
-            savedTriplet = self.faceList['front']
-            # 1. move triplet2 	into 	triplet1
-            self.faceList['front'] = self.faceList['top']
-            # 1. move triplet3 	into 	triplet2
-            self.faceList['top'] = self.faceList['rear']
-            self.faceList['top'].rotateFaceClockWise()
-            self.faceList['top'].rotateFaceClockWise()
-            # 1. move triplet4 	into 	triplet3
-            self.faceList['rear'] = self.faceList['bottom']
-            self.faceList['rear'].rotateFaceClockWise()
-            self.faceList['rear'].rotateFaceClockWise()
+            savedTriplet = self.faceList['left']
+
+            self.faceList['left'] = self.faceList['top']
+            self.faceList['left'].rotateFaceCounterClockWise()
+
+            self.faceList['top'] = self.faceList['right']
+            self.faceList['top'].rotateFaceCounterClockWise()
+
+            self.faceList['right'] = self.faceList['bottom']
+            self.faceList['right'].rotateFaceCounterClockWise()
+
             # 1. move saved 		into 	triplet4
             self.faceList['bottom'] = savedTriplet
+            self.faceList['bottom'].rotateFaceCounterClockWise()
 
+        elif movement['motor'] == "ARM" and movement['movement'] == "goUp":
+            pass
+        elif movement['motor'] == "ARM" and movement['movement'] == "goDown":
+            pass
         elif movement['motor'] == "BASE" and movement['movement'] == "change" and movement['direction'] == +90:
             t1 = self.faceList['front'].getBottomTriplet()
             t2 = self.faceList['right'].getBottomTriplet()
@@ -358,5 +363,21 @@ class Cube:
             self.faceList['left'].setBottomTriplet(t4)
 
             self.faceList['bottom'].rotateFaceCounterClockWise()
+        elif movement['motor'] == "BASE" and movement['movement'] == "rotation" and movement['direction'] == +90:
+            self.faceList['top'].rotateFaceCounterClockWise()
+            self.faceList['bottom'].rotateFaceClockWise()
+            temp = self.faceList['rear']
+            self.faceList['rear'] = self.faceList['right']
+            self.faceList['right'] = self.faceList['front']
+            self.faceList['front'] = self.faceList['left']
+            self.faceList['left'] = temp
+        elif movement['motor'] == "BASE" and movement['movement'] == "rotation" and movement['direction'] == -90:
+            self.faceList['top'].rotateFaceClockWise()
+            self.faceList['bottom'].rotateFaceCounterClockWise()
+            temp = self.faceList['left']
+            self.faceList['left'] = self.faceList['front']
+            self.faceList['front'] = self.faceList['right']
+            self.faceList['right'] = self.faceList['rear']
+            self.faceList['rear'] = temp
         else:
             print("move not found : executeMotorStep() " + movement['motor'] + " " + movement['movement'])
