@@ -1,7 +1,6 @@
 
 *.pyc
 *.o
-solver/cubex
 solver.p
 *.py.save
 
@@ -13,7 +12,6 @@ Debug/
 BackUp/
 v16/
 *.ilk
-*.exe
 *.pdb
 *.obj
 *cubex.sln

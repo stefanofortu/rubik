@@ -14,7 +14,7 @@ class CubeSolver:
         # self.args="random"
         self.cubeSerialized = "random"
         self.cube = Cube()
-        self.solverPath = "C:\\Users\\Stefano\\Progetti\\rubik\\solver\\cubex.exe"
+        self.solverPath = "C:\\Users\\Stefano\\PycharmProjects\\rubik\\solver\\cubex.exe"
         # self.solverPath = "C:\\Users\\Stefano\\Progetti\\rubik\\solver\\cubex.exe"
         # self.solverPath = "/home/pi/Desktop/ftp/rubik/solver/cubex"
         self.cubeSimulator = []

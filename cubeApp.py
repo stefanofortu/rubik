@@ -181,7 +181,7 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
         if 0 <= self.simulationMotorMovementShown < self.cubeSolver.getNumSimulatorMotorMovements() - 1:
             self.simulationMotorMovementShown += 1
             self.updateMotorMovementGui(self.simulationMotorMovementShown)
-            i = self.simulationMotorMovementShown
+            # i = self.simulationMotorMovementShown
             self.widget_cubeMotorResolutor.updateGui()
 
     def solveSimulation(self):
