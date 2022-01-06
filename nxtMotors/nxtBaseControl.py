@@ -14,11 +14,27 @@ def callbackInputDecoderPin2(channel):
 
 # questa funzione e' puramente di test:
 # setto il motore a dutyCycle fisso per 1s
-def testInputMotor(angle, PWMPin, input1, input2):
+def testInputMotor(angle, direction, PWMPin, input1, input2):
+    global turnCounter
+    turnCounter = 0
     # duty cycle iniziale
     dutyCycle_Init=20
     # frequenza del PWM
     frequency_Hz=100
+
+    if direction == 1:
+        GPIO.output(PWMPin, GPIO.LOW)
+        GPIO.output(InvPin, GPIO.LOW)
+        # duty cycle iniziale
+        dutyCycle_Init=20
+    elif direction == -1:
+        GPIO.output(PWMPin, GPIO.HIGH)
+        GPIO.output(InvPin, GPIO.HIGH)
+        # duty cycle iniziale
+        dutyCycle_Init=80
+    else:
+        print("direction not valid")
+
     # PWM setup
     p = GPIO.PWM(PWMPin, frequency_Hz)
     p.start(dutyCycle_Init)
@@ -28,17 +44,28 @@ def testInputMotor(angle, PWMPin, input1, input2):
         GPIO.add_event_detect(input1, GPIO.BOTH, callback = callbackInputDecoderPin1)
         GPIO.add_event_detect(input2, GPIO.BOTH, callback = callbackInputDecoderPin2)
         if angle == 90:
-            rotationSteps = 800
+            ## senza ruota grande
+            # rotationSteps = 800
+            rotationSteps = 475
         elif angle == 180:
-            rotationSteps = 250
+            ## senza ruota grande
+            # rotationSteps = 250
+            rotationSteps = 1020
         elif angle == 270:
-            rotationSteps = 430
+            ## senza ruota grande
+            # rotationSteps = 430
+            rotationSteps = 1560
         elif angle == 360:
-            rotationSteps = ( 600 + 10)
+            ## senza ruota grande
+            # rotationSteps = ( 600 + 10)
+            rotationSteps = 2100
+        elif angle == 5:
+            ## inteso come piccolo aggiustamento manuale
+            rotationSteps = 2
         else:
             print("Input not valid")
             rotationSteps=0
-        global turnCounter
+
         while turnCounter < rotationSteps:
             pass
             time.sleep(0)
@@ -93,13 +120,32 @@ GPIO.setup(Mot1_decoderIN2_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 ###########################################################################
 
-# funzione di test del PWM
-testInputMotor(angle=360,PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+inUnser = "L"
+while inUnser.lower() != "q":
+    inUnser = str(input("What you want to do?[r]:rotate,\n[1]:90,[2]:180,[3]:270,[4]:360,[5]:+10,[Q]:Quit : "))
+    if inUnser == "1" :
+        testInputMotor(angle=90,PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+        time.sleep(1)
+    elif inUnser.lower() == "2":
+        testInputMotor(angle=180,PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+        time.sleep(1)
+    elif inUnser.lower() == "3":
+        testInputMotor(angle=270,PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+    elif inUnser.lower() == "4":
+        testInputMotor(angle=360,PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+    elif inUnser.lower() == "5":
+        testInputMotor(angle=5,  PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+    elif inUnser.lower() == "q":
+        pass
+    else:
+        print("Choice not valid. Try again")
 
+# funzione di test del PWM
 
 # Need to stop for 1s in order to stop Motors before exit")
 time.sleep(1)
 
 GPIO.cleanup()
 
+print("Program ended")
 exit()
