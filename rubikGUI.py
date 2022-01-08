@@ -1,6 +1,6 @@
 from PySide2 import QtWidgets
-from solver import CubeSolver
-from cubeApp import CubeQtApp
+from Classes.CubeSolver import CubeSolver
+from Classes.CubeApp import CubeQtApp
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication()

@@ -1,14 +1,14 @@
-from PySide2.QtCore import (QCoreApplication, QMetaObject, QRect, QSize, Qt)
+from PySide2.QtCore import (QMetaObject, QRect, QSize, Qt)
 from PySide2.QtWidgets import QGridLayout, QLineEdit, QPushButton, QFrame, QLabel, QSizePolicy, QTextEdit, QSpacerItem, \
     QMenuBar
 from PySide2.QtGui import QPalette, QColor, QBrush
 from PySide2.QtWidgets import QWidget
-from cubeWidget import MyWidget
-from axisCubeWidget import AxisCubeWidget
+from Classes.CubeWidget import CubeWidget
+
 
 # from PySide2 import QtWidgets
 
-class Ui_CubeApp(object):
+class UI_CubeApp(object):
     def __init__(self):
         super().__init__()
 
@@ -116,7 +116,7 @@ class Ui_CubeApp(object):
         self.gridLayout.addWidget(self.separator2, 10, 0, 1, 6)
 
         # Widget - canvas for cube preview
-        self.widget_cubePreview = MyWidget(self.centralwidget, self, "cubePreview")
+        self.widget_cubePreview = CubeWidget(self.centralwidget, self, "cubePreview")
         self.widget_cubePreview.setObjectName(u"widget_cubePreview")
         self.widget_cubePreview.setMinimumSize(QSize(230, 230))
         self.gridLayout.addWidget(self.widget_cubePreview, 11, 0, 3, 4)
@@ -184,7 +184,7 @@ class Ui_CubeApp(object):
         self.gridLayout.addWidget(self.separator4, 17, 0, 1, 6)
 
         # Widget - TBD
-        self.widget_cubeMotorResolutor = MyWidget(self.centralwidget, self, "motorMovement")
+        self.widget_cubeMotorResolutor = CubeWidget(self.centralwidget, self, "motorMovement")
         self.widget_cubeMotorResolutor.setObjectName(u"widget_cubeMotorResolutor")
         self.widget_cubeMotorResolutor.setMinimumSize(QSize(230, 230))
         self.widget_cubeMotorResolutor.setStyleSheet(u"background-color: rgb(205, 0, 255);")
@@ -255,15 +255,15 @@ class Ui_CubeApp(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle("MainWindow")
-        self.lineEditInsertTop.setText("bbbbbbbbb")
-        self.lineEditInsertLeft.setText("wwwwwwwww")
-        self.lineEditInsertFront.setText("rrrrrrrrr")
-        self.lineEditInsertRight.setText("yyyyyyyyy")
-        self.lineEditInsertBack.setText("ooooooooo")
-        self.lineEditInsertBottom.setText("ggggggggg")
+        self.lineEditInsertTop.setText("gobbbrgyr")
+        self.lineEditInsertLeft.setText("oyrwwwyrg")
+        self.lineEditInsertFront.setText("wobgrryoy")
+        self.lineEditInsertRight.setText("wwryygbob")
+        self.lineEditInsertBack.setText("ybwyobwrr")
+        self.lineEditInsertBottom.setText("owobggggo")
         self.CreateNewButton.setText("Insert New Cube")
         self.labelLoadConfiguration.setText("Load from file : ")
-        self.lineEditLoadConfiguration.setText("combo39moves")
+        self.lineEditLoadConfiguration.setText("comboNewMoves")
         self.LoadConfigurationButton.setText("Load")
         self.label_SaveConfiguration.setText("Save from file : ")
         self.lineEditSaveConfiguration.setText("solver")

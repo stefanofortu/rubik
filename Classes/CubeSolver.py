@@ -1,9 +1,9 @@
-from cube import Cube
+from Classes.Cube import Cube
 import sys
 import subprocess
 import pickle
 import copy
-from motorStepsConverter import movesConverter, getNextArmPosition
+from Classes.motorStepsConverter import movesConverter, getNextArmPosition
 
 side_dict = {'U': "Top", 'D': "Bottom", 'L': "Left", 'R': "Right", 'F': "Front", 'B': "Rear"}
 direction_dict = {'L': "Left", 'R': "Right", 'U': "Up", 'D': "Down", 'C': "Clockwise", 'A': "Counterclockwise"}
@@ -13,7 +13,7 @@ class CubeSolver:
     def __init__(self):
         # self.args="random"
         self.cubeSerialized = "random"
-        self.cube = Cube()
+        # self.cube = Cube()
         self.solverPath = "C:\\Users\\Stefano\\PycharmProjects\\rubik\\solver\\cubex.exe"
         # self.solverPath = "C:\\Users\\Stefano\\Progetti\\rubik\\solver\\cubex.exe"
         # self.solverPath = "/home/pi/Desktop/ftp/rubik/solver/cubex"
@@ -21,31 +21,38 @@ class CubeSolver:
         self.cubeSimulatorMovesList = []
         self.cubeMotorSimulator = []
         self.cubeMotorMovementsList = []
+        # self.motorHandler("192.168.1.1", 80)
 
-        cubeTmp = copy.deepcopy(self.cube)
-        self.cubeSimulator.append(cubeTmp)
-        self.cubeMotorSimulator.append({"cube": cubeTmp, "armPosition": "GO"})
+        cube = Cube()
+        self.cubeSimulator.append(cube)
+        self.cubeMotorSimulator.append({"cube": cube, "armPosition": "GO"})
 
     def getUserInput(self):
-        self.cube.getCubeFromUser()
-
-    def setSolverFromString(self, stringArray):
-        res = self.cube.setCubeFromString(stringArray)
+        cube = Cube()
+        cube.getCubeFromUser()
         self.cubeSimulator.clear()
-        self.cubeSimulator.append(self.cube)
+        self.cubeSimulator.append(cube)
         self.cubeMotorSimulator.clear()
         self.cubeMotorSimulator.append({"cube": self.cube, "armPosition": "GO"})
+
+    def setSolverFromString(self, stringArray):
+        cube = Cube()
+        res = cube.setCubeFromString(stringArray)
+        self.cubeSimulator.clear()
+        self.cubeSimulator.append(cube)
+        self.cubeMotorSimulator.clear()
+        self.cubeMotorSimulator.append({"cube": cube, "armPosition": "GO"})
         return res
 
     def saveCube(self, fileName):
         pickle.dump(self.cubeSimulator[0], open(fileName + ".p", 'wb'))
 
     def loadCube(self, fileName):
-        self.cube = pickle.load(open(fileName + ".p", 'rb'))
+        cube = pickle.load(open(fileName + ".p", 'rb'))
         self.cubeSimulator.clear()
-        self.cubeSimulator.append(self.cube)
+        self.cubeSimulator.append(cube)
         self.cubeMotorSimulator.clear()
-        self.cubeMotorSimulator.append({"cube":self.cube, "armPosition":"GO"})
+        self.cubeMotorSimulator.append({"cube": cube, "armPosition": "GO"})
 
     def printCube(self, step):
         self.cubeSimulator[step].printCube()
@@ -70,7 +77,7 @@ class CubeSolver:
                 return False
 
     def solve(self):
-        self.cubeSerialized = self.cube.serialize()
+        self.cubeSerialized = self.cubeSimulator[0].serialize()
 
         if self.isAlreadySolved():
             print("*" * 80)
@@ -82,7 +89,7 @@ class CubeSolver:
             print(self.solverPath + " " + self.cubeSerialized)
             p = subprocess.Popen([self.solverPath, self.cubeSerialized], stdout=subprocess.PIPE)
             (output, err) = p.communicate()
-            #output = ""
+            # output = ""
         except:
             print("Unexpected Error", sys.exc_info()[0])
             return
@@ -99,25 +106,26 @@ class CubeSolver:
             sys.exit()
         # fill simulator
         self.cubeSimulatorMovesList = []
-        #moves2Char = ['UL', 'DR', 'LU']
-        print (moves2Char)
+        # moves2Char = ['UL', 'DR', 'LU']
+        print(moves2Char)
         for m in moves2Char:
             mv = side_dict[m[0]] + "_" + direction_dict[m[1]]
             self.cubeSimulatorMovesList.append(mv)
-            cubeTmp = copy.deepcopy(self.cubeSimulator[-1])  #select the last cube in the array
+            cubeTmp = copy.deepcopy(self.cubeSimulator[-1])  # select the last cube in the array
             cubeTmp.executeMove(mv)
             self.cubeSimulator.append(cubeTmp)
 
         self.cubeMotorMovementsList = movesConverter(self.cubeSimulatorMovesList)
 
         for movement in self.cubeMotorMovementsList:
-            simulatorStatus = self.cubeMotorSimulator[-1] #select the last cube in the array
+            simulatorStatus = self.cubeMotorSimulator[-1]  # select the last cube in the array
             cubeTmp = copy.deepcopy(simulatorStatus["cube"])
             cubeTmp.executeMotorStep(movement)
             currentArmPosition = simulatorStatus["armPosition"]
             newArmPosition = getNextArmPosition(currentArmPosition, movement)
             self.cubeMotorSimulator.append({"cube": cubeTmp, "armPosition": newArmPosition})
         pass
+
     def getCubeSimulatorMoves(self):
         return self.cubeSimulatorMovesList
 

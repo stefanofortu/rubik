@@ -10,7 +10,7 @@ CubeColorMap = {'b': QColor(0, 0, 255),
                 '-': QColor(180, 180, 180)}
 
 
-class MyWidget(QWidget):
+class CubeWidget(QWidget):
     def __init__(self, parent, qtApp, typeOfWidget):
         super().__init__(parent)
         self.qtApp = qtApp

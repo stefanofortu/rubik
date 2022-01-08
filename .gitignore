@@ -1,7 +1,7 @@
 
 *.pyc
 *.o
-solver.p
+savings/old/*.p
 *.py.save
 
 venv/*

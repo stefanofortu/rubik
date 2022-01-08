@@ -1,7 +1,3 @@
-from cube import Cube
-from face import Face
-
-
 # Introducing a reference system for the whole system.
 # The system reference system has origin on
 # The origin system is placed on the left front corner of the entire system
@@ -31,13 +27,14 @@ def movesConverter(moves):
 
 
 #   armMotor : parte sempre in posizione di GO
-#   motorMovement.append(moveNumber, moveName, "arm", "rotation",    +90))
-#   motorMovement.append((moveNumber, moveName, "arm", "goUp",      +90))
-#   motorMovement.append((moveNumber, moveName, "arm", "goDown",    +90))
-#   motorMovement.append((moveNumber, moveName, "base", "rotation",   +90))
-#   motorMovement.append((moveNumber, moveName, "base", "rotation",   -90))
-#   motorMovement.append((moveNumber, moveName, "base", "change",   +90))
-#   motorMovement.append((moveNumber, moveName, "base", "change",   -90))
+#   LA LISTA DI POSSIBILI MOVIMENTI E' LA SEGUENTE
+#   motorMovement.append(moveNumber, moveName, "ARM", "rotation",    +90))
+#   motorMovement.append((moveNumber, moveName, "ARM", "goUp",      +90))
+#   motorMovement.append((moveNumber, moveName, "ARM", "goDown",    +90))
+#   motorMovement.append((moveNumber, moveName, "BASE", "rotation",   +90))
+#   motorMovement.append((moveNumber, moveName, "BASE", "rotation",   -90))
+#   motorMovement.append((moveNumber, moveName, "BASE", "change",   +90))
+#   motorMovement.append((moveNumber, moveName, "BASE", "change",   -90))
 
 def singleMoveConverter(moveName, moveNumber=0):
     motorMovement = []

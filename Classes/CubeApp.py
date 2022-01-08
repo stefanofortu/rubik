@@ -1,6 +1,4 @@
-from solver import CubeSolver
-
-from uiCubeApp import Ui_CubeApp
+from Classes.UI_CubeApp import UI_CubeApp
 
 from PySide2 import QtWidgets
 
@@ -25,7 +23,7 @@ def createHtmlForTextEditMovesList(moves, currentMove):
     return htmlString
 
 
-class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
+class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
     def __init__(self, solver):
         super().__init__()
         self.setupUi(self)
@@ -218,7 +216,7 @@ class CubeQtApp(Ui_CubeApp, QtWidgets.QMainWindow):
             print("Error in input string")
         else:
             print("Input inserted correctly")
-        self.cubeSolver.cube.printCube()
+        self.cubeSolver.cubeSimulator[0].printCube()
         self.pushButtonSimulationSolve.setDisabled(False)
 
     def loadSolver(self):

@@ -1,28 +1,29 @@
-from face import Face
-from face import dict_allowed_input
-from termcolor import colored, cprint
+from Classes.Face import Face
+from Classes.Face import dict_allowed_input
+from termcolor import colored
 
-indexFaces = { 'top'   : 0,
-                'left'  : 1,
-                'front' : 2,
-                'right' : 3,
-                'rear'  : 4,
-                'bottom'  : 5}
+indexFaces = {'top': 0,
+              'left': 1,
+              'front': 2,
+              'right': 3,
+              'rear': 4,
+              'bottom': 5}
 
-colorFace ={		'b': ['blue'],
-                'w': ['white'],
-                'r': ['red'],
-                'y': ['yellow'],
-                'o': ['yellow', "on_red"],
-                'g': ['green'] }
+colorFace = {'b': ['blue'],
+             'w': ['white'],
+             'r': ['red'],
+             'y': ['yellow'],
+             'o': ['yellow', "on_red"],
+             'g': ['green']}
+
+
 class Cube:
     def __init__(self):
         self.faceList = {}
-        self.faceListPrint = [0] *12;
+        self.faceListPrint = [0] * 12;
         string = "bwryog"
         for name in indexFaces:  # range(0,6):
             self.faceList[name] = Face(string[indexFaces[name]]);
-
 
     ######### PRINTING ##########################
     def prepareForPrint(self):
@@ -109,7 +110,6 @@ class Cube:
                 if indexFaces[nameFace] == i:
                     cubeStr += self.faceList[nameFace].stringify()
         return cubeStr
-
 
     def rotateClockWise(self, triplet1, triplet2, triplet3, triplet4):
         savedTriplet = [' ', ' ', ' ']
