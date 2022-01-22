@@ -8,36 +8,38 @@ def execute_user_input(userInput):
     motorMovement = None
     if userInput.lower() == "i":  # per initialization only
         print("INIT To Be Implemented")
-        exit()
         # nxtMotorRotation(1, direction=-1, rotationSteps=50,
         #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
         #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
     elif userInput.lower() == "s":  # da ROTATE A START : "Start" : "S"
         print("GO --> START To Be Implemented")
-        exit()
         # nxtMotorRotation(1, direction=-1, rotationSteps=310,
         #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
         #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
     elif userInput.lower() == "g":  # da START A ROTATE : "Go" : "G"
         print("START --> GO To Be Implemented")
-        exit()
         # nxtMotorRotation(1, direction=+1, rotationSteps=300,
         #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
         #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
     elif userInput.lower() == "u":  # from ROTATE to UP : "Up" : "U"
         motorMovement = MotorMovement(name="ARM_goUp", direction=0)
-
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "ARM", 'movement': "ARM_goUp",
+                         'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
         # nxtMotorRotation(1, direction=-1, rotationSteps=200,
         #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
         #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
     elif userInput.lower() == "d":  # da UP a ROTATE : "Down" : "D"
         motorMovement = MotorMovement(name="ARM_goDown", direction=0)
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "ARM", 'movement': "ARM_goDown",
+                         'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
 
         # nxtMotorRotation(1, direction=+1, rotationSteps=200,
         #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
         #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
     elif userInput.lower() == "f":  # da ROTATE A ROTATE : "Rotation" : "R"
         motorMovement = MotorMovement(name="ARM_flipCube", direction=0)
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "ARM", 'movement': "ARM_flipCube",
+                         'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
         # nxtMotorRotation(1, direction=+1, rotationSteps=150,
         #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
         #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
@@ -51,8 +53,9 @@ def execute_user_input(userInput):
         #                input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
     elif userInput.lower() == "1":  # +90 degree
         motorMovement = MotorMovement(name="BASE_change", direction=+90)
-
-        #motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "change",
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "BASE_change",
+                         'direction': +90, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
+        # motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "change",
         #                 'direction': +90, 'movementNumWithinStep': 0, 'totalMovementWithinStep': 0}
         # nxtMotorRotation(1, direction=+1, rotationSteps=537,
         #                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
@@ -63,8 +66,9 @@ def execute_user_input(userInput):
         #                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
     elif userInput.lower() == "2":  # +180 degree
         motorMovement = MotorMovement(name="BASE_change", direction=-90)
-
-        #motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "BASE_change",
+                         'direction': -90, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
+        # motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
         #                 'movement': "change", 'direction': -90, 'movementNumWithinStep': 0,
         #                 'totalMovementWithinStep': 0}
 
@@ -82,8 +86,9 @@ def execute_user_input(userInput):
     #                     input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
     elif userInput.lower() == "3":
         motorMovement = MotorMovement(name="BASE_change", direction=+10)
-
-        #motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "BASE_change",
+                         'direction': 10, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
+        # motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
         #                 'movement': "change", 'direction': +10, 'movementNumWithinStep': 0,
         #                 'totalMovementWithinStep': 0}
     #    nxtMotorRotation(1, direction=+1, rotationSteps=5,
@@ -91,8 +96,9 @@ def execute_user_input(userInput):
     #                     input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
     elif userInput.lower() == "4":
         motorMovement = MotorMovement(name="BASE_change", direction=-10)
-
-        #motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "BASE_change",
+                         'direction': -10, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
+        # motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
         #                 'movement': "change", 'direction': -10, 'movementNumWithinStep': 0,
         #                 'totalMovementWithinStep': 0}
     #   nxtMotorRotation(1, direction=-1, rotationSteps=5,
@@ -100,8 +106,9 @@ def execute_user_input(userInput):
     #                   input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
     elif userInput.lower() == "7":  # +90 degree
         motorMovement = MotorMovement(name="BASE_rotation", direction=+90)
-
-        #motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "change",
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "BASE_rotation",
+                         'direction': +90, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
+        # motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "change",
         #                 'direction': +90, 'movementNumWithinStep': 0, 'totalMovementWithinStep': 0}
         # nxtMotorRotation(1, direction=+1, rotationSteps=537,
         #                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
@@ -112,8 +119,9 @@ def execute_user_input(userInput):
         #                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
     elif userInput.lower() == "8":  # +180 degree
         motorMovement = MotorMovement(name="BASE_rotation", direction=-90)
-
-        #motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "BASE_rotation",
+                         'direction': -90, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
+        # motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
         #                 'movement': "change", 'direction': -90, 'movementNumWithinStep': 0,
         #                 'totalMovementWithinStep': 0}
 
@@ -131,8 +139,9 @@ def execute_user_input(userInput):
     #                     input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
     elif userInput.lower() == "9":
         motorMovement = MotorMovement(name="BASE_rotation", direction=+10)
-
-        #motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "BASE_rotation",
+                         'direction': +10, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
+        # motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
         #                 'movement': "change", 'direction': +10, 'movementNumWithinStep': 0,
         #                 'totalMovementWithinStep': 0}
     #    nxtMotorRotation(1, direction=+1, rotationSteps=5,
@@ -140,8 +149,9 @@ def execute_user_input(userInput):
     #                     input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
     elif userInput.lower() == "0":
         motorMovement = MotorMovement(name="BASE_rotation", direction=-10)
-
-        #motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE", 'movement': "BASE_rotation",
+                         'direction': -10, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
+        # motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "BASE",
         #                 'movement': "change", 'direction': -10, 'movementNumWithinStep': 0,
         #                 'totalMovementWithinStep': 0}
     #   nxtMotorRotation(1, direction=-1, rotationSteps=5,
@@ -152,8 +162,9 @@ def execute_user_input(userInput):
 
     return motorMovement
 
+
 def main():
-    motor_handler = MotorHandlerServer()
+    motor_handler = MotorHandlerServer(simulated=True)
     # GPIOinitialization(Mot1_Enable_Pin=Mot1_Enable_Pin, Mot1_PWM_Pin=Mot1_PWM_Pin, Mot1_Inv_Pin=Mot1_Inv_Pin,
     #                   Mot2_Enable_Pin=Mot2_Enable_Pin, Mot2_PWM_Pin=Mot2_PWM_Pin, Mot2_Inv_Pin=Mot2_Inv_Pin,
     #                   Mot1_decoderIN1_Pin=Mot1_decoderIN1_Pin, Mot1_decoderIN2_Pin=Mot1_decoderIN2_Pin,
@@ -168,7 +179,6 @@ def main():
         if user_input.lower() != "q":
             motor_movement = execute_user_input(user_input)
             if motor_movement:
-                print(str(motor_movement))
                 motor_handler.executeMovement(motor_movement)
         else:
             break

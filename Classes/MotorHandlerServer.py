@@ -1,5 +1,6 @@
-from nxtMotors.nxtMotorFunctions import GPIOcleanup, GPIOinitialization,nxtMotorRotation
+# from nxtMotors.nxtMotorFunctions import GPIOcleanup, GPIOinitialization, nxtMotorRotation
 import time
+import sys
 # References
 # [1] : NXT: http://trivox.tripod.com/lego-nxt-motor-input-output.html
 # [2] : L298N : https://tronixlabs.com.au/news/tutorial-l298n-dual-motor-controller-module-2a-and-arduino/
@@ -27,6 +28,8 @@ Mot2_decoderIN1_Pin = 16
 # decoder input 2
 Mot1_decoderIN2_Pin = 37
 Mot2_decoderIN2_Pin = 18
+
+
 ################################################################
 # NXT - MOTOR
 ################################################################
@@ -41,78 +44,111 @@ Mot2_decoderIN2_Pin = 18
 # 6           blue    rotation detector output 2 --> collegato al pin 37 encoder
 
 
-
 class MotorHandlerServer():
-    def __init__(self):
+    def __init__(self, simulated=False):
         super().__init__()
         self.host = '10.42.46.45'  # Standard loopback interface address (localhost)
         self.port = 65432  # Port to listen on (non-privileged ports are > 1023)
-        self.ArmPosition = "GO" # arm position : necessary to compensate rotation during base rotation
+        self.ArmPosition = "GO"  # arm position : necessary to compensate rotation during base rotation
         # Physically speaking it has no sense - encoders are related to position....Whatever...
         self.startServer()
-        GPIOinitialization()
+        # GPIOinitialization()
+        self.simulated = simulated
 
     def __del__(self):
-        GPIOcleanup()
+        if not self.simulated:
+            GPIOcleanup()
 
     def startServer(self):
         print("Server Up and Running")
 
     def executeMovement(self, movement):
-        print("executeMovement")
-        if not self.fromRPi:
-            return
-        if movement.name == "ciao" and movement.direction == 0:
+        # print("executeMovement : ")
+        # print(movement)
+        if movement['motor'] == "ARM" and movement['movement'] == "INIT" and movement['direction'] == 0:
             print("INIT To Be Implemented")
-            exit()
             # nxtMotorRotation(1, direction=-1, rotationSteps=50,
             #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
             #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
-        elif movement.name == "ciao" and movement.direction == 0:
+        elif movement['motor'] == "ARM" and movement['movement'] == "goStart" and movement['direction'] == 0:
+        #elif movement.name == "ciao" and movement.direction == 0:
             print("GO --> START To Be Implemented")
-            exit()
             # nxtMotorRotation(1, direction=-1, rotationSteps=310,
             #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
             #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
-        elif movement.name == "ciao" and movement.direction == 0:
+        elif movement['motor'] == "ARM" and movement['movement'] == "startGo" and movement['direction'] == 0:
+        #elif movement.name == "ciao" and movement.direction == 0:
             print("START --> GO To Be Implemented")
-            exit()
+
             # nxtMotorRotation(1, direction=+1, rotationSteps=300,
             #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
             #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
-        elif movement.name == "ARM_goUp" and movement.direction == 0:
-            nxtMotorRotation(1, direction=-1, rotationSteps=200,
+        elif movement['motor'] == "ARM" and movement['movement'] == "ARM_goUp" and movement['direction'] == 0:
+            if not self.simulated:
+                nxtMotorRotation(1, direction=-1, rotationSteps=200,
                              PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
                              input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
-        elif movement.name == "ARM_goDown" and movement.direction == 0:
-            nxtMotorRotation(1, direction=+1, rotationSteps=200,
-                             PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
-                             input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
-        elif movement.name == "ARM_flipCube" and movement.direction == 0:
-            nxtMotorRotation(1, direction=+1, rotationSteps=150,
-                             PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
-                             input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
-            time.sleep(0.25)
-            nxtMotorRotation(1, direction=-1, rotationSteps=300,
-                             PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
-                             input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
-            time.sleep(0.1)
-            nxtMotorRotation(1, direction=+1, rotationSteps=125,
-                              PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
-                            input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
-        elif movement.name == "BASE_change" and movement.direction == 90:
-            nxtMotorRotation(1, direction=+1, rotationSteps=537,
-                             PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
-                             input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-            time.sleep(1)
-            nxtMotorRotation(1, direction=-1, rotationSteps=12,
-                             PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
-                             input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-        elif movement.name == "BASE_change" and movement.direction == -90:
-            nxtMotorRotation(1, direction=+1, rotationSteps=1020,
-                             PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
-                             input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-
+            else:
+                print("executing ARM_goUp : .....", end="")
+                sys.stdout.flush()
+                time.sleep(1)
+                print("DONE")
+        elif movement['motor'] == "ARM" and movement['movement'] == "ARM_goDown" and movement['direction'] == 0:
+            # elif movement.name == "ARM_goDown" and movement.direction == 0:
+            if not self.simulated:
+                nxtMotorRotation(1, direction=+1, rotationSteps=200,
+                                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
+                                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
+            else:
+                print("executing ARM_goDown : .....", end="")
+                sys.stdout.flush()
+                time.sleep(1)
+                print("DONE")
+        elif movement['motor'] == "ARM" and movement['movement'] == "ARM_flipCube" and movement['direction'] == 0:
+            # elif movement.name == "ARM_flipCube" and movement.direction == 0:
+            if not self.simulated:
+                nxtMotorRotation(1, direction=+1, rotationSteps=150,
+                                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
+                                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
+                time.sleep(0.25)
+                nxtMotorRotation(1, direction=-1, rotationSteps=300,
+                                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
+                                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
+                time.sleep(0.1)
+                nxtMotorRotation(1, direction=+1, rotationSteps=125,
+                                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
+                                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
+            else:
+                print("executing flipCube : .....", end="")
+                sys.stdout.flush()
+                time.sleep(1)
+                print("DONE")
+        elif movement['motor'] == "BASE" and movement['movement'] == "BASE_change" and movement['direction'] == +90:
+            # elif movement.name == "BASE_change" and movement.direction == 90:
+            if not self.simulated:
+                nxtMotorRotation(1, direction=+1, rotationSteps=537,
+                                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
+                                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
+                time.sleep(1)
+                nxtMotorRotation(1, direction=-1, rotationSteps=12,
+                                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
+                                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
+            else:
+                print("executing BASE_change +90 : .....", end="")
+                sys.stdout.flush()
+                time.sleep(1)
+                print("DONE")
+        elif movement['motor'] == "BASE" and movement['movement'] == "BASE_change" and movement['direction'] == -90:
+        #elif movement.name == "BASE_change" and movement.direction == -90:
+            if not self.simulated:
+                nxtMotorRotation(1, direction=+1, rotationSteps=1020,
+                                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
+                                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
+            else:
+                print("executing BASE_change -90 : .....", end="")
+                sys.stdout.flush()
+                time.sleep(1)
+                print("DONE")
         # elif movement.name == "BASE_change" and movement.direction == +270:
         #    nxtMotorRotation(1, direction=+1, rotationSteps=1560,
         #                     PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
@@ -122,41 +158,82 @@ class MotorHandlerServer():
         #    nxtMotorRotation(1, direction=+1, rotationSteps=2100,
         #                     PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
         #                     input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-        elif movement.name == "BASE_change" and movement.direction == 10:
-            nxtMotorRotation(1, direction=+1, rotationSteps=5,
-                             PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
-                             input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-
-        elif movement.name == "BASE_change" and movement.direction == -10:
-            nxtMotorRotation(1, direction=-1, rotationSteps=5,
-                             PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
-                             input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-
-        elif movement.name == "BASE_rotation" and movement.direction == 90:
-            nxtMotorRotation(1, direction=+1, rotationSteps=537,
-                             PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
-                             input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-            time.sleep(1)
-            nxtMotorRotation(1, direction=-1, rotationSteps=12,
-                             PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
-                             input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-        elif movement.name == "BASE_rotation" and movement.direction == -90:
-            nxtMotorRotation(1, direction=+1, rotationSteps=1020,
-                             PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
-                             input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-        #elif movement.name == "BASE_rotation" and movement.direction == +270:
+        elif movement['motor'] == "BASE" and movement['movement'] == "BASE_change" and movement['direction'] == 10:
+        #elif movement.name == "BASE_change" and movement.direction == 10:
+            if not self.simulated:
+                nxtMotorRotation(1, direction=+1, rotationSteps=5,
+                                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
+                                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
+            else:
+                print("executing BASE_change 10 : .....", end="")
+                sys.stdout.flush()
+                time.sleep(1)
+                print("DONE")
+        elif movement['motor'] == "BASE" and movement['movement'] == "BASE_change" and movement['direction'] == -10:
+            if not self.simulated:
+                nxtMotorRotation(1, direction=-1, rotationSteps=5,
+                                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
+                                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
+            else:
+                print("executing BASE_change -10 : .....", end="")
+                sys.stdout.flush()
+                time.sleep(1)
+                print("DONE")
+        elif movement['motor'] == "BASE" and movement['movement'] == "BASE_rotation" and movement['direction'] == 90:
+        #elif movement.name == "BASE_rotation" and movement.direction == 90:
+            if not self.simulated:
+                nxtMotorRotation(1, direction=+1, rotationSteps=537,
+                                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
+                                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
+                time.sleep(1)
+                nxtMotorRotation(1, direction=-1, rotationSteps=12,
+                                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
+                                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
+            else:
+                print("executing BASE_rotation +90 : .....", end="")
+                sys.stdout.flush()
+                time.sleep(1)
+                print("DONE")
+        elif movement['motor'] == "BASE" and movement['movement'] == "BASE_rotation" and movement['direction'] == -90:
+        # elif movement.name == "BASE_rotation" and movement.direction == -90:
+            if not self.simulated:
+                nxtMotorRotation(1, direction=+1, rotationSteps=1020,
+                                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
+                                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
+        # elif movement.name == "BASE_rotation" and movement.direction == +270:
         #    nxtMotorRotation(1, direction=+1, rotationSteps=1560,
         #                     PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
         #                     input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-        #elif movement.name == "BASE_rotation" and movement.direction == +360:
+        # elif movement.name == "BASE_rotation" and movement.direction == +360:
         #    nxtMotorRotation(1, direction=+1, rotationSteps=2100,
         #                     PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
         #                     input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-        elif movement.name == "BASE_rotation" and movement.direction == 10:
-            nxtMotorRotation(1, direction=+1, rotationSteps=5,
-                             PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
-                             input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
-        elif movement.name == "BASE_rotation" and movement.direction == -10:
-            nxtMotorRotation(1, direction=-1, rotationSteps=5,
-                             PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
-                             input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
+            else:
+                print("executing BASE_rotation -90 : .....", end="")
+                sys.stdout.flush()
+                time.sleep(1)
+                print("DONE")
+        elif movement['motor'] == "BASE" and movement['movement'] == "BASE_rotation" and movement['direction'] == 10:
+        # elif movement.name == "BASE_rotation" and movement.direction == 10:
+            if not self.simulated:
+                nxtMotorRotation(1, direction=+1, rotationSteps=5,
+                                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
+                                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
+            else:
+                print("executing BASE_rotation 10 : .....", end="")
+                sys.stdout.flush()
+                time.sleep(1)
+                print("DONE")
+        elif movement['motor'] == "BASE" and movement['movement'] == "BASE_rotation" and movement['direction'] == -10:
+        # elif movement.name == "BASE_rotation" and movement.direction == -10:
+            if not self.simulated:
+                nxtMotorRotation(1, direction=-1, rotationSteps=5,
+                                 PWMPin=Mot1_PWM_Pin, InvPin=Mot1_Inv_Pin, enablePin=Mot1_Enable_Pin,
+                                 input1=Mot1_decoderIN1_Pin, input2=Mot1_decoderIN2_Pin)
+            else:
+                print("executing BASE_rotation -10 : .....", end="")
+                sys.stdout.flush()
+                time.sleep(1)
+                print("DONE")
+        else:
+            print("movement not valid")
