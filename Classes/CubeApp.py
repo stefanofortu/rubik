@@ -132,11 +132,11 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
             self.textEditMovesList.verticalScrollBar().setValue(scrollBarPosition)
         # self.textEditMovesList.repaint()
 
-    def updateMotorMovementGui(self, simulationMotorMovementShown):
+    def updateMotorMovementGui(self):
         # print(str(self.motorMovementShown) + " out of " + str(self.cubeSolver.getNumMotorMovements()-1))
-
+        simulationMotorMovementShown = self.cubeSolver.getCurrentMotorMovementPos()
         if simulationMotorMovementShown > 0:
-            prevMotorMovement = self.cubeSolver.getSingleMotorMovement(simulationMotorMovementShown - 1)
+            prevMotorMovement = self.cubeSolver.getSingleMotorMovementAtPos(simulationMotorMovementShown - 1)
             self.labelPreviousStepValue.setText(prevMotorMovement["moveName"] + "  (" +
                                                 str(prevMotorMovement["moveNumber"]) + "/" +
                                                 str(self.cubeSolver.getNumSimulatorSteps() - 1) + ") ")
@@ -157,7 +157,8 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
             self.labelPreviousMotorMovementValue.setText(prevMotorMovementLabel)
 
         if simulationMotorMovementShown < self.cubeSolver.getNumSimulatorMotorMovements() - 1:
-            nextMotorMovement = self.cubeSolver.getSingleMotorMovement(simulationMotorMovementShown)
+            #nextMotorMovement = self.cubeSolver.getSingleMotorMovement(simulationMotorMovementShown)
+            nextMotorMovement = self.cubeSolver.getCurrentSingleMotorMovement()
             self.labelNextStepName.setText(nextMotorMovement["moveName"])
             if nextMotorMovement['motor'] == "BASE":  # and nextMotorMovement['movement'] == "change":
                 directionNextString = " " + "{:+}".format(nextMotorMovement['direction'])
@@ -173,14 +174,26 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
             self.labelNextMovementName.setText("-")
 
     def motorMovementForward(self):
-        if self.simulationMotorMovementShown >= self.cubeSolver.getNumSimulatorMotorMovements() - 2:
-            self.pushButtonStartMotorMovement.setDisabled(True)
+        self.pushButtonStartMotorMovement.setDisabled(True)
+        self.pushButtonStartMotorMovement.repaint()
+
+        #self.gridLayout.update()
+        #self.widget_cubeMotorResolutor.updateGui()
 
         if 0 <= self.simulationMotorMovementShown < self.cubeSolver.getNumSimulatorMotorMovements() - 1:
             self.simulationMotorMovementShown += 1
-            self.updateMotorMovementGui(self.simulationMotorMovementShown)
+
             # i = self.simulationMotorMovementShown
-            self.widget_cubeMotorResolutor.updateGui()
+            self.cubeSolver.increaseMotorMovementPos()
+            self.cubeSolver.executeCurrentMovement()
+            #self.simulationMotorMovementShown += 1
+            self.updateMotorMovementGui()
+
+        if self.simulationMotorMovementShown >= self.cubeSolver.getNumSimulatorMotorMovements() - 1:
+            self.pushButtonStartMotorMovement.setDisabled(True)
+        else:
+            self.pushButtonStartMotorMovement.setDisabled(False)
+        self.pushButtonStartMotorMovement.repaint()
 
     def solveSimulation(self):
         self.cubeSolver.solve()
@@ -202,7 +215,7 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
         '''
         htmlString = createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
         self.textEditMovesList.setHtml(htmlString)
-        self.updateMotorMovementGui(self.simulationMotorMovementShown)
+        self.updateMotorMovementGui()
         # self.textEditMovesList.verticalScrollBar().setValue(self.textEditMovesList.verticalScrollBar().minimum())
         # print(self.textEditMovesList.toPlainText())
         # print(res)

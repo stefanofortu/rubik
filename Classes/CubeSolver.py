@@ -4,6 +4,7 @@ import subprocess
 import pickle
 import copy
 from Classes.motorStepsConverter import movesConverter, getNextArmPosition
+from Classes.MotorHandlerClient import MotorHandlerClient
 
 side_dict = {'U': "Top", 'D': "Bottom", 'L': "Left", 'R': "Right", 'F': "Front", 'B': "Rear"}
 direction_dict = {'L': "Left", 'R': "Right", 'U': "Up", 'D': "Down", 'C': "Clockwise", 'A': "Counterclockwise"}
@@ -21,6 +22,8 @@ class CubeSolver:
         self.cubeSimulatorMovesList = []
         self.cubeMotorSimulator = []
         self.cubeMotorMovementsList = []
+        self.motorHandlerClient = MotorHandlerClient()
+        self.currentMotorMovementPos = 0
         # self.motorHandler("192.168.1.1", 80)
 
         cube = Cube()
@@ -132,24 +135,38 @@ class CubeSolver:
     def getCubeSimulatorMove(self, pos):
         return self.cubeSimulatorMovesList[pos]
 
-    def getMotorMovementsList(self):
-        return self.cubeMotorMovementsList
-
-    def getSingleMotorMovement(self, pos):
-        return self.cubeMotorMovementsList[pos]
-
     def getCubeAtSimulatorStep(self, pos):
         if pos == -1:
             return None
         return self.cubeSimulator[pos]
 
+    def getNumSimulatorSteps(self):
+        return len(self.cubeSimulator)
+
+########################## MOTOR MOVEMENTS #################################
+    def getMotorMovementsList(self):
+        return self.cubeMotorMovementsList
+
+    def getNumSimulatorMotorMovements(self):
+        return len(self.cubeMotorSimulator)
+
+    def getCurrentMotorMovementPos(self):
+        return self.currentMotorMovementPos
+
+    def getCurrentSingleMotorMovement(self):
+        return self.cubeMotorMovementsList[self.currentMotorMovementPos]
+
+    def getSingleMotorMovementAtPos(self, pos):
+        return self.cubeMotorMovementsList[pos]
+
+    def increaseMotorMovementPos(self):
+        self.currentMotorMovementPos += 1
+
+    def executeCurrentMovement(self):
+        movement = self.getCurrentSingleMotorMovement()
+        self.motorHandlerClient.executeMovement(movement=movement)
+
     def getCubeAtMotorMovement(self, pos):
         if pos == -1:
             return None
         return self.cubeMotorSimulator[pos]["cube"]
-
-    def getNumSimulatorSteps(self):
-        return len(self.cubeSimulator)
-
-    def getNumSimulatorMotorMovements(self):
-        return len(self.cubeMotorSimulator)
