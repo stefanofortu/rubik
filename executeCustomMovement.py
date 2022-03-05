@@ -1,5 +1,6 @@
 # from nxtMotors.nxtMotorFunctions import GPIOinitialization, GPIOcleanup, nxtMotorRotation
 from Classes.MotorHandlerServer import MotorHandlerServer
+from Classes.MotorHandlerClient import MotorHandlerClient
 from Classes.MotorMovement import MotorMovement
 import time
 
@@ -164,25 +165,24 @@ def execute_user_input(userInput):
 
 
 def main():
-    motor_handler = MotorHandlerServer(simulated=True)
-    # GPIOinitialization(Mot1_Enable_Pin=Mot1_Enable_Pin, Mot1_PWM_Pin=Mot1_PWM_Pin, Mot1_Inv_Pin=Mot1_Inv_Pin,
-    #                   Mot2_Enable_Pin=Mot2_Enable_Pin, Mot2_PWM_Pin=Mot2_PWM_Pin, Mot2_Inv_Pin=Mot2_Inv_Pin,
-    #                   Mot1_decoderIN1_Pin=Mot1_decoderIN1_Pin, Mot1_decoderIN2_Pin=Mot1_decoderIN2_Pin,
-    #                   Mot2_decoderIN1_Pin=Mot2_decoderIN1_Pin, Mot2_decoderIN2_Pin=Mot2_decoderIN2_Pin)
+    simulateMotors = True
+    run_server_locally = False
 
-    print("Select one option:")
+    #motor_handler = MotorHandlerServer(simulateMotors=simulateMotors)
+    motor_handler = MotorHandlerClient(run_server_locally=run_server_locally,
+                                       simulateMotors=simulateMotors)
+
     print("[1]:+9O(Change) [2]:+180(Change) [3]:+10(Change) [4]:-10(Change)")
     print("[7]:+9O(Rotate) [8]:+180(Rotate) [9]:+10(Rotate) [0]:-10(Rotate)")
     print("[I]nit  [S]tart  [G]o  [U]p  [D]own  [F]lip  [Q]uit")
     while True:
-        user_input = input("")
+        user_input = input("Select one option: ")
         if user_input.lower() != "q":
             motor_movement = execute_user_input(user_input)
             if motor_movement:
                 motor_handler.executeMovement(motor_movement)
         else:
             break
-    # GPIOcleanup()
 
 
 if __name__ == "__main__":
