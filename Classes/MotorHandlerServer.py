@@ -1,6 +1,9 @@
-# from nxtMotors.nxtMotorFunctions import GPIOcleanup, GPIOinitialization, nxtMotorRotation
+from nxtMotors.nxtMotorFunctions import nxtMotorRotation
 import time
 import sys
+
+import json
+import socket
 
 # References
 # [1] : NXT: http://trivox.tripod.com/lego-nxt-motor-input-output.html
@@ -9,26 +12,26 @@ import sys
 # Se enable = 1(5V) --> motore abilitato.
 # Se outputMot1_Enable = 0 (0V) --> motore non abilitato.
 # questo va collegato al pin 7 del L298N [2]. Il pin a cui va collegato è quello più esterno. Quello interno è fisso a 5V
-Mot1_Enable_Pin = 29
-Mot2_Enable_Pin = 8
+Mot1_Enable_Pin = 8
+Mot2_Enable_Pin = 29
 # Il PIN 33 è PWM1: GPIO con la capacità di fare PWM
 # questo va collegato al pin 8 o 9 del L298N [2](dipende dal verso di rotazione che si vuole dare)
 # LN298 lo amplifica e lo porta in uscita al bianco/nero del NXT
-Mot1_PWM_Pin = 33
-Mot2_PWM_Pin = 12
+Mot1_PWM_Pin = 12
+Mot2_PWM_Pin = 33
 # Il PIN 31 e' l'altro filo che pilota il motore. Il motore DC lavora per differenza tra Mot1_PWM_Pin e Mot1_Inv_Pin;
 # se Mot1_Inv_Pin=0 allora il segnale che pilota motore è PWM
 # se Mot1_Inv_Pin=0 allora il segnale che pilota direttamente il motore è invertito
 # questo va collegato al pin 8 o 9 del L298N [2](dipende dal verso di rotazione che si vuole dare)
 # LN298 lo amplifica e lo porta in uscita al bianco/nero del NXT
-Mot1_Inv_Pin = 31
-Mot2_Inv_Pin = 10
+Mot1_Inv_Pin = 10
+Mot2_Inv_Pin = 31
 # decoder input 1
-Mot1_decoderIN1_Pin = 35
-Mot2_decoderIN1_Pin = 16
+Mot1_decoderIN1_Pin = 16
+Mot2_decoderIN1_Pin = 35
 # decoder input 2
-Mot1_decoderIN2_Pin = 37
-Mot2_decoderIN2_Pin = 18
+Mot1_decoderIN2_Pin = 18
+Mot2_decoderIN2_Pin = 37
 
 ################################################################
 # NXT - MOTOR
@@ -42,9 +45,6 @@ Mot2_decoderIN2_Pin = 18
 # OUTPUT
 # 5           yellow  rotation detector output 1 --> collegato al pin 35 encoder
 # 6           blue    rotation detector output 2 --> collegato al pin 37 encoder
-
-import json
-import socket
 
 
 class MotorHandlerServer:
@@ -60,7 +60,12 @@ class MotorHandlerServer:
 
         if not self.simulateMotors:
             from nxtMotors.nxtMotorFunctions import GPIOinitialization
-            GPIOinitialization()
+            GPIOinitialization(Mot1_Enable_Pin=Mot1_Enable_Pin, 
+                Mot1_PWM_Pin=Mot1_PWM_Pin, Mot1_Inv_Pin=Mot1_Inv_Pin,
+                Mot2_Enable_Pin=Mot2_Enable_Pin, Mot2_PWM_Pin=Mot2_PWM_Pin, 
+                Mot2_Inv_Pin=Mot2_Inv_Pin,
+                Mot1_decoderIN1_Pin=Mot1_decoderIN1_Pin, Mot1_decoderIN2_Pin=Mot1_decoderIN2_Pin,
+                Mot2_decoderIN1_Pin=Mot2_decoderIN1_Pin, Mot2_decoderIN2_Pin=Mot2_decoderIN2_Pin)
 
     def __del__(self):
         if not self.simulateMotors:

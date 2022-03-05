@@ -23,14 +23,14 @@ def execute_user_input(userInput):
         #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
         #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
     elif userInput.lower() == "u":  # from ROTATE to UP : "Up" : "U"
-        motorMovement = MotorMovement(name="goUp", direction=0)
+        motorMovement = MotorMovement(name="ARM_goUp", direction=0)
         motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "ARM", 'movement': "ARM_goUp",
                          'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
         # nxtMotorRotation(1, direction=-1, rotationSteps=200,
         #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
         #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
     elif userInput.lower() == "d":  # da UP a ROTATE : "Down" : "D"
-        motorMovement = MotorMovement(name="goDown", direction=0)
+        motorMovement = MotorMovement(name="ARM_goDown", direction=0)
         motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "ARM", 'movement': "ARM_goDown",
                          'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
 
@@ -165,8 +165,8 @@ def execute_user_input(userInput):
 
 
 def main():
-    simulateMotors = True
-    run_server_locally = False
+    simulateMotors = False
+    run_server_locally = True
 
     #motor_handler = MotorHandlerServer(simulateMotors=simulateMotors)
     motor_handler = MotorHandlerClient(run_server_locally=run_server_locally,
