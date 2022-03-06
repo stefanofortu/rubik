@@ -8,17 +8,22 @@ import time
 def execute_user_input(userInput):
     motorMovement = None
     if userInput.lower() == "i":  # per initialization only
-        print("INIT To Be Implemented")
-        # nxtMotorRotation(1, direction=-1, rotationSteps=50,
-        #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
-        #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
+        #motorMovement = MotorMovement(name="ARM_toward_Start", direction=0)
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "ARM", 'movement': "ARM_toward_Start",
+                         'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
     elif userInput.lower() == "s":  # da ROTATE A START : "Start" : "S"
-        print("GO --> START To Be Implemented")
-        # nxtMotorRotation(1, direction=-1, rotationSteps=310,
-        #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
-        #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
-    elif userInput.lower() == "g":  # da START A ROTATE : "Go" : "G"
-        print("START --> GO To Be Implemented")
+        #print("GO --> START To Be Implemented")
+        #motorMovement = MotorMovement(name="ARM_Rotate_to_Start", direction=0)
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "ARM", 'movement': "ARM_Rotate_to_Start",
+                         'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
+        #nxtMotorRotation(1, direction=-1, rotationSteps=310,
+        #                PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
+        #                input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
+    elif userInput.lower() == "r":  # da START A ROTATE : "Rotate" : "r"
+        #print("START --> GO To Be Implemented")
+        #motorMovement = MotorMovement(name="ARM_Start_To_Rotate", direction=0)
+        motorMovement = {'moveName': "", 'moveNumber': 0, 'motor': "ARM", 'movement': "ARM_Start_To_Rotate",
+                         'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1}
         # nxtMotorRotation(1, direction=+1, rotationSteps=300,
         #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
         #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
@@ -174,7 +179,7 @@ def main():
 
     print("[1]:+9O(Change) [2]:+180(Change) [3]:+10(Change) [4]:-10(Change)")
     print("[7]:+9O(Rotate) [8]:+180(Rotate) [9]:+10(Rotate) [0]:-10(Rotate)")
-    print("[I]nit  [S]tart  [G]o  [U]p  [D]own  [F]lip  [Q]uit")
+    print("[I]nit  [S]tart  [R]otate_Pos  [U]p  [D]own  [F]lip  [Q]uit")
     while True:
         user_input = input("Select one option: ")
         if user_input.lower() != "q":

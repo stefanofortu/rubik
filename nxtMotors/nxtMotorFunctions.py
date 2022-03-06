@@ -98,16 +98,17 @@ def my_callback_two(channel):
 
 def nxtMotorRotation(tTest, direction, rotationSteps, PWMPin, InvPin, enablePin, input1, input2):
     # tTest : tempo di mantentimento di un valore di duty cycle --> NON USATO
+    dutyCycle = 30
     if direction == 1:
         GPIO.output(PWMPin, GPIO.LOW)
         GPIO.output(InvPin, GPIO.LOW)
         # duty cycle iniziale
-        dutyCycle_Init = 20  # 20
+        dutyCycle_Init = dutyCycle  # 20
     elif direction == -1:
         GPIO.output(PWMPin, GPIO.HIGH)
         GPIO.output(InvPin, GPIO.HIGH)
         # duty cycle iniziale
-        dutyCycle_Init = 80  # 80
+        dutyCycle_Init = 100 - dutyCycle  # 80
     else:
         print("direction not valid")
 
@@ -121,50 +122,22 @@ def nxtMotorRotation(tTest, direction, rotationSteps, PWMPin, InvPin, enablePin,
 
     try:
         print("duty cycle: " + str(dutyCycle_Init))  # + " for " + str(tTest) + " s")
+        print("rotationSteps: " + str(rotationSteps))  # + " for " + str(tTest) + " s")
         time.sleep(0)  # wait 100ms per inizializzazione encoder
-
-        global statusInput1
-        global statusInput2
+        
+        # global statusInput1
+        # global statusInput2
         GPIO.add_event_detect(input1, GPIO.BOTH, callback=my_callback_one)
         GPIO.add_event_detect(input2, GPIO.BOTH, callback=my_callback_two)
-        # if angle == 90:
-        #     rotationSteps = 800
-        # elif angle == 180:
-        #     rotationSteps = 250
-        # elif angle == 270:
-        #     rotationSteps = 430
-        # elif angle == 360:
-        #     rotationSteps = ( 600 + 10)
-        # elif angle == +1: #For tilt arm
-        #     rotationSteps = 200
-        # elif angle == -1: #For tilt arm
-        #     rotationSteps = 300
-        # elif angle == +2: #For tilt arm
-        #     rotationSteps = 62
-        # elif angle == +3: #For tilt arm
-        #     rotationSteps = 200
-        # elif angle == -3: #For tilt arm
-        #     rotationSteps = 200
-        # elif angle == +4: #For tilt arm
-        #     rotationSteps = 300
-        # elif angle == -4: #For tilt arm
-        #     rotationSteps = 310
-        # else:
-        #     print("Input not valid")
+
         p.start(dutyCycle_Init)
         time.sleep(0.1)
         GPIO.output(enablePin, GPIO.HIGH)
+        lastPrint = -1
         while turnCounter < rotationSteps:
-            pass
-            # if GPIO.input(input1) == GPIO.LOW:
-            #     statusInput1 += "0;"
-            # else:
-            #     statusInput1 += "1;"
-            # if GPIO.input(input2) == GPIO.LOW:
-            #     statusInput2 += "0;"
-            # else:
-            #     statusInput2 += "1;"
-            # cnt +=1;
+            if turnCounter % 10  == 0 and turnCounter !=lastPrint:
+                print(turnCounter)
+                lastPrint = turnCounter
             time.sleep(0)
     except KeyboardInterrupt:
         p.stop()
@@ -175,11 +148,7 @@ def nxtMotorRotation(tTest, direction, rotationSteps, PWMPin, InvPin, enablePin,
         GPIO.cleanup()
     GPIO.output(enablePin, GPIO.LOW)
     p.stop()
-    # time.sleep(0.1)
-    # p.ChangeDutyCycle(0)
-    # p.stop()
-    # time.sleep(1)
-    # print("PWMPin : " + str(PWMPin))
+    
     GPIO.output(PWMPin, GPIO.LOW)
     GPIO.output(InvPin, GPIO.LOW)
 

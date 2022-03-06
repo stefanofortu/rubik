@@ -114,24 +114,20 @@ class MotorHandlerServer:
     def executeMovement(self, movement):
         # print("executeMovement : ")
         # print(movement)
-        if movement['motor'] == "ARM" and movement['movement'] == "INIT" and movement['direction'] == 0:
-            print("INIT To Be Implemented")
-            # nxtMotorRotation(1, direction=-1, rotationSteps=50,
-            #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
-            #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
-        elif movement['motor'] == "ARM" and movement['movement'] == "goStart" and movement['direction'] == 0:
-            # elif movement.name == "ciao" and movement.direction == 0:
-            print("GO --> START To Be Implemented")
-            # nxtMotorRotation(1, direction=-1, rotationSteps=310,
-            #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
-            #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
-        elif movement['motor'] == "ARM" and movement['movement'] == "startGo" and movement['direction'] == 0:
-            # elif movement.name == "ciao" and movement.direction == 0:
-            print("START --> GO To Be Implemented")
-
-            # nxtMotorRotation(1, direction=+1, rotationSteps=300,
-            #                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
-            #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
+        if movement['motor'] == "ARM" and movement['movement'] == "ARM_toward_Start" and movement['direction'] == 0:
+            nxtMotorRotation(1, direction=-1, rotationSteps=50,
+                                PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
+                                input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
+        elif movement['motor'] == "ARM" and movement['movement'] == "ARM_Start_To_Rotate" and movement['direction'] == 0:
+            print(movement['movement'])
+            nxtMotorRotation(1, direction=+1, rotationSteps=310,
+                                PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
+                                input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
+        elif movement['motor'] == "ARM" and movement['movement'] == "ARM_Rotate_to_Start" and movement['direction'] == 0:
+            print(movement['movement'])
+            nxtMotorRotation(1, direction=-1, rotationSteps=300,
+                                PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
+                                input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
         elif movement['motor'] == "ARM" and movement['movement'] == "ARM_goUp" and movement['direction'] == 0:
             if not self.simulateMotors:
                 nxtMotorRotation(1, direction=-1, rotationSteps=200,
