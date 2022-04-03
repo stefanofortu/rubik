@@ -1,4 +1,4 @@
-from nxtMotors.nxtMotorFunctions import nxtMotorRotation
+from nxtMotors.gpioZeroMotorFunctions import nxtMotorRotation, NxtBaseMotor
 import time
 import sys
 
@@ -46,7 +46,7 @@ Mot2_decoderIN2_Pin = 37
 # 5           yellow  rotation detector output 1 --> collegato al pin 35 encoder
 # 6           blue    rotation detector output 2 --> collegato al pin 37 encoder
 
-
+import faulthandler
 class MotorHandlerServer:
     def __init__(self, simulateMotors=False, run_server_locally=False):
         super().__init__()
@@ -59,18 +59,21 @@ class MotorHandlerServer:
             self.startServer()
 
         if not self.simulateMotors:
-            from nxtMotors.nxtMotorFunctions import GPIOinitialization
-            GPIOinitialization(Mot1_Enable_Pin=Mot1_Enable_Pin, 
-                Mot1_PWM_Pin=Mot1_PWM_Pin, Mot1_Inv_Pin=Mot1_Inv_Pin,
-                Mot2_Enable_Pin=Mot2_Enable_Pin, Mot2_PWM_Pin=Mot2_PWM_Pin, 
-                Mot2_Inv_Pin=Mot2_Inv_Pin,
-                Mot1_decoderIN1_Pin=Mot1_decoderIN1_Pin, Mot1_decoderIN2_Pin=Mot1_decoderIN2_Pin,
-                Mot2_decoderIN1_Pin=Mot2_decoderIN1_Pin, Mot2_decoderIN2_Pin=Mot2_decoderIN2_Pin)
+            faulthandler.enable()
+            self.armMotor = NxtBaseMotor()
+        #if not self.simulateMotors:
+        #    from nxtMotors.gpioZeroMotorFunctions import GPIOinitialization
+        #    GPIOinitialization(Mot1_Enable_Pin=Mot1_Enable_Pin, 
+        #        Mot1_PWM_Pin=Mot1_PWM_Pin, Mot1_Inv_Pin=Mot1_Inv_Pin,
+        #        Mot2_Enable_Pin=Mot2_Enable_Pin, Mot2_PWM_Pin=Mot2_PWM_Pin, 
+        #        Mot2_Inv_Pin=Mot2_Inv_Pin,
+        #        Mot1_decoderIN1_Pin=Mot1_decoderIN1_Pin, Mot1_decoderIN2_Pin=Mot1_decoderIN2_Pin,
+        #        Mot2_decoderIN1_Pin=Mot2_decoderIN1_Pin, Mot2_decoderIN2_Pin=Mot2_decoderIN2_Pin)
 
-    def __del__(self):
-        if not self.simulateMotors:
-            from nxtMotors.nxtMotorFunctions import GPIOcleanup
-            GPIOcleanup()
+    #def __del__(self):
+        #if not self.simulateMotors:
+        #    from nxtMotors.gpioZeroMotorFunctions import GPIOcleanup
+        #    GPIOcleanup()
 
     def startServer(self):
         print("Server Up and Running")

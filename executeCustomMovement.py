@@ -176,6 +176,8 @@ def main():
     #motor_handler = MotorHandlerServer(simulateMotors=simulateMotors)
     motor_handler = MotorHandlerClient(run_server_locally=run_server_locally,
                                        simulateMotors=simulateMotors)
+                                       
+    return
 
     print("[1]:+9O(Change) [2]:+180(Change) [3]:+10(Change) [4]:-10(Change)")
     print("[7]:+9O(Rotate) [8]:+180(Rotate) [9]:+10(Rotate) [0]:-10(Rotate)")
