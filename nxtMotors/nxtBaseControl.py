@@ -124,10 +124,10 @@ inUnser = "L"
 while inUnser.lower() != "q":
     inUnser = str(input("What you want to do?[r]:rotate,\n[1]:90,[2]:180,[3]:270,[4]:360,[5]:+10,[Q]:Quit : "))
     if inUnser == "1" :
-        testInputMotor(angle=90,PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+        testInputMotor(angle=90, PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
         time.sleep(1)
     elif inUnser.lower() == "2":
-        testInputMotor(angle=180,PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
+        testInputMotor(angle=180, PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)
         time.sleep(1)
     elif inUnser.lower() == "3":
         testInputMotor(angle=270,PWMPin=Mot1_PWM_Pin, input1=Mot1_decoderIN1_Pin,input2=Mot1_decoderIN2_Pin)

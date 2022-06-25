@@ -6,11 +6,12 @@ statusInput1 = ""
 statusInput2 = ""
 turnCounter = 0
 
+
 # migliorare funzione rendendola per singolo motore e poi richiamandola due volte
-def GPIOinitialization( Mot1_Enable_Pin, Mot1_PWM_Pin, Mot1_Inv_Pin, 
-    Mot2_Enable_Pin, Mot2_PWM_Pin, Mot2_Inv_Pin, 
-    Mot1_decoderIN1_Pin, Mot1_decoderIN2_Pin,
-    Mot2_decoderIN1_Pin, Mot2_decoderIN2_Pin):
+def GPIOinitialization(Mot1_Enable_Pin, Mot1_PWM_Pin, Mot1_Inv_Pin,
+                       Mot2_Enable_Pin, Mot2_PWM_Pin, Mot2_Inv_Pin,
+                       Mot1_decoderIN1_Pin, Mot1_decoderIN2_Pin,
+                       Mot2_decoderIN1_Pin, Mot2_decoderIN2_Pin):
     # There are two ways of numbering the IO pins on a Raspberry Pi within RPi.GPIO. 
     # The first is using the BOARD numbering system.
     # This refers to the pin numbers on the P1 header of the Raspberry Pi board.
@@ -47,8 +48,12 @@ def GPIOinitialization( Mot1_Enable_Pin, Mot1_PWM_Pin, Mot1_Inv_Pin,
     GPIO.setup(Mot1_decoderIN2_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(Mot2_decoderIN2_Pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+
 def GPIOcleanup():
+    print("waiting to stop Motors before exit")
+    time.sleep(1)
     GPIO.cleanup()
+
 
 # questa funzione e' puramente di test:
 # ogni tTest cambio il duty cycle da 0 a 100 e poi di nuovo a 0
@@ -56,9 +61,9 @@ def testDutyCycle(Mot1_PWM_Pin):
     # tempo di mantentimento di un valore di duty cycle
     tTest = 0.5
     # duty cycle iniziale
-    dutyCycle_Init=0
+    dutyCycle_Init = 0
     # frequenza del PWM
-    frequency_Hz=100
+    frequency_Hz = 100
     # intervallo di tempo tra un cambio di Dc e l'altro
     # PWM setup
     p = GPIO.PWM(Mot1_PWM_Pin, frequency_Hz)
@@ -79,35 +84,36 @@ def testDutyCycle(Mot1_PWM_Pin):
 
 def my_callback_one(channel):
     # global statusInput1 
-    #statusInput1 += "|"
+    # statusInput1 += "|"
     global turnCounter
     turnCounter += 1
+
 
 def my_callback_two(channel):
     # global statusInput2 
-    #statusInput2 += "|"
+    # statusInput2 += "|"
     global turnCounter
     turnCounter += 1
 
-# questa funzione e' puramente di test:
-# setto il motore a dutyCycle fisso per 1s
+
 def nxtMotorRotation(tTest, direction, rotationSteps, PWMPin, InvPin, enablePin, input1, input2):
     # tTest : tempo di mantentimento di un valore di duty cycle --> NON USATO
+    dutyCycle = 30
     if direction == 1:
         GPIO.output(PWMPin, GPIO.LOW)
         GPIO.output(InvPin, GPIO.LOW)
         # duty cycle iniziale
-        dutyCycle_Init=20#20
+        dutyCycle_Init = dutyCycle  # 20
     elif direction == -1:
         GPIO.output(PWMPin, GPIO.HIGH)
         GPIO.output(InvPin, GPIO.HIGH)
         # duty cycle iniziale
-        dutyCycle_Init=80#80
+        dutyCycle_Init = 100 - dutyCycle  # 80
     else:
         print("direction not valid")
 
     # frequenza del PWM
-    frequency_Hz=100
+    frequency_Hz = 100
     # PWM setup
     p = GPIO.PWM(PWMPin, frequency_Hz)
     cnt = 0;
@@ -115,73 +121,41 @@ def nxtMotorRotation(tTest, direction, rotationSteps, PWMPin, InvPin, enablePin,
     turnCounter = 0
 
     try:
-        print("duty cycle: " + str(dutyCycle_Init) ) #+ " for " + str(tTest) + " s")
-        time.sleep(0) #wait 100ms per inizializzazione encoder
+        print("duty cycle: " + str(dutyCycle_Init))  # + " for " + str(tTest) + " s")
+        print("rotationSteps: " + str(rotationSteps))  # + " for " + str(tTest) + " s")
+        time.sleep(0)  # wait 100ms per inizializzazione encoder
+        
+        # global statusInput1
+        # global statusInput2
+        GPIO.add_event_detect(input1, GPIO.BOTH, callback=my_callback_one)
+        GPIO.add_event_detect(input2, GPIO.BOTH, callback=my_callback_two)
 
-        global statusInput1
-        global statusInput2
-        GPIO.add_event_detect(input1, GPIO.BOTH,  callback=my_callback_one)
-        GPIO.add_event_detect(input2, GPIO.BOTH,  callback=my_callback_two)
-        # if angle == 90:
-        #     rotationSteps = 800
-        # elif angle == 180:
-        #     rotationSteps = 250
-        # elif angle == 270:
-        #     rotationSteps = 430
-        # elif angle == 360:
-        #     rotationSteps = ( 600 + 10)
-        # elif angle == +1: #For tilt arm
-        #     rotationSteps = 200
-        # elif angle == -1: #For tilt arm
-        #     rotationSteps = 300
-        # elif angle == +2: #For tilt arm
-        #     rotationSteps = 62
-        # elif angle == +3: #For tilt arm
-        #     rotationSteps = 200
-        # elif angle == -3: #For tilt arm
-        #     rotationSteps = 200
-        # elif angle == +4: #For tilt arm
-        #     rotationSteps = 300
-        # elif angle == -4: #For tilt arm
-        #     rotationSteps = 310
-        # else:
-        #     print("Input not valid")
         p.start(dutyCycle_Init)
         time.sleep(0.1)
         GPIO.output(enablePin, GPIO.HIGH)
+        lastPrint = -1
         while turnCounter < rotationSteps:
-            pass
-            # if GPIO.input(input1) == GPIO.LOW:
-            #     statusInput1 += "0;"
-            # else:
-            #     statusInput1 += "1;"
-            # if GPIO.input(input2) == GPIO.LOW:
-            #     statusInput2 += "0;"
-            # else:
-            #     statusInput2 += "1;"
-            # cnt +=1;
+            if turnCounter % 10  == 0 and turnCounter !=lastPrint:
+                print(turnCounter)
+                lastPrint = turnCounter
             time.sleep(0)
     except KeyboardInterrupt:
         p.stop()
-        if direction == +1: 
+        if direction == +1:
             GPIO.output(PWMPin, GPIO.LOW)
         else:
             GPIO.output(PWMPin, GPIO.HIGH)
         GPIO.cleanup()
     GPIO.output(enablePin, GPIO.LOW)
     p.stop()
-    #time.sleep(0.1)
-    #p.ChangeDutyCycle(0)
-    #p.stop()
-    # time.sleep(1)
-    #print("PWMPin : " + str(PWMPin))
+    
     GPIO.output(PWMPin, GPIO.LOW)
     GPIO.output(InvPin, GPIO.LOW)
-    
-    #if angle > 0: 
+
+    # if angle > 0:
     #    GPIO.output(PWMPin, GPIO.LOW)
     #    GPIO.output(InvPin, GPIO.LOW)
-    #else:
+    # else:
     #    GPIO.output(PWMPin, GPIO.HIGH)
     #    GPIO.output(InvPin, GPIO.HIGH)
 
