@@ -16,7 +16,6 @@ try:
     # Listen for incoming connections
     sock.listen(1)
 
-
     while True:
         # Wait for a connection
         print('waiting for a connection')
