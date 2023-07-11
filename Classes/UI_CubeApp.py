@@ -228,7 +228,12 @@ class UI_CubeApp(object):
         self.pushButtonStartMotorMovement = QPushButton(self.centralwidget)
         self.pushButtonStartMotorMovement.setObjectName(u"pushButtonStartMotorMovement")
         self.pushButtonStartMotorMovement.setDisabled(True)
-        self.gridLayout.addWidget(self.pushButtonStartMotorMovement, 20, 3, 2, 2)
+        self.gridLayout.addWidget(self.pushButtonStartMotorMovement, 20, 2, 2, 2)
+
+        self.pushButtonStartAllMotorMovements = QPushButton(self.centralwidget)
+        self.pushButtonStartAllMotorMovements.setObjectName(u"pushButtonStartAllMotorMovements")
+        self.pushButtonStartAllMotorMovements.setDisabled(True)
+        self.gridLayout.addWidget(self.pushButtonStartAllMotorMovements, 20, 4, 2, 2)
 
         # Label Current Movement
         self.labelNextMovement = QLabel(self.centralwidget)
@@ -272,6 +277,7 @@ class UI_CubeApp(object):
         self.pushButtonSimulationBackward.setText("<")
         self.pushButtonSimulationForward.setText(">")
         self.pushButtonStartMotorMovement.setText("Execute Movement")
+        self.pushButtonStartAllMotorMovements.setText("Execute All Movements--")
 
         self.labelArmMotorPosition.setText("Arm Motor position :")
         self.labelArmMotorPositionName.setText("Down")

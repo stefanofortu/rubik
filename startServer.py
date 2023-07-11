@@ -1,6 +1,4 @@
-import socket
-
-from Classes.MotorHandlerServer import MotorHandlerServer
+from Classes.RubikTCPServer import MotorHandlerServer
 
 
 def main():

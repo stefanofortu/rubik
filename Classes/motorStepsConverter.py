@@ -7,6 +7,7 @@
 #    rotation: -90 : clockwise direction        (cube seen from top view)
 # Y axis - along the depth - across the horizontal direction - from left front corner to left rear corner
 # Z axis - along the vertical direction - from left front corner to Up
+<<<<<<< HEAD
 
 side_dict = {'U': "Top", 'D': "Bottom", 'L': "Left", 'R': "Right", 'F': "Front", 'B': "Rear"}
 direction_dict = {'L': "Left", 'R': "Right", 'U': "Up", 'D': "Down", 'C': "Clockwise", 'A': "Counterclockwise"}
@@ -15,6 +16,9 @@ direction_dict = {'L': "Left", 'R': "Right", 'U': "Up", 'D': "Down", 'C': "Clock
 def stringMoveConverter(m):
     mv = side_dict[m[0]] + "_" + direction_dict[m[1]]
     return mv
+=======
+from Classes.MotorMovement import MotorMovement
+>>>>>>> ClientServerIntroduction
 
 
 def movesConverter(moves):
@@ -26,6 +30,7 @@ def movesConverter(moves):
         movementList = []
         for i, m in enumerate(moves, start=1):
             movementList.extend(singleMoveConverter(m, i))
+        print(movementList)
         return movementList
         # optimizedMovementList = motorMovesOptimizer(movementList)
         # ###################### Ritorna lista ottimizzata #######################
@@ -40,110 +45,135 @@ def singleMoveConverter(moveName, moveNumber=0):
     if moveName == "Top_Left":  # TopLeft":
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 2, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM",
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 2, 'totalMovementWithinStep': 5})
         # rotate around z-axis +90° - rotation Right with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': +90, 'movementNumWithinStep': 3, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=+90),
+             'movementNumWithinStep': 3, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 4, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM",
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 4, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 5, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 5, 'totalMovementWithinStep': 5})
         return motorMovement
     elif moveName == "Top_Right":  # "TopRight"
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 2, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 2, 'totalMovementWithinStep': 5})
         # rotate around z-axis -90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': -90, 'movementNumWithinStep': 3, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=-90),
+             'movementNumWithinStep': 3, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 4, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube", direction=0),
+             'movementNumWithinStep': 4, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 5, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube", direction=0),
+             'movementNumWithinStep': 5, 'totalMovementWithinStep': 5})
         return motorMovement
     elif moveName == "Left_Up":  # "LeftUp":
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube", direction=0),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 5})
         # rotate around z-axis -90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': -90, 'movementNumWithinStep': 2, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=-90),
+             'movementNumWithinStep': 2, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 3, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube", direction=0),
+             'movementNumWithinStep': 3, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 4, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube", direction=0),
+             'movementNumWithinStep': 4, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 5, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube", direction=0),
+             'movementNumWithinStep': 5, 'totalMovementWithinStep': 5})
         return motorMovement
     elif moveName == "Left_Down":  # "LeftDown":
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube", direction=0),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 5})
         # rotate around z-axis +90° - rotation Right with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': +90, 'movementNumWithinStep': 2, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=+90),
+             'movementNumWithinStep': 2, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 3, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube", direction=0),
+             'movementNumWithinStep': 3, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 4, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube", direction=0),
+             'movementNumWithinStep': 4, 'totalMovementWithinStep': 5})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 5, 'totalMovementWithinStep': 5})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 5, 'totalMovementWithinStep': 5})
         return motorMovement
     elif moveName == "Front_Clockwise":  # "FrontClockWise":
         # rotate around z-axis -90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp", direction=0),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 2, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 2, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 3, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 3, 'totalMovementWithinStep': 13})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 4, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 4, 'totalMovementWithinStep': 13})
         # rotate around z-axis +90° - rotation Right with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': +90, 'movementNumWithinStep': 5, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=+90),
+             'movementNumWithinStep': 5, 'totalMovementWithinStep': 13})
         # #rotate around y-axis +90° - rotation with Arm motor
         # motorMovement.append({'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
         #                      'direction': +90, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 5})
@@ -152,270 +182,341 @@ def singleMoveConverter(moveName, moveNumber=0):
         #                      'direction': +90, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 5})
         # rotate around y-axis -180° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 6, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 6, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 7, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 7, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 8, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 8, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 9, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 9, 'totalMovementWithinStep': 13})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 10, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 10, 'totalMovementWithinStep': 13})
         # rotate around z-axis +90° - rotation Right with Base motor
         # motorMovement.append({'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "flipCube",
         #                      'direction': +90, 'movementNumWithinStep': 11, 'totalMovementWithinStep': 11})
         # rotate around z-axis -90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 11, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 11, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 12, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 12, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 13, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 13, 'totalMovementWithinStep': 13})
         return motorMovement
     elif moveName == "Front_Counterclockwise":
         # rotate around z-axis -90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 2, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 2, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 3, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 3, 'totalMovementWithinStep': 13})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': +90, 'movementNumWithinStep': 4, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 4, 'totalMovementWithinStep': 13})
         # rotate around z-axis -90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': -90, 'movementNumWithinStep': 5, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=-90),
+             'movementNumWithinStep': 5, 'totalMovementWithinStep': 13})
         # rotate around y-axis -180° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 6, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 6, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 7, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 7, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 8, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 8, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 9, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 9, 'totalMovementWithinStep': 13})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 10, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 10, 'totalMovementWithinStep': 13})
         # rotate around z-axis +90° - rotation Right with Base motor
         # motorMovement.append({'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "flipCube",
         #                      'direction': +90, 'movementNumWithinStep': 11, 'totalMovementWithinStep': 11})
         # rotate around z-axis -90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 11, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 11, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 12, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 12, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 13, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 13, 'totalMovementWithinStep': 13})
         return motorMovement
     elif moveName == "Right_Up":
         # rotate around z-axis -180° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 2, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 2, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 3, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 3, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 4, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 4, 'totalMovementWithinStep': 11})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 5, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 5, 'totalMovementWithinStep': 11})
         # rotate around z-axis +90° - rotation Right with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': +90, 'movementNumWithinStep': 6, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=+90),
+             'movementNumWithinStep': 6, 'totalMovementWithinStep': 11})
         # rotate around z-axis -180° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 7, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 7, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 8, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 8, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 9, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 9, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 10, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 10, 'totalMovementWithinStep': 11})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 11, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 11, 'totalMovementWithinStep': 11})
         return motorMovement
     elif moveName == "Right_Down":
         # rotate around z-axis -180° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 2, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 2, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 3, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 3, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 4, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 4, 'totalMovementWithinStep': 11})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': +90, 'movementNumWithinStep': 5, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 5, 'totalMovementWithinStep': 11})
         # rotate around z-axis -90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': -90, 'movementNumWithinStep': 6, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=-90),
+             'movementNumWithinStep': 6, 'totalMovementWithinStep': 11})
         # rotate around z-axis -180° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 7, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 7, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 8, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+'movementNumWithinStep': 8, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 9, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 9, 'totalMovementWithinStep': 11})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 10, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 10, 'totalMovementWithinStep': 11})
         # rotate around z-axis -90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': +90, 'movementNumWithinStep': 11, 'totalMovementWithinStep': 11})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 11, 'totalMovementWithinStep': 11})
         return motorMovement
     elif moveName == "Rear_Clockwise":  # "RearClockWise":
         # rotate around z-axis +90° - rotation Right with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': +90, 'movementNumWithinStep': 2, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=+90),
+             'movementNumWithinStep': 2, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 3, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 3, 'totalMovementWithinStep': 13})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 4, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 4, 'totalMovementWithinStep': 13})
         # rotate around z-axis -90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': -90, 'movementNumWithinStep': 5, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=-90),
+             'movementNumWithinStep': 5, 'totalMovementWithinStep': 13})
         # rotate around y-axis -180° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 6, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 6, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 7, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 7, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 8, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 8, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 9, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 9, 'totalMovementWithinStep': 13})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 10, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 10, 'totalMovementWithinStep': 13})
         # rotate around z-axis +90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 11, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 11, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': +90, 'movementNumWithinStep': 12, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=+90),
+             'movementNumWithinStep': 12, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 13, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 13, 'totalMovementWithinStep': 13})
         return motorMovement
     elif moveName == "Rear_Counterclockwise":  # "RearCounterClockWise":
         # rotate around z-axis +90° - rotation Right with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': +90, 'movementNumWithinStep': 2, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=+90),
+             'movementNumWithinStep': 2, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 3, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 3, 'totalMovementWithinStep': 13})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 4, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 4, 'totalMovementWithinStep': 13})
         # rotate around z-axis +90° - rotation Right with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': +90, 'movementNumWithinStep': 5, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=+90),
+             'movementNumWithinStep': 5, 'totalMovementWithinStep': 13})
         # rotate around y-axis -180° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 6, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 6, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 7, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 7, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': -90, 'movementNumWithinStep': 8, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=-90),
+             'movementNumWithinStep': 8, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 9, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 9, 'totalMovementWithinStep': 13})
         # rotate around y-axis +90° - rotation with Arm motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "flipCube",
-             'direction': 0, 'movementNumWithinStep': 10, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_flipCube"),
+             'movementNumWithinStep': 10, 'totalMovementWithinStep': 13})
         # rotate around z-axis +90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goUp",
-             'direction': 0, 'movementNumWithinStep': 11, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goUp"),
+             'movementNumWithinStep': 11, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "rotation",
-             'direction': +90, 'movementNumWithinStep': 12, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_rotation", direction=+90),
+             'movementNumWithinStep': 12, 'totalMovementWithinStep': 13})
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "ARM", 'movement': "goDown",
-             'direction': 0, 'movementNumWithinStep': 13, 'totalMovementWithinStep': 13})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="ARM_goDown"),
+             'movementNumWithinStep': 13, 'totalMovementWithinStep': 13})
         return motorMovement
     elif moveName == "Bottom_Left":  # "BottomLeft":
         # rotate around z-axis -90° - rotation Left with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': -90, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=-90),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 1})
         return motorMovement
     elif moveName == "Bottom_Right":  # "BottomRight":
         # rotate around z-axis +90° - rotation Right with Base motor
         motorMovement.append(
-            {'moveName': moveName, 'moveNumber': moveNumber, 'motor': "BASE", 'movement': "change",
-             'direction': +90, 'movementNumWithinStep': 1, 'totalMovementWithinStep': 1})
+            {'moveName': moveName, 'moveNumber': moveNumber,
+             'movement': MotorMovement(name="BASE_change", direction=+90),
+             'movementNumWithinStep': 1, 'totalMovementWithinStep': 1})
         return motorMovement
     else:
         print("move not found")
@@ -445,6 +546,8 @@ def motorMovesOptimizer(moveList):
 
 def getNextArmPosition(currentArmPosition, movement):
     nextArmPosition = ""
+    print("getNextArmPosition() da implementare")
+    return nextArmPosition
     if movement['motor'] == "ARM":
         if movement['movement'] == "goUp":
             if currentArmPosition == "DOWN":
