@@ -37,6 +37,7 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
         self.pushButtonSimulationBackward.clicked.connect(self.stepBackward)
         self.pushButtonSimulationForward.clicked.connect(self.stepForward)
         self.pushButtonStartMotorMovement.clicked.connect(self.motorMovementForward)
+        self.pushButtonStartAllMotorMovements.clicked.connect(self.startAllMotorMovements)
 
         self.moves = []  # da cancellare e sostiture con chiamata a solver
 
@@ -133,6 +134,7 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
         # self.textEditMovesList.repaint()
 
     def updateMotorMovementGui(self):
+        updateLabels = False
         # print(str(self.motorMovementShown) + " out of " + str(self.cubeSolver.getNumMotorMovements()-1))
         simulationMotorMovementShown = self.cubeSolver.getCurrentMotorMovementPos()
         if simulationMotorMovementShown > 0:
@@ -141,59 +143,68 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
                                                 str(prevMotorMovement["moveNumber"]) + "/" +
                                                 str(self.cubeSolver.getNumSimulatorSteps() - 1) + ") ")
 
-            if prevMotorMovement['motor'] == "BASE":  # and nextMotorMovement['movement'] == "change":
-                directionPrevString = " " + "{:+}".format(prevMotorMovement['direction'])
-            else:
-                directionPrevString = ""
+            # if prevMotorMovement['motor'] == "BASE":  # and nextMotorMovement['movement'] == "change":
+            #    directionPrevString = " " + "{:+}".format(prevMotorMovement['direction'])
+            # else:
+            #     directionPrevString = ""
 
-            prevMotorMovementLabel = str(prevMotorMovement['motor']) + "-->" + str(prevMotorMovement['movement']) \
-                                     + directionPrevString + "  (" + str(
-                prevMotorMovement['movementNumWithinStep']) + "/" \
-                                     + str(prevMotorMovement['totalMovementWithinStep']) + ")"
+            #prevMotorMovementLabel = str(prevMotorMovement['motor']) + "-->" + str(prevMotorMovement['movement']) \
+            #                         + directionPrevString + "  (" + str(
+            #    prevMotorMovement['movementNumWithinStep']) + "/" \
+            #                         + str(prevMotorMovement['totalMovementWithinStep']) + ")"
+            #
+            #prevMotorMovementLabel += "      (total counter: " + str(simulationMotorMovementShown) + "/" \
+            #                          + str(self.cubeSolver.getNumSimulatorMotorMovements() - 1) + ")"
 
-            prevMotorMovementLabel += "      (total counter: " + str(simulationMotorMovementShown) + "/" \
-                                      + str(self.cubeSolver.getNumSimulatorMotorMovements() - 1) + ")"
+            prevMotorMovementLabel = str(prevMotorMovement['movement'].__dict__)
 
             self.labelPreviousMotorMovementValue.setText(prevMotorMovementLabel)
 
         if simulationMotorMovementShown < self.cubeSolver.getNumSimulatorMotorMovements() - 1:
             #nextMotorMovement = self.cubeSolver.getSingleMotorMovement(simulationMotorMovementShown)
             nextMotorMovement = self.cubeSolver.getCurrentSingleMotorMovement()
-            self.labelNextStepName.setText(nextMotorMovement["moveName"])
-            if nextMotorMovement['motor'] == "BASE":  # and nextMotorMovement['movement'] == "change":
-                directionNextString = " " + "{:+}".format(nextMotorMovement['direction'])
-            else:
-                directionNextString = ""
-            motorMovementNameStr = str(nextMotorMovement['motor']) + "-->" + str(nextMotorMovement['movement']) + \
-                directionNextString + "  (" + str(nextMotorMovement['movementNumWithinStep']) + "/" + \
-                str(nextMotorMovement['totalMovementWithinStep']) + ")"
+            if updateLabels:
+                self.labelNextStepName.setText(nextMotorMovement["moveName"])
+                if nextMotorMovement['motor'] == "BASE":  # and nextMotorMovement['movement'] == "change":
+                    directionNextString = " " + "{:+}".format(nextMotorMovement['direction'])
+                else:
+                    directionNextString = ""
+                motorMovementNameStr = str(nextMotorMovement['motor']) + "-->" + str(nextMotorMovement['movement']) + \
+                    directionNextString + "  (" + str(nextMotorMovement['movementNumWithinStep']) + "/" + \
+                    str(nextMotorMovement['totalMovementWithinStep']) + ")"
 
-            self.labelNextMovementName.setText(motorMovementNameStr)
+                self.labelNextMovementName.setText(motorMovementNameStr)
         else:
             self.labelNextStepName.setText("-")
             self.labelNextMovementName.setText("-")
 
+    def startAllMotorMovements(self):
+        for k in range(self.cubeSolver.getNumSimulatorMotorMovements()-1):
+            self.motorMovementForward()
+
     def motorMovementForward(self):
         self.pushButtonStartMotorMovement.setDisabled(True)
         self.pushButtonStartMotorMovement.repaint()
-
-        #self.gridLayout.update()
-        #self.widget_cubeMotorResolutor.updateGui()
-
+        self.pushButtonStartAllMotorMovements.setDisabled(True)
+        self.pushButtonStartAllMotorMovements.repaint()
+        # self.gridLayout.update()
+        # self.widget_cubeMotorResolutor.updateGui()
         if 0 <= self.simulationMotorMovementShown < self.cubeSolver.getNumSimulatorMotorMovements() - 1:
             self.simulationMotorMovementShown += 1
-
-            # i = self.simulationMotorMovementShown
-            self.cubeSolver.increaseMotorMovementPos()
             self.cubeSolver.executeCurrentMovement()
             #self.simulationMotorMovementShown += 1
             self.updateMotorMovementGui()
+            self.cubeSolver.increaseMotorMovementPos()
 
         if self.simulationMotorMovementShown >= self.cubeSolver.getNumSimulatorMotorMovements() - 1:
             self.pushButtonStartMotorMovement.setDisabled(True)
+            self.pushButtonStartAllMotorMovements.setDisabled(True)
         else:
             self.pushButtonStartMotorMovement.setDisabled(False)
+            self.pushButtonStartAllMotorMovements.setDisabled(False)
+
         self.pushButtonStartMotorMovement.repaint()
+        self.pushButtonStartAllMotorMovements.repaint()
 
     def solveSimulation(self):
         self.cubeSolver.solve()
@@ -238,6 +249,7 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
         self.widget_cubeMotorResolutor.updateGui()
         self.pushButtonSimulationSolve.setDisabled(False)
         self.pushButtonStartMotorMovement.setDisabled(False)
+        self.pushButtonStartAllMotorMovements.setDisabled(False)
 
     def saveSolver(self):
         self.cubeSolver.saveCube(self.lineEditSaveConfiguration.text())

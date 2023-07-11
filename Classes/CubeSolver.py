@@ -4,7 +4,7 @@ import subprocess
 import pickle
 import copy
 from Classes.motorStepsConverter import movesConverter, getNextArmPosition
-from Classes.MotorHandlerClient import MotorHandlerClient
+from Classes.RubikTCPClient import MotorHandlerClient
 
 side_dict = {'U': "Top", 'D': "Bottom", 'L': "Left", 'R': "Right", 'F': "Front", 'B': "Rear"}
 direction_dict = {'L': "Left", 'R': "Right", 'U': "Up", 'D': "Down", 'C': "Clockwise", 'A': "Counterclockwise"}
@@ -22,7 +22,7 @@ class CubeSolver:
         self.cubeSimulatorMovesList = []
         self.cubeMotorSimulator = []
         self.cubeMotorMovementsList = []
-        self.motorHandlerClient = MotorHandlerClient()
+        self.motorHandlerClient = MotorHandlerClient(run_server_locally=True,simulateMotors=True) #run_server_locally=False
         self.currentMotorMovementPos = 0
         # self.motorHandler("192.168.1.1", 80)
 
@@ -163,8 +163,8 @@ class CubeSolver:
         self.currentMotorMovementPos += 1
 
     def executeCurrentMovement(self):
-        movement = self.getCurrentSingleMotorMovement()
-        self.motorHandlerClient.executeMovement(movement=movement)
+        movementComplete = self.getCurrentSingleMotorMovement()
+        self.motorHandlerClient.executeMovement(movement=movementComplete['movement'])
 
     def getCubeAtMotorMovement(self, pos):
         if pos == -1:

@@ -1,6 +1,6 @@
 class MotorMovement:
 
-    def __init__(self, name, direction):
+    def __init__(self, name, direction=0):
         self.name = name
         self.direction = direction
         self.isMovementValid()

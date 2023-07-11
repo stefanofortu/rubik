@@ -1,10 +1,10 @@
-from Classes.MotorHandlerServer import MotorHandlerServer
+from Classes.RubikTCPServer import MotorHandlerServer
 import socket
 import json
 
 
 class MotorHandlerClient:
-    def __init__(self, run_server_locally=False, server_address='192.168.1.75', simulateMotors=False):
+    def __init__(self, run_server_locally=False, server_address='192.168.1.136', simulateMotors=False):
         super().__init__()
         self.run_server_locally = run_server_locally
         self.server_address = server_address  # Standard loopback interface address (localhost)
@@ -32,8 +32,9 @@ class MotorHandlerClient:
         else:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 try:
+                    print("send msg")
                     s.connect((self.server_address, self.server_port))
-                    b = json.dumps(dict(header="movement", data=movement)).encode()
+                    b = json.dumps(dict(header="movement", data=movement.__dict__)).encode()
                     #b = json.dumps(movement).encode()
                     s.sendall(b)
                     data = s.recv(1024)
