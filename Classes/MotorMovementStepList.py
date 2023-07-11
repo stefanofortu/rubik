@@ -15,18 +15,22 @@ from Classes import MotorMovement
 # {moveName: STRING, moveNumber: INT, step_number: [ARRAY OF DICT{movement: STRING, direction:INTEGER}]}
 
 
-class MotorMovementStepList:
-    def __init__(self, step, stepNumber):
-        self.step = step
-        self.step_number = stepNumber
+class MotorMovementSimulator:
+    def __init__(self):
+        self.step_number = 0
         self.isStepValid()
         self.movement_list = []
 
-    def isStepValid(self):
-        if not isinstance(self.step, str):
+    def load_moves(self, moves_list):
+        if not isinstance(moves_list, list):
             raise TypeError
-        if not isinstance(self.stepNumber, int):
-            raise TypeError
+        for mv in moves_list:
+            self.movement_list.append(mv)
+
+       # if not isinstance(self.step, str):
+        #    raise TypeError
+        #if not isinstance(self.stepNumber, int):
+        #    raise TypeError
 
     def append(self, movement):
         if isinstance(movement, MotorMovement):

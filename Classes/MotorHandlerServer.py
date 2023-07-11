@@ -112,8 +112,10 @@ class MotorHandlerServer:
         return json.dumps(result).encode()
 
     def executeMovement(self, movement):
-        # print("executeMovement : ")
-        # print(movement)
+        print("executeMovement : ")
+        print(movement)
+        time.sleep(0.01)
+        return
         if movement['motor'] == "ARM" and movement['movement'] == "ARM_toward_Start" and movement['direction'] == 0:
             nxtMotorRotation(1, direction=-1, rotationSteps=50,
                                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,

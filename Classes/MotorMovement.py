@@ -17,6 +17,7 @@ class MotorMovement:
                 raise ValueError
         elif self.name in ["ARM_flipCube", "ARM_goUp", "ARM_goDown", "ARM_start", "ARM_go"]:
             if self.direction != 0:
+                print("direction != 0 for this move")
                 raise ValueError
         else:
             raise ValueError

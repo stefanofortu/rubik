@@ -140,7 +140,7 @@ class Cube:
         return triplet1, triplet2, triplet3, triplet4
 
     def executeMove(self, move):
-        if move == "Top_Left":  # TopLeft":
+        if move.name == "Top_Left":  # TopLeft":
             t1 = self.faceList['rear'].getTopTriplet()
             t2 = self.faceList['right'].getTopTriplet()
             t3 = self.faceList['front'].getTopTriplet()
@@ -153,7 +153,7 @@ class Cube:
 
             self.faceList['top'].rotateFaceClockWise()
 
-        elif move == "Top_Right":  # "TopRight"
+        elif move.name == "Top_Right":  # "TopRight"
             t1 = self.faceList['rear'].getTopTriplet()
             t2 = self.faceList['right'].getTopTriplet()
             t3 = self.faceList['front'].getTopTriplet()
@@ -166,7 +166,7 @@ class Cube:
 
             self.faceList['top'].rotateFaceCounterClockWise()
 
-        elif move == "Left_Up":  # "LeftUp":
+        elif move.name == "Left_Up":  # "LeftUp":
             t1 = self.faceList['top'].getLeftTriplet()
             t2 = self.faceList['front'].getLeftTriplet()
             t3 = self.faceList['bottom'].getLeftTriplet()
@@ -181,7 +181,7 @@ class Cube:
 
             self.faceList['left'].rotateFaceCounterClockWise()
 
-        elif move == "Left_Down":  # "LeftDown":
+        elif move.name == "Left_Down":  # "LeftDown":
             t1 = self.faceList['top'].getLeftTriplet()
             t2 = self.faceList['front'].getLeftTriplet()
             t3 = self.faceList['bottom'].getLeftTriplet()
@@ -196,7 +196,7 @@ class Cube:
 
             self.faceList['left'].rotateFaceClockWise()
 
-        elif move == "Front_Clockwise":  # "FrontClockWise":
+        elif move.name == "Front_Clockwise":  # "FrontClockWise":
             t1 = self.faceList['top'].getBottomTriplet()
             t2 = self.faceList['right'].getLeftTriplet()
             t2.reverse()
@@ -210,7 +210,7 @@ class Cube:
             self.faceList['left'].setRightTriplet(t4)
             self.faceList['front'].rotateFaceClockWise()
 
-        elif move == "Front_Counterclockwise":
+        elif move.name == "Front_Counterclockwise":
             t1 = self.faceList['top'].getBottomTriplet()
             t1.reverse()
             t2 = self.faceList['right'].getLeftTriplet()
@@ -224,7 +224,7 @@ class Cube:
             self.faceList['left'].setRightTriplet(t4)
             self.faceList['front'].rotateFaceCounterClockWise()
 
-        elif move == "Right_Up":  # "RightUp":
+        elif move.name == "Right_Up":  # "RightUp":
             t1 = self.faceList['top'].getRightTriplet()
             t2 = self.faceList['rear'].getLeftTriplet()
             t3 = self.faceList['bottom'].getRightTriplet()
@@ -240,7 +240,7 @@ class Cube:
 
             self.faceList['right'].rotateFaceClockWise()
 
-        elif move == "Right_Down":  # "RightDown":
+        elif move.name == "Right_Down":  # "RightDown":
             t1 = self.faceList['top'].getRightTriplet()
             t2 = self.faceList['rear'].getLeftTriplet()
             t3 = self.faceList['bottom'].getRightTriplet()
@@ -255,7 +255,7 @@ class Cube:
 
             self.faceList['right'].rotateFaceCounterClockWise()
 
-        elif move == "Rear_Clockwise":  # "RearClockWise":
+        elif move.name == "Rear_Clockwise":  # "RearClockWise":
             t1 = self.faceList['top'].getTopTriplet()
             t2 = self.faceList['left'].getLeftTriplet()
             t3 = self.faceList['bottom'].getBottomTriplet()
@@ -270,7 +270,7 @@ class Cube:
 
             self.faceList['rear'].rotateFaceCounterClockWise()
 
-        elif move == "Rear_Counterclockwise":  # "RearCounterClockWise":
+        elif move.name == "Rear_Counterclockwise":  # "RearCounterClockWise":
             t1 = self.faceList['top'].getTopTriplet()
             t2 = self.faceList['left'].getLeftTriplet()
             t3 = self.faceList['bottom'].getBottomTriplet()
@@ -286,8 +286,7 @@ class Cube:
 
             self.faceList['rear'].rotateFaceClockWise()
 
-
-        elif move == "Bottom_Left":  # "BottomLeft":
+        elif move.name == "Bottom_Left":  # "BottomLeft":
             t1 = self.faceList['front'].getBottomTriplet()
             t2 = self.faceList['right'].getBottomTriplet()
             t3 = self.faceList['rear'].getBottomTriplet()
@@ -300,7 +299,7 @@ class Cube:
 
             self.faceList['bottom'].rotateFaceCounterClockWise()
 
-        elif move == "Bottom_Right":  # "BottomRight":
+        elif move.name == "Bottom_Right":  # "BottomRight":
             t1 = self.faceList['front'].getBottomTriplet()
             t2 = self.faceList['right'].getBottomTriplet()
             t3 = self.faceList['rear'].getBottomTriplet()
@@ -317,7 +316,7 @@ class Cube:
             print("move not found")
 
     def executeMotorStep(self, movement):
-        if movement['motor'] == "ARM" and movement['movement'] == "flipCube":
+        if movement.name == "ARM_flipCube": # and movement['movement'] == "flipCube":
             self.faceList['front'].rotateFaceCounterClockWise()
             self.faceList['rear'].rotateFaceClockWise()
 
@@ -336,11 +335,11 @@ class Cube:
             self.faceList['bottom'] = savedTriplet
             self.faceList['bottom'].rotateFaceCounterClockWise()
 
-        elif movement['motor'] == "ARM" and movement['movement'] == "goUp":
+        elif movement.name == "ARM_goUp":# and movement['movement'] == "goUp":
             pass
-        elif movement['motor'] == "ARM" and movement['movement'] == "goDown":
+        elif movement.name == "ARM_goDown" : #and movement['movement'] == "goDown":
             pass
-        elif movement['motor'] == "BASE" and movement['movement'] == "change" and movement['direction'] == +90:
+        elif movement.name == "BASE_change" and movement.direction == +90:
             t1 = self.faceList['front'].getBottomTriplet()
             t2 = self.faceList['right'].getBottomTriplet()
             t3 = self.faceList['rear'].getBottomTriplet()
@@ -351,7 +350,7 @@ class Cube:
             self.faceList['rear'].setBottomTriplet(t3)
             self.faceList['left'].setBottomTriplet(t4)
             self.faceList['bottom'].rotateFaceClockWise()
-        elif movement['motor'] == "BASE" and movement['movement'] == "change" and movement['direction'] == -90:
+        elif movement.name == "BASE_change" and movement.direction == -90:
             t1 = self.faceList['front'].getBottomTriplet()
             t2 = self.faceList['right'].getBottomTriplet()
             t3 = self.faceList['rear'].getBottomTriplet()
@@ -363,7 +362,7 @@ class Cube:
             self.faceList['left'].setBottomTriplet(t4)
 
             self.faceList['bottom'].rotateFaceCounterClockWise()
-        elif movement['motor'] == "BASE" and movement['movement'] == "rotation" and movement['direction'] == +90:
+        elif movement.name == "BASE_rotation" and movement.direction == +90:
             self.faceList['top'].rotateFaceCounterClockWise()
             self.faceList['bottom'].rotateFaceClockWise()
             temp = self.faceList['rear']
@@ -371,7 +370,7 @@ class Cube:
             self.faceList['right'] = self.faceList['front']
             self.faceList['front'] = self.faceList['left']
             self.faceList['left'] = temp
-        elif movement['motor'] == "BASE" and movement['movement'] == "rotation" and movement['direction'] == -90:
+        elif movement.name == "BASE_rotation" and movement.direction == -90:
             self.faceList['top'].rotateFaceClockWise()
             self.faceList['bottom'].rotateFaceCounterClockWise()
             temp = self.faceList['left']

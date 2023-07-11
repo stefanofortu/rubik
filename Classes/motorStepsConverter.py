@@ -8,6 +8,13 @@
 # Y axis - along the depth - across the horizontal direction - from left front corner to left rear corner
 # Z axis - along the vertical direction - from left front corner to Up
 
+side_dict = {'U': "Top", 'D': "Bottom", 'L': "Left", 'R': "Right", 'F': "Front", 'B': "Rear"}
+direction_dict = {'L': "Left", 'R': "Right", 'U': "Up", 'D': "Down", 'C': "Clockwise", 'A': "Counterclockwise"}
+
+
+def stringMoveConverter(m):
+    mv = side_dict[m[0]] + "_" + direction_dict[m[1]]
+    return mv
 
 
 def movesConverter(moves):
