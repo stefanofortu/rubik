@@ -3,19 +3,18 @@ import sys
 import subprocess
 import pickle
 import copy
-<<<<<<< HEAD
-=======
+
 from Classes.motorStepsConverter import movesConverter, getNextArmPosition
 from Classes.RubikTCPClient import MotorHandlerClient
 
 side_dict = {'U': "Top", 'D': "Bottom", 'L': "Left", 'R': "Right", 'F': "Front", 'B': "Rear"}
 direction_dict = {'L': "Left", 'R': "Right", 'U': "Up", 'D': "Down", 'C': "Clockwise", 'A': "Counterclockwise"}
->>>>>>> ClientServerIntroduction
+
 
 from Classes.CubeMove import CubeMove
 #from Classes.MotorMovementStepList import MotorMovementStepList
 from Classes.motorStepsConverter import movesConverter, getNextArmPosition, stringMoveConverter
-from Classes.MotorHandlerClient import MotorHandlerClient
+from Classes.RubikTCPClient import MotorHandlerClient
 
 class CubeSolver:
     def __init__(self):
@@ -29,11 +28,7 @@ class CubeSolver:
         self.cubeSimulatorMovesList = []
         self.cubeMotorSimulator = []
         self.cubeMotorMovementsList = []
-<<<<<<< HEAD
-        self.motorHandlerClient = MotorHandlerClient(run_server_locally=True, simulateMotors=True)
-=======
         self.motorHandlerClient = MotorHandlerClient(run_server_locally=True,simulateMotors=True) #run_server_locally=False
->>>>>>> ClientServerIntroduction
         self.currentMotorMovementPos = 0
         # self.motorHandler("192.168.1.1", 80)
 
@@ -107,21 +102,21 @@ class CubeSolver:
         except:
             print("Unexpected Error", sys.exc_info()[0])
             return
-        outputStr = str(output)
-        moves = outputStr.split(", ")
-        numMoves = len(moves)
+        output_str = str(output)
+        moves = output_str.split(", ")
+        num_moves = len(moves)
         movesNoBytePrefix = list([x[-2:] for x in moves])
         moves2Char = list(filter(lambda x: len(x) == 2, movesNoBytePrefix))
-        if (numMoves != len(moves2Char) + 1):
+        if num_moves != len(moves2Char) + 1:
             print("Not 2 chars moves")
-            print("numMoves", output)
-            print("numMoves", numMoves)
+            print("num_moves", output)
+            print("num_moves", num_moves)
             print("moves2Char", moves2Char)
             sys.exit()
         # fill simulator
         self.cubeSimulatorMovesList = []
         # moves2Char = ['UL', 'DR', 'LU']
-        print(moves2Char)
+        #print(moves2Char)
         for m in moves2Char:
             mv = CubeMove(m)
             #mv = stringMoveConverter(m)
@@ -139,9 +134,9 @@ class CubeSolver:
                 self.cubeMotorSimulator.append(cubeTmp)#{"cube": cubeTmp})
 
 
-        print(self.getCubeSimulatorMoves())
-        print(self.getCurrentMotorMovementPos())
-        print(self.getCubeAtMotorMovement(self.getCurrentMotorMovementPos()))
+        #print("self.getCubeSimulatorMoves()", len(self.getCubeSimulatorMoves()))
+        #print("self.getCurrentMotorMovementPos()", self.getCurrentMotorMovementPos())
+        #print("self.getCubeAtpos()" + str(self.getCubeAtMotorMovement(self.getCurrentMotorMovementPos())))
         #self.cubeMotorMovementsList = movesConverter(self.cubeSimulatorMovesList)
 
         #for movement in self.cubeMotorMovementsList:

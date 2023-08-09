@@ -315,9 +315,9 @@ class Cube:
         else:
             print("move not found")
 
-    def executeMotorStep(self, movementWithIndex):
-        movement = movementWithIndex['movement']
-        print(movementWithIndex)
+    def executeMotorStep(self, movement):
+        #movement = movementWithIndex['movement']
+        #print(movementWithIndex)
         # if movement['motor'] == "ARM" and movement['movement'] == "flipCube":
         if movement.name == "ARM_flipCube":
             self.faceList['front'].rotateFaceCounterClockWise()

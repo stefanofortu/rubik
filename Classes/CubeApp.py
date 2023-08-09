@@ -1,33 +1,12 @@
 from Classes.UI_CubeApp import UI_CubeApp
-
+from Classes.CubeSolver import CubeSolver
 from PySide2 import QtWidgets
 
-
-def createHtmlForTextEditMovesList(moves, currentMove):
-    htmlString = ""
-    # htmlString += "<style> table, th, td { border: 1px solid black;   border-collapse: collapse;} </style>"
-    htmlString += "<style> table, th, td { border-collapse: collapse;} </style>"
-    htmlString += "<table width=\"100%\" height=\"100%\" style=\"font:13px\">"
-
-    if currentMove == 0:
-        htmlString += "<tr style=\" color: white; background-color:black \" ><td>" + "Start" + "</td></tr>"
-    else:
-        htmlString += "<tr><td>" + "Start" + "</td></tr>"
-
-    for num, elem in enumerate(moves, start=1):
-        if num == currentMove:
-            htmlString += "<tr style=\" color: white; background-color:black; \" ><td>" + elem + "</td></tr>"
-        else:
-            htmlString += "<tr><td>" + elem + "</td></tr>"
-    htmlString += "</table>"
-    return htmlString
-
-
 class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
-    def __init__(self, solver):
+    def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.cubeSolver = solver
+        self.cubeSolver = CubeSolver()
         self.simulationStepShown = 0
         self.simulationMotorMovementShown = 0
         self.CreateNewButton.clicked.connect(self.setSolver)
@@ -40,6 +19,26 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
         self.pushButtonStartAllMotorMovements.clicked.connect(self.startAllMotorMovements)
 
         self.moves = []  # da cancellare e sostiture con chiamata a solver
+
+    @staticmethod
+    def createHtmlForTextEditMovesList(moves, currentMove):
+        htmlString = ""
+        # htmlString += "<style> table, th, td { border: 1px solid black;   border-collapse: collapse;} </style>"
+        htmlString += "<style> table, th, td { border-collapse: collapse;} </style>"
+        htmlString += "<table width=\"100%\" height=\"100%\" style=\"font:13px\">"
+
+        if currentMove == 0:
+            htmlString += "<tr style=\" color: white; background-color:black \" ><td>" + "Start" + "</td></tr>"
+        else:
+            htmlString += "<tr><td>" + "Start" + "</td></tr>"
+
+        for num, elem in enumerate(moves, start=1):
+            if num == currentMove:
+                htmlString += "<tr style=\" color: white; background-color:black; \" ><td>" + elem + "</td></tr>"
+            else:
+                htmlString += "<tr><td>" + elem + "</td></tr>"
+        htmlString += "</table>"
+        return htmlString
 
     def getCurrentCubeSimulationString(self):
         return self.cubeSolver.getCubeAtSimulatorStep(self.simulationStepShown).stringify()
@@ -102,7 +101,7 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
             self.pushButtonSimulationForward.setDisabled(True)
         self.widget_cubePreview.updateGui()
 
-        htmlString = createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
+        htmlString = CubeQtApp.createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
         self.textEditMovesList.setHtml(htmlString)
 
         if scrollBarPosition < self.setScrollBarStepsLowerPlace(self.simulationStepShown):
@@ -123,7 +122,7 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
             self.pushButtonSimulationBackward.setDisabled(True)
         self.widget_cubePreview.updateGui()
 
-        htmlString = createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
+        htmlString = CubeQtApp.createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
         self.textEditMovesList.setHtml(htmlString)
 
         if scrollBarPosition > self.setScrollBarStepsUpperPlace(self.simulationStepShown):
@@ -225,7 +224,7 @@ class CubeQtApp(UI_CubeApp, QtWidgets.QMainWindow):
             string += elem + "<br/>"
         self.textEditMovesList.insertHtml(string)  # + str(elem).lower() ) # + "<br/>
         '''
-        htmlString = createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
+        htmlString = CubeQtApp.createHtmlForTextEditMovesList(self.moves, self.simulationStepShown)
         self.textEditMovesList.setHtml(htmlString)
         self.updateMotorMovementGui()
         # self.textEditMovesList.verticalScrollBar().setValue(self.textEditMovesList.verticalScrollBar().minimum())

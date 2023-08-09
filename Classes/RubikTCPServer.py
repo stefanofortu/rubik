@@ -114,16 +114,13 @@ class MotorHandlerServer:
         return json.dumps(result).encode()
 
     def executeMovement(self, movement):
-<<<<<<< HEAD:Classes/MotorHandlerServer.py
         print("executeMovement : ")
         print(movement)
         time.sleep(0.01)
         return
-=======
-<<<<<<< Updated upstream:Classes/MotorHandlerServer.py
-        # print("executeMovement : ")
-        # print(movement)
->>>>>>> ClientServerIntroduction:Classes/RubikTCPServer.py
+        print("executeMovement : ")
+        print(movement)
+
         if movement['motor'] == "ARM" and movement['movement'] == "ARM_toward_Start" and movement['direction'] == 0:
             nxtMotorRotation(1, direction=-1, rotationSteps=50,
                                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
@@ -139,8 +136,7 @@ class MotorHandlerServer:
                                 PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
                                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
         elif movement['motor'] == "ARM" and movement['movement'] == "ARM_goUp" and movement['direction'] == 0:
-=======
-        waitTimer = 0.5
+            waitTimer = 0.5
         # if movement['motor'] == "ARM" and movement['movement'] == "INIT" and movement['direction'] == 0:
         if movement.name == "ciao" and movement.direction == 0:
 
@@ -163,7 +159,6 @@ class MotorHandlerServer:
             #                 input1=Mot2_decoderIN1_Pin, input2=Mot2_decoderIN2_Pin)
         elif movement.name == "ARM_goUp" and movement.direction == 0:
         #elif movement['motor'] == "ARM" and movement['movement'] == "ARM_goUp" and movement['direction'] == 0:
->>>>>>> Stashed changes:Classes/RubikTCPServer.py
             if not self.simulateMotors:
                 nxtMotorRotation(1, direction=-1, rotationSteps=200,
                                  PWMPin=Mot2_PWM_Pin, InvPin=Mot2_Inv_Pin, enablePin=Mot2_Enable_Pin,
